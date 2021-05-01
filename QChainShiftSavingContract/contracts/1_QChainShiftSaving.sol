@@ -3,10 +3,9 @@
 pragma solidity >=0.4.0 <0.5.0;
 
 contract QChainShiftSaving{
-
-
     string jsonData;
     string[] Shifts;
+    int count;
     mapping(address => Shifts) private userShifts;
     address[] private userAdresses;
 
