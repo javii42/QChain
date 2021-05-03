@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity >=0.4.0 <0.5.0;
+pragma solidity >=0.7.0 <0.8.0;
 
 contract QChainShiftSaving{
     string jsonData;
@@ -14,7 +14,6 @@ contract QChainShiftSaving{
     
     function isUser(address userAddress)
         public 
-        constant
         returns(bool isIndeed) 
       {
         if(userIndex.length == 0) return false;
@@ -49,7 +48,6 @@ contract QChainShiftSaving{
       
       function getUser(address userAddress)
         public 
-        constant
         returns(string idUser, string jsonData, uint index)
       {
         if(!isUser(userAddress)) throw; 
@@ -74,7 +72,6 @@ contract QChainShiftSaving{
     
       function getShiftCount() 
         public
-        constant
         returns(uint count)
       {
         return userStructs.length;
@@ -82,7 +79,6 @@ contract QChainShiftSaving{
     
       function getUserAtIndex(uint index)
         public
-        constant
         returns(address userAddress)
       {
         return userIndex[index];
