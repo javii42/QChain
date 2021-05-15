@@ -1,0 +1,23 @@
+{
+    "verbose": true,
+    "clearMocks": true,
+    "collectCoverage": true,
+    "moduleFileExtensions": ["js", "jsx"],
+    "moduleDirectories": ["node_modules", "src"],
+    "moduleNameMapper": {
+        "^@root(.*)$": "<rootDir>$1",
+        "^@components(.*)$": "<rootDir>/src/components$1",
+        "^@reducers(.*)$": "<rootDir>/src/reducers$1",
+        "^@services(.*)$": "<rootDir>/src/services$1",
+        "^@constants(.*)$": "<rootDir>/src/constants$1",
+        "^@selectors(.*)$": "<rootDir>/src/selectors$1",
+        "^@sagas(.*)$": "<rootDir>/src/sagas$1",
+        "^@actions(.*)$": "<rootDir>/src/actions$1",
+        "^@model(.*)$": "<rootDir>/src/model$1",
+        "^@util(.*)$": "<rootDir>/src/util$1"
+    },
+    "transform": {
+        "^.+\\.js$": "babel-jest"
+    }
+    
+}

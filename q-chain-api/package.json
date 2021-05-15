@@ -1,0 +1,50 @@
+{
+  "name": "q-chain-api",
+  "version": "1.0.0",
+  "description": "QChain API",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp eslint && npm run test:cover"
+  },
+  "author": "QChain ©",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-openapi-validator": "^4.10.9",
+    "helmet": "^4.4.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.20",
+    "mongoose": "^5.11.14",
+    "require-dir": "^1.2.0",
+    "swagger-ui-express": "^4.1.6",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "babel-eslint": "^10.1.0",
+    "cross-env": "^7.0.3",
+    "del": "^6.0.0",
+    "eslint": "^7.19.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-lodash": "^7.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "expect": "^26.6.2",
+    "gulp": "^4.0.2",
+    "gulp-eslint": "^6.0.0",
+    "gulp-json-editor": "^2.5.4",
+    "gulp-load-plugins": "^2.0.6",
+    "gulp-nodemon": "^2.5.0",
+    "gulp-rename": "^2.0.0",
+    "husky": "^4.3.8",
+    "mocha": "^8.2.1",
+    "nyc": "^15.1.0",
+    "should": "^13.2.3",
+    "sinon": "^9.2.4",
+    "supertest": "^6.1.3"
+  }
+}

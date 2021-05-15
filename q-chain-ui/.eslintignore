@@ -1,0 +1,4 @@
+./index.js
+./gulp/**
+./webpack.config.prod.js
+./webpack.config.js

@@ -1,0 +1,18 @@
+sudo: false
+dist: xenial
+language: node_js
+git:
+  depth: 3
+node_js:
+  - "12"
+before_install:
+  - if [[ `npm -v` != 5* ]]; then npm install -g npm@5; fi
+  - "export TRAVIS_COMMIT_MSG=\"`git log --format=%B --no-merges -n 1`\""
+install:
+  - npm ci
+script:
+  - npm test
+cache:
+  directories:
+    - node_modules
+  
