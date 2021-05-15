@@ -33,7 +33,8 @@ import {
     ACTIVATE_USER,
     STATIC_DATA_REQUESTED,
     SUBMIT_LOGIN_INFORMATION_REQUESTED,
-    REGISTER_COMPANY_AS_ADMIN_REQUEST
+    REGISTER_COMPANY_AS_ADMIN_REQUEST,
+    REGISTER_EMPLOYEE_AS_ADMIN_REQUEST
 } from './types';
 
 import {
@@ -67,10 +68,12 @@ function* signIn({
 
         const token = get(result, 'token');
         const user = get(result, 'searchedUser');
+        const rol = get(result, 'rol');
 
         if (token && user) {
             yield localStorage.setItem('token', token);
             yield localStorage.setItem('user', JSON.stringify(user));
+            yield localStorage.setItem('rol', JSON.stringify(rol));
             yield put(setStatusMessage(SUCCESS, 'BIENVENIDO AL SISTEMA QCHAIN'));
             yield put(signInSucceeded({user}));
             yield put(setRequestFlag(false, ''));
@@ -169,12 +172,55 @@ function* registerCompanyAsAdmin({
     }
 }
 
+function* registerEmployeeAsAdmin({
+    company_id,
+    user_id,
+    user_mail,
+    user_password,
+    user_name,
+    user_lastname,
+    user_birthday,
+    user_doc_type,
+    user_doc_number
+}) {
+    try {
+        yield put(setRequestFlag(true, LOADING));
+
+        const result = yield call(SessionService.registerEmployeeAsAdmin, {
+            company_id,
+            user_id,
+            user_mail,
+            user_password,
+            user_name,
+            user_lastname,
+            user_birthday,
+            user_doc_type,
+            user_doc_number
+        });
+
+        if (get(result, '_id')) {
+            // yield localStorage.setItem('token', token);
+            yield put(setStatusMessage(SUCCESS, 'USUARIO GENERADO CORRECTAMENTE'));
+            // yield put(signInSucceeded({user}));
+            // yield put(setRequestFlag(false, ''));
+            // setTimeout(() => { window.location = '/'; }, 2000);
+            return;
+        }
+        yield put(setStatusMessage(ERROR, get(result, 'status', 'ERROR')));
+    } catch (error) {
+        yield put(setStatusMessage(ERROR));
+    } finally {
+        yield put(setRequestFlag(false, ''));
+    }
+}
+
 export default function* sessionSaga() {
     yield all([
         takeLatest(SESSION_USER_FETCH_REQUESTED, getSessionUser),
         takeLatest(SIGN_OUT_REQUESTED, signOut),
         takeLatest(SIGN_IN_REQUEST, signIn),
         takeLatest(REGISTER_REQUEST, register),
-        takeLatest(REGISTER_COMPANY_AS_ADMIN_REQUEST, registerCompanyAsAdmin)
+        takeLatest(REGISTER_COMPANY_AS_ADMIN_REQUEST, registerCompanyAsAdmin),
+        takeLatest(REGISTER_EMPLOYEE_AS_ADMIN_REQUEST, registerEmployeeAsAdmin)
     ]);
 }

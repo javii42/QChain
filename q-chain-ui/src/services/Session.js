@@ -50,6 +50,9 @@ export default class SessionService {
         return Http.post(API.registerCompanyAsAdmin, body);
     }
 
+    static registerEmployeeAsAdmin(body) {
+        return Http.post(API.registerEmployeeAsAdmin, body);
+    }
 
     static registerWithUsedCode(body) {
         return Http.post(API.duplicatedRequest, body);

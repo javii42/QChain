@@ -1,4 +1,4 @@
-const { User } = include('models');
+const { User, UserRol, Rol } = include('models');
 const CrudService = require('./crud');
 
 const bcrypt = require('bcryptjs');
@@ -15,12 +15,15 @@ class UserService extends CrudService {
         try {
             const searchedUser = await this.fetchOne({ user_mail });
             if (searchedUser) {
+                const userRole = await UserRol.findOne({user_id: searchedUser._id});
+                const rol = await Rol.findOne({_id: userRole.user_role_id});
                 if (bcrypt.compareSync(user_password, searchedUser.user_password)) {
                     delete searchedUser.user_password;
                     const token = await jsonWebToken.generateToken(searchedUser);
                     return {
                         token,
-                        searchedUser
+                        searchedUser,
+                        rol
                     };
                 }
             }
