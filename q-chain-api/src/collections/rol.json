@@ -1,0 +1,32 @@
+[
+    {
+        "_id" : "609583141068489552a0b446",
+        "__v" : 0,
+        "createdAt" : "2021-05-07T18:12:36.600Z",
+        "rol_active" : true,
+        "rol_creation_date" : "2021-05-07T00:00:00.000Z",
+        "rol_description" : "El usuario administrador posee permisos totales en el sistema",
+        "rol_name" : "Administrador",
+        "updatedAt" : "2021-05-07T18:12:36.600Z"
+    },
+    {
+        "_id" : "609583aa1068489552a0b447",
+        "__v" : 0,
+        "createdAt" : "2021-05-07T18:15:06.604Z",
+        "rol_active" : true,
+        "rol_creation_date" : "2021-05-07T00:00:00.000Z",
+        "rol_description" : "El usuario genérico final del sistema",
+        "rol_name" : "Genérico",
+        "updatedAt" : "2021-05-07T18:15:06.604Z"
+    },
+    {
+        "_id" : "6095999855a33fd1295abec2",
+        "__v" : 0,
+        "createdAt" : "2021-05-07T19:48:40.235Z",
+        "rol_active" : true,
+        "rol_creation_date" : "2021-05-07T00:00:00.000Z",
+        "rol_description" : "Un empleado de la compañía",
+        "rol_name" : "Empleado",
+        "updatedAt" : "2021-05-07T19:48:40.235Z"
+    }
+]

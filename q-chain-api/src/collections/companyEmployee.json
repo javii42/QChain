@@ -1,0 +1,130 @@
+[
+    {
+        "_id" : "60957762e0922878074c7a01",
+        "__v" : 0,
+        "company_id" : "60957762e0922878074c79ff",
+        "createdAt" : "2021-05-07T17:22:42.263Z",
+        "updatedAt" : "2021-05-07T17:22:42.263Z",
+        "user_id" : "60958c9d6d766dae5d21d8d9"
+    },
+    {
+        "_id" : "60957e8dc6657088a9c3bbdf",
+        "__v" : 0,
+        "company_id" : "60957e8dc6657088a9c3bbdd",
+        "createdAt" : "2021-05-07T17:53:17.343Z",
+        "updatedAt" : "2021-05-07T17:53:17.343Z",
+        "user_id" : "60957e8dc6657088a9c3bbde"
+    },
+    {
+        "_id" : "60958739c80e9c9ef1ffc17c",
+        "__v" : 0,
+        "company_id" : "60958739c80e9c9ef1ffc179",
+        "createdAt" : "2021-05-07T18:30:17.360Z",
+        "updatedAt" : "2021-05-07T18:30:17.360Z",
+        "user_id" : "60958739c80e9c9ef1ffc17a"
+    },
+    {
+        "_id" : "609587983ec419a0f7b91271",
+        "__v" : 0,
+        "company_id" : "609587983ec419a0f7b9126e",
+        "createdAt" : "2021-05-07T18:31:52.489Z",
+        "updatedAt" : "2021-05-07T18:31:52.489Z",
+        "user_id" : "609587983ec419a0f7b9126f"
+    },
+    {
+        "_id" : "60959a2517979ed2b3ed6570",
+        "__v" : 0,
+        "company_id" : "60957762e0922878074c79ff",
+        "createdAt" : "2021-05-07T19:51:01.795Z",
+        "updatedAt" : "2021-05-07T19:51:01.795Z",
+        "user_id" : "60959a2117979ed2b3ed656e"
+    },
+    {
+        "_id" : "6096a576511d4e0e2c2ba0e0",
+        "__v" : 0,
+        "company_id" : "6096a571511d4e0e2c2ba0dd",
+        "createdAt" : "2021-05-08T14:51:34.826Z",
+        "updatedAt" : "2021-05-08T14:51:34.826Z",
+        "user_id" : "6096a571511d4e0e2c2ba0de"
+    },
+    {
+        "_id" : "6096a648511d4e0e2c2ba0e3",
+        "__v" : 0,
+        "company_id" : "6096a571511d4e0e2c2ba0dd",
+        "createdAt" : "2021-05-08T14:55:04.857Z",
+        "updatedAt" : "2021-05-08T14:55:04.857Z",
+        "user_id" : "6096a644511d4e0e2c2ba0e1"
+    },
+    {
+        "_id" : "609f504a3df68bb12b79692c",
+        "__v" : 0,
+        "company_id" : "609f50463df68bb12b796929",
+        "createdAt" : "2021-05-15T04:38:34.575Z",
+        "updatedAt" : "2021-05-15T04:38:34.575Z",
+        "user_id" : "609f50463df68bb12b79692a"
+    },
+    {
+        "_id" : "609f50593df68bb12b796930",
+        "__v" : 0,
+        "company_id" : "609f50553df68bb12b79692d",
+        "createdAt" : "2021-05-15T04:38:49.699Z",
+        "updatedAt" : "2021-05-15T04:38:49.699Z",
+        "user_id" : "609f50553df68bb12b79692e"
+    },
+    {
+        "_id" : "609f50723df68bb12b796934",
+        "__v" : 0,
+        "company_id" : "609f506d3df68bb12b796931",
+        "createdAt" : "2021-05-15T04:39:14.201Z",
+        "updatedAt" : "2021-05-15T04:39:14.201Z",
+        "user_id" : "609f506d3df68bb12b796932"
+    },
+    {
+        "_id" : "609f50f23df68bb12b796938",
+        "__v" : 0,
+        "company_id" : "609f50ee3df68bb12b796935",
+        "createdAt" : "2021-05-15T04:41:22.908Z",
+        "updatedAt" : "2021-05-15T04:41:22.908Z",
+        "user_id" : "609f50ee3df68bb12b796936"
+    },
+    {
+        "_id" : "609f5fc53df68bb12b79693c",
+        "__v" : 0,
+        "company_id" : "609f5fc53df68bb12b796939",
+        "createdAt" : "2021-05-15T05:44:37.916Z",
+        "updatedAt" : "2021-05-15T05:44:37.916Z",
+        "user_id" : "609f5fc53df68bb12b79693a"
+    },
+    {
+        "_id" : "609f5ffb3df68bb12b796940",
+        "__v" : 0,
+        "company_id" : "609f5ffb3df68bb12b79693d",
+        "createdAt" : "2021-05-15T05:45:31.446Z",
+        "updatedAt" : "2021-05-15T05:45:31.446Z",
+        "user_id" : "609f5ffb3df68bb12b79693e"
+    },
+    {
+        "_id" : "609f60063df68bb12b796944",
+        "__v" : 0,
+        "company_id" : "609f60063df68bb12b796941",
+        "createdAt" : "2021-05-15T05:45:42.879Z",
+        "updatedAt" : "2021-05-15T05:45:42.879Z",
+        "user_id" : "609f60063df68bb12b796942"
+    },
+    {
+        "_id" : "609f600b3df68bb12b796948",
+        "__v" : 0,
+        "company_id" : "609f600b3df68bb12b796945",
+        "createdAt" : "2021-05-15T05:45:47.414Z",
+        "updatedAt" : "2021-05-15T05:45:47.414Z",
+        "user_id" : "609f600b3df68bb12b796946"
+    },
+    {
+        "_id" : "609f601a3df68bb12b79694c",
+        "__v" : 0,
+        "company_id" : "609f601a3df68bb12b796949",
+        "createdAt" : "2021-05-15T05:46:02.752Z",
+        "updatedAt" : "2021-05-15T05:46:02.752Z",
+        "user_id" : "609f601a3df68bb12b79694a"
+    }
+]
