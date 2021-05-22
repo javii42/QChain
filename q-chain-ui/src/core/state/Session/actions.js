@@ -18,7 +18,15 @@ import {
     SUBMIT_LOGIN_INFORMATION_REQUESTED,
     REGISTER_REQUEST,
     REGISTER_COMPANY_AS_ADMIN_REQUEST,
-    REGISTER_EMPLOYEE_AS_ADMIN_REQUEST
+    GET_COMPANY_AS_ADMIN_REQUEST,
+    GET_COMPANY_AS_ADMIN_SUCCEEDED,
+    MODIFY_COMPANY_AS_ADMIN_REQUEST,
+    DELETE_COMPANY_AS_ADMIN_REQUEST,
+    REGISTER_EMPLOYEE_AS_ADMIN_REQUEST,
+    GET_EMPLOYEE_AS_ADMIN_REQUEST,
+    GET_EMPLOYEE_AS_ADMIN_SUCCEEDED,
+    MODIFY_EMPLOYEE_AS_ADMIN_REQUEST,
+    DELETE_EMPLOYEE_AS_ADMIN_REQUEST
 } from './types';
 
 export const signInRequested = ({...props}) => ({
@@ -30,8 +38,32 @@ export const registerRequested = ({...props}) => ({
 export const registerCompanyAsAdminRequested = ({...props}) => ({
     type: REGISTER_COMPANY_AS_ADMIN_REQUEST, ...props
 });
+export const getCompanyAsAdminRequested = ({...props}) => ({
+    type: GET_COMPANY_AS_ADMIN_REQUEST, ...props
+});
+export const getCompanyAsAdminSucceeded = ({...props}) => ({
+    type: GET_COMPANY_AS_ADMIN_SUCCEEDED, ...props
+});
+export const modifyCompanyAsAdminRequested = ({...props}) => ({
+    type: MODIFY_COMPANY_AS_ADMIN_REQUEST, ...props
+});
+export const deleteCompanyAsAdminRequested = ({...props}) => ({
+    type: DELETE_COMPANY_AS_ADMIN_REQUEST, ...props
+});
 export const registerEmployeeAsAdminRequested = ({...props}) => ({
     type: REGISTER_EMPLOYEE_AS_ADMIN_REQUEST, ...props
+});
+export const getEmployeeAsAdminRequested = ({...props}) => ({
+    type: GET_EMPLOYEE_AS_ADMIN_REQUEST, ...props
+});
+export const getEmployeeAsAdminSucceeded = ({...props}) => ({
+    type: GET_EMPLOYEE_AS_ADMIN_SUCCEEDED, ...props
+});
+export const modifyEmployeeAsAdminRequested = ({...props}) => ({
+    type: MODIFY_EMPLOYEE_AS_ADMIN_REQUEST, ...props
+});
+export const deleteEmployeeAsAdminRequested = ({...props}) => ({
+    type: DELETE_EMPLOYEE_AS_ADMIN_REQUEST, ...props
 });
 export const signInSucceeded = ({token, user}) => ({type: SIGN_IN_SUCCEEDED, token, user});
 export const requestFetchSessionUser = constant({type: SESSION_USER_FETCH_REQUESTED});

@@ -1,5 +1,5 @@
 /* global localStorage, window */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {
@@ -35,8 +35,12 @@ import {
     SessionActions
 } from '@actions';
 import get from 'lodash/get';
+import {has, isPlainObject, isString} from 'lodash';
+import fromState from '@selectors';
 import {
-    mainListItems, mainListItemsAdmin,
+    mainListItems,
+    mainListItemsAdmin,
+    mainListItemsAdminEmployee,
     secondaryListItems
 } from './listItems';
 import Logo from '../images/logo.png';
@@ -108,11 +112,19 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
-const checkAdminUser = user => {
-    if (user) {
+const getParsedUser = user => {
+    if (user && isString(user)) {
         return JSON.parse(user);
     }
+    if (user && isPlainObject(user)) {
+        return user;
+    }
     return false;
+};
+
+const getRole = user => {
+    const parsedUser = getParsedUser(user);
+    return get(parsedUser, 'rol.rol_name');
 };
 
 const Header = ({
@@ -125,8 +137,8 @@ const Header = ({
     const [modalType, setModalType] = useState('login');
     const [logOut, setLogout] = useState(false);
     const [sessionModal, setSessionModal] = useState(false);
-    const token = localStorage.getItem('token');
-    const user = localStorage.getItem('user');
+    let token = localStorage.getItem('token');
+    let user = localStorage.getItem('user');
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -149,6 +161,11 @@ const Header = ({
         localStorage.clear();
         window.location = '/';
     };
+
+    useEffect(() => {
+        token = localStorage.getItem('token');
+        user = localStorage.getItem('user');
+    }, []);
 
     return (
         <>
@@ -211,14 +228,22 @@ const Header = ({
                                 />
                             </Badge>
                         </IconButton>
-                        {checkAdminUser(user) && (
+                        {getParsedUser(user) && (
                             <div>
                                 <ListItem>
                                     <ListItemText primary={
-                                        `PERFIL: ${get(checkAdminUser(user), 'user_name')}
-                                         ${get(checkAdminUser(user), 'user_lastname')}
+                                        `PERFIL: ${get(getParsedUser(user), 'user_name')}
+                                         ${get(getParsedUser(user), 'user_lastname')}
                                         `
                                     }
+                                    />
+                                </ListItem>
+                                <ListItem>
+                                    <ListItemText
+                                        className="ml-2"
+                                        primary={
+                                            `ROL: ${get(getParsedUser(user), 'rol.rol_name')}`
+                                        }
                                     />
                                 </ListItem>
                                 <ListItem
@@ -245,7 +270,9 @@ const Header = ({
                     </IconButton>
                 </div>
                 <Divider/>
-                <List>{checkAdminUser(user) ? mainListItemsAdmin : mainListItems}</List>
+                <List>{getRole(user) === 'sysAdmin' && mainListItemsAdmin}</List>
+                <List>{getRole(user) === 'companyAdmin' && mainListItemsAdminEmployee}</List>
+                <List>{getRole(user) !== 'sysAdmin' && getRole(user) !== 'companyAdmin' && mainListItems}</List>
                 <Divider/>
                 <List>{secondaryListItems}</List>
             </Drawer>
@@ -319,7 +346,10 @@ Header.defaultProps = {
     history: null
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+    user: fromState.Session.getUser()(state)
+});
+
 
 const {
     requestSignOut,

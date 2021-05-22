@@ -54,40 +54,46 @@ const useStyles = makeStyles(theme => ({
         '&:hover': {
             background: '#7d2a84'
         }
-    }
+    },
+    inputRoot: {
+        '&$disabled': {
+            color: 'black'
+        }
+    },
+    disabled: {}
 }));
 
-const RegisterCompanyAsAdmin = ({
-    modifyCompanyAsAdminRequested,
-    getCompanyAsAdminRequested,
-    company
+const RegisterEmployeeAsAdmin = ({
+    deleteEmployeeAsAdminRequested,
+    getEmployeeAsAdminRequested,
+    user
 }) => {
     const classes = useStyles();
 
     const [data, setData] = React.useState(
         {
             _id: '',
-            company_doc_type: '',
-            company_doc_number: ''
+            user_doc_type: '',
+            user_doc_number: ''
         }
     );
     const [dataToModify, setDataToModify] = React.useState(
         {
-            _id: get(company, '_id', ''),
-            company_name: get(company, 'company_name', ''),
-            company_mail: get(company, 'company_mail', '')
+            _id: get(user, '_id', ''),
+            user_name: get(user, 'user_name', ''),
+            user_mail: get(user, 'user_mail', '')
         }
     );
 
     useEffect(() => {
-        if (!isEmpty(get(company, '_id')) && !isEmpty(get(company, 'company_name')) && !isEmpty(get(company, 'company_mail'))) {
+        if (!isEmpty(get(user, '_id')) && !isEmpty(get(user, 'user_name')) && !isEmpty(get(user, 'user_mail'))) {
             setDataToModify({
-                _id: get(company, '_id', ''),
-                company_name: get(company, 'company_name', ''),
-                company_mail: get(company, 'company_mail', '')
+                _id: get(user, '_id', ''),
+                user_name: get(user, 'user_name', ''),
+                user_mail: get(user, 'user_mail', '')
             });
         }
-    }, [company]);
+    }, [user]);
 
     const handleChangeModified = event => {
         setDataToModify({...dataToModify, [event.target.name]: event.target.value});
@@ -99,12 +105,12 @@ const RegisterCompanyAsAdmin = ({
 
     const handleRegister = e => {
         e.preventDefault();
-        modifyCompanyAsAdminRequested({...dataToModify});
+        deleteEmployeeAsAdminRequested({...data});
     };
 
     const handleSearch = e => {
         e.preventDefault();
-        getCompanyAsAdminRequested({...dataToModify});
+        getEmployeeAsAdminRequested({...data});
     };
 
     return (
@@ -129,7 +135,7 @@ const RegisterCompanyAsAdmin = ({
                     className="mt-3 mb-3"
                 />
                 <Typography component="h1" variant="h5">
-                    Editar - compañía
+                    Eliminar - empleado
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
@@ -146,22 +152,23 @@ const RegisterCompanyAsAdmin = ({
                             />
                             <InputLabel/>
                             <InputLabel id="demo-simple-select-helper-label">
-                                Razón social
+                                Tipo de documento
                             </InputLabel>
                             <Select
                                 labelId="demo-simple-select-helper-label"
                                 id="demo-simple-select-helper"
-                                name="company_doc_type"
-                                value={get(data, 'company_doc_type')}
+                                name="user_doc_type"
+                                value={get(data, 'user_doc_type')}
                                 onChange={e => handleChange(e)}
                             >
-                                <MenuItem value="1">CUIT</MenuItem>
-                                <MenuItem value="2">CUIL</MenuItem>
+                                <MenuItem value="1">LIBRETA CÍVICA</MenuItem>
+                                <MenuItem value="2">LIBRETA DE ENROLAMIENTO</MenuItem>
+                                <MenuItem value="3">DNI</MenuItem>
                             </Select>
                             <TextField
                                 variant="outlined"
                                 required
-                                name="company_doc_number"
+                                name="user_doc_number"
                                 label="Nº de CUIL"
                                 type="text"
                                 id="repeatPassword"
@@ -181,30 +188,44 @@ const RegisterCompanyAsAdmin = ({
                         </Button>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                disabled
                                 autoComplete="fname"
-                                name="company_name"
+                                name="user_name"
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="company_name"
+                                id="user_name"
                                 label="Nombre de la compañía"
-                                value={get(dataToModify, 'company_name')}
+                                value={get(dataToModify, 'user_name')}
                                 autoFocus
                                 onChange={e => handleChangeModified(e)}
+                                InputProps={{
+                                    classes: {
+                                        root: classes.inputRoot,
+                                        disabled: classes.disabled
+                                    }
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                disabled
                                 autoComplete="fname"
-                                name="company_mail"
+                                name="user_mail"
                                 variant="outlined"
                                 required
                                 fullWidth
-                                id="company_mail"
+                                id="user_mail"
                                 label="E-mail de la compañía"
-                                value={get(dataToModify, 'company_mail')}
+                                value={get(dataToModify, 'user_mail')}
                                 autoFocus
                                 onChange={e => handleChangeModified(e)}
+                                InputProps={{
+                                    classes: {
+                                        root: classes.inputRoot,
+                                        disabled: classes.disabled
+                                    }
+                                }}
                             />
                         </Grid>
                     </Grid>
@@ -216,7 +237,7 @@ const RegisterCompanyAsAdmin = ({
                         className={classes.submit}
                         onClick={e => handleRegister(e)}
                     >
-                        Enviar
+                        Eliminar
                     </Button>
                 </form>
             </div>
@@ -225,18 +246,18 @@ const RegisterCompanyAsAdmin = ({
 };
 
 const mapStateToProps = state => ({
-    company: fromState.Session.getCompany()(state)
+    user: fromState.Session.getEmployee()(state)
 });
 
 const {
-    modifyCompanyAsAdminRequested,
-    getCompanyAsAdminRequested
+    deleteEmployeeAsAdminRequested,
+    getEmployeeAsAdminRequested
 } = SessionActions;
 
 export default connect(
     mapStateToProps,
     dispatch => bindActionCreators({
-        modifyCompanyAsAdminRequested,
-        getCompanyAsAdminRequested
+        deleteEmployeeAsAdminRequested,
+        getEmployeeAsAdminRequested
     }, dispatch)
-)(RegisterCompanyAsAdmin);
+)(RegisterEmployeeAsAdmin);

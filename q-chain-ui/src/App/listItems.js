@@ -6,6 +6,9 @@ import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
+import ApartmentIcon from '@material-ui/icons/Apartment';
+import BusinessIcon from '@material-ui/icons/Business';
+import DomainDisabledIcon from '@material-ui/icons/DomainDisabled';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
@@ -65,7 +68,7 @@ export const mainListItemsAdmin = (
             to="/company"
         >
             <ListItemIcon>
-                <PeopleIcon/>
+                <ApartmentIcon/>
             </ListItemIcon>
             <ListItemText primary="Registrar compañía"/>
         </ListItem>
@@ -75,9 +78,77 @@ export const mainListItemsAdmin = (
             to="/modifyCompany"
         >
             <ListItemIcon>
-                <PeopleIcon/>
+                <BusinessIcon/>
             </ListItemIcon>
             <ListItemText primary="Modificar compañía"/>
+        </ListItem>
+        <ListItem
+            button
+            component={Link}
+            to="/deleteCompany"
+        >
+            <ListItemIcon>
+                <DomainDisabledIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Eliminar compañía"/>
+        </ListItem>
+        <ListItem button>
+            <ListItemIcon>
+                <BarChartIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Reportes"/>
+        </ListItem>
+        <ListItem button>
+            <ListItemIcon>
+                <LayersIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Integraciones"/>
+        </ListItem>
+    </div>
+);
+
+
+export const mainListItemsAdminEmployee = (
+    <div>
+        <ListItem
+            button
+            component={Link}
+            to="/"
+        >
+            <ListItemIcon>
+                <DashboardIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Dashboard"/>
+        </ListItem>
+        <ListItem
+            button
+            component={Link}
+            to="/employee"
+        >
+            <ListItemIcon>
+                <ApartmentIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Registrar empleado"/>
+        </ListItem>
+        <ListItem
+            button
+            component={Link}
+            to="/modifyEmployee"
+        >
+            <ListItemIcon>
+                <BusinessIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Modificar empleado"/>
+        </ListItem>
+        <ListItem
+            button
+            component={Link}
+            to="/deleteEmployee"
+        >
+            <ListItemIcon>
+                <DomainDisabledIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Eliminar empleado"/>
         </ListItem>
         <ListItem button>
             <ListItemIcon>

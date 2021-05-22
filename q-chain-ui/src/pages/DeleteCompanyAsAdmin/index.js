@@ -54,11 +54,17 @@ const useStyles = makeStyles(theme => ({
         '&:hover': {
             background: '#7d2a84'
         }
-    }
+    },
+    inputRoot: {
+        '&$disabled': {
+            color: 'black'
+        }
+    },
+    disabled: {}
 }));
 
 const RegisterCompanyAsAdmin = ({
-    modifyCompanyAsAdminRequested,
+    deleteCompanyAsAdminRequested,
     getCompanyAsAdminRequested,
     company
 }) => {
@@ -99,7 +105,7 @@ const RegisterCompanyAsAdmin = ({
 
     const handleRegister = e => {
         e.preventDefault();
-        modifyCompanyAsAdminRequested({...dataToModify});
+        deleteCompanyAsAdminRequested({...dataToModify});
     };
 
     const handleSearch = e => {
@@ -129,7 +135,7 @@ const RegisterCompanyAsAdmin = ({
                     className="mt-3 mb-3"
                 />
                 <Typography component="h1" variant="h5">
-                    Editar - compañía
+                    Eliminar - compañía
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
@@ -181,6 +187,7 @@ const RegisterCompanyAsAdmin = ({
                         </Button>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                disabled
                                 autoComplete="fname"
                                 name="company_name"
                                 variant="outlined"
@@ -191,10 +198,17 @@ const RegisterCompanyAsAdmin = ({
                                 value={get(dataToModify, 'company_name')}
                                 autoFocus
                                 onChange={e => handleChangeModified(e)}
+                                InputProps={{
+                                    classes: {
+                                        root: classes.inputRoot,
+                                        disabled: classes.disabled
+                                    }
+                                }}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <TextField
+                                disabled
                                 autoComplete="fname"
                                 name="company_mail"
                                 variant="outlined"
@@ -205,6 +219,12 @@ const RegisterCompanyAsAdmin = ({
                                 value={get(dataToModify, 'company_mail')}
                                 autoFocus
                                 onChange={e => handleChangeModified(e)}
+                                InputProps={{
+                                    classes: {
+                                        root: classes.inputRoot,
+                                        disabled: classes.disabled
+                                    }
+                                }}
                             />
                         </Grid>
                     </Grid>
@@ -216,7 +236,7 @@ const RegisterCompanyAsAdmin = ({
                         className={classes.submit}
                         onClick={e => handleRegister(e)}
                     >
-                        Enviar
+                        Eliminar
                     </Button>
                 </form>
             </div>
@@ -229,14 +249,14 @@ const mapStateToProps = state => ({
 });
 
 const {
-    modifyCompanyAsAdminRequested,
+    deleteCompanyAsAdminRequested,
     getCompanyAsAdminRequested
 } = SessionActions;
 
 export default connect(
     mapStateToProps,
     dispatch => bindActionCreators({
-        modifyCompanyAsAdminRequested,
+        deleteCompanyAsAdminRequested,
         getCompanyAsAdminRequested
     }, dispatch)
 )(RegisterCompanyAsAdmin);

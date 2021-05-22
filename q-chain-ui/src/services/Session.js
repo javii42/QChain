@@ -1,10 +1,14 @@
 /* global window, localStorage */
 import {TOKEN_KEY} from '@constants';
 
-import * as API from './Urls';
+
+import qs from 'querystring';
+import identity from 'lodash/identity';
+import pickBy from 'lodash/pickBy';
 import Http from './http';
+import * as API from './Urls';
 
-
+export const queryToString = query => qs.stringify(pickBy(query, identity));
 export default class SessionService {
     static signOut() {
         localStorage.clear();
@@ -50,8 +54,32 @@ export default class SessionService {
         return Http.post(API.registerCompanyAsAdmin, body);
     }
 
+    static getCompanyAsAdminRequest(body) {
+        return Http.get(API.registerCompanyAsAdmin, body);
+    }
+
+    static modifyCompanyAsAdminRequest(body) {
+        return Http.put(API.registerCompanyAsAdmin, body);
+    }
+
+    static deleteCompanyAsAdminRequest(body) {
+        return Http.delete(API.registerCompanyAsAdmin, body);
+    }
+
     static registerEmployeeAsAdmin(body) {
         return Http.post(API.registerEmployeeAsAdmin, body);
+    }
+
+    static getEmployeeAsAdminRequest(params) {
+        return Http.get(`${API.registerEmployeeAsAdmin}?${queryToString(params)}`);
+    }
+
+    static modifyEmployeeAsAdminRequest(body) {
+        return Http.put(API.registerEmployeeAsAdmin, body);
+    }
+
+    static deleteEmployeeAsAdminRequest(body) {
+        return Http.delete(API.registerEmployeeAsAdmin, body);
     }
 
     static registerWithUsedCode(body) {

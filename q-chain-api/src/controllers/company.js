@@ -2,6 +2,7 @@ const CrudController = require('./crud');
 const {Types: {ObjectId}} = require('mongoose');
 
 const pick = require('lodash/pick');
+const get = require('lodash/get');
 
 const {
     CompanyService,
@@ -27,7 +28,7 @@ class CompanyController extends CrudController {
             req.body.ct_id = ObjectId('60957db5d26d7a8692f2f949');
             
             await this._service.saveOne({_id}, req.body);
-            req.user  = pick(req.body, [
+            req.user = pick(req.body, [
                 'user_mail',
                 'user_password',
                 'user_name',
@@ -36,9 +37,24 @@ class CompanyController extends CrudController {
                 'user_doc_type',
                 'user_doc_number'
             ]);
+
+            const companyName = get(req.body, 'company_name');
+            const companyDocType = get(req.body, 'company_doc_type');
+            const companyDocNumber = get(req.body, 'company_doc_number');
+
+            req.user = {
+                'user_mail': `admin@${companyName}.com`,
+                'user_password': '123',
+                'user_name': 'admin',
+                'user_lastname': companyName,
+                'user_birthday': null,
+                'user_doc_type': companyDocType,
+                'user_doc_number': companyDocNumber
+            }
             req.user.company_id = _id;
             next();
         } catch(err) {
+            console.log('error at company controller', err);
             next(err);
         }
     }
@@ -58,7 +74,10 @@ class CompanyController extends CrudController {
 
     async delete(req, res, next) {
         try {
-            const result = await this._service.deleteOne(req.body);
+            const {
+                _id
+            } = req.body;
+            const result = await this._service.saveOne({_id}, {deleted: true});
             res.send(result);
         } catch(err) {
             next(err);

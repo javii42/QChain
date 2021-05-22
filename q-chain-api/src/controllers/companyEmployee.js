@@ -24,6 +24,7 @@ class CompanyEmployeeController extends CrudController {
             const result = await this._service.saveOne({_id}, fields);
             res.send(result);
         } catch(err) {
+            console.log('error at companyEmployee controller', err);
             next(err);
         }
     }

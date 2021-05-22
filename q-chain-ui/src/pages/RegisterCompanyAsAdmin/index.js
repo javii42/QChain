@@ -67,14 +67,7 @@ const RegisterCompanyAsAdmin = ({
             company_name: '',
             company_mail: '',
             company_doc_type: '',
-            company_doc_number: '',
-            user_mail: '',
-            user_password: '',
-            user_name: '',
-            user_lastname: '',
-            user_birthday: '',
-            user_doc_type: '',
-            user_doc_number: ''
+            company_doc_number: ''
         }
     );
 
@@ -104,7 +97,7 @@ const RegisterCompanyAsAdmin = ({
                         height: '25px',
                         width: '25px'
                     }}
-                    className="mt-3 mb-3"
+                    className="mt-5 mb-3"
                 />
                 <Media
                     src={Logo}
@@ -164,112 +157,6 @@ const RegisterCompanyAsAdmin = ({
                                 required
                                 name="company_doc_number"
                                 label="Nº de CUIL"
-                                type="text"
-                                id="repeatPassword"
-                                autoComplete="current-password"
-                                onChange={e => handleChange(e)}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="fname"
-                                name="user_name"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="user_name"
-                                label="Nombre"
-                                autoFocus
-                                onChange={e => handleChange(e)}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="user_lastname"
-                                label="Apellido"
-                                name="user_lastname"
-                                autoComplete="lname"
-                                onChange={e => handleChange(e)}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="user_mail"
-                                label="Correo electrónico"
-                                name="user_mail"
-                                autoComplete="email"
-                                onChange={e => handleChange(e)}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="user_password"
-                                label="Contraseña"
-                                type="password"
-                                id="user_password"
-                                autoComplete="current-password"
-                                onChange={e => handleChange(e)}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                name="repeatPassword"
-                                label="Confirmar contraseña"
-                                type="password"
-                                id="repeatPassword"
-                                autoComplete="current-password"
-                                onChange={e => handleChange(e)}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <KeyboardDatePicker
-                                    disableToolbar
-                                    variant="inline"
-                                    format="MM/dd/yyyy"
-                                    margin="normal"
-                                    id="date-picker-inline"
-                                    label="Cumpleaños"
-                                    value={selectedDate}
-                                    onChange={handleDateChange}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date'
-                                    }}
-                                />
-                            </MuiPickersUtilsProvider>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <InputLabel id="demo-simple-select-helper-label">
-                                Tipo de documento
-                            </InputLabel>
-                            <Select
-                                labelId="demo-simple-select-helper-label"
-                                id="demo-simple-select-helper"
-                                name="user_doc_type"
-                                value={get(data, 'user_doc_type')}
-                                onChange={e => handleChange(e)}
-                            >
-                                <MenuItem value="1">LIBRETA CÍVICA</MenuItem>
-                                <MenuItem value="2">LIBRETA DE ENROLAMIENTO</MenuItem>
-                                <MenuItem value="3">DNI</MenuItem>
-                            </Select>
-                            <TextField
-                                variant="outlined"
-                                required
-                                name="user_doc_number"
-                                label="Nº de documento"
                                 type="text"
                                 id="repeatPassword"
                                 autoComplete="current-password"

@@ -55,6 +55,33 @@ module.exports = {
                 }
             }
         },
+        get: {
+            operationId: 'getCompany',
+            security: [{bearerAuth: []}],
+            description: 'Traer una compañía en el sistema QChain',
+            tags: ['companyAPI'],
+            requestBody: {
+                description: 'Descripción, ',
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object'
+                        }
+                    }
+                }
+            },
+            responses: {
+                200: {
+                    description: 'login success',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Profile' } } }
+                },
+                default: {
+                    description: 'Error',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+                }
+            }
+        },
         put: {
             operationId: 'modifyCompany',
             security: [{bearerAuth: []}],

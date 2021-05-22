@@ -55,7 +55,7 @@ module.exports = class Common {
      * @param {Object} filters
      * @returns {Object}
      */
-    fetchOne(filters) {
+    async fetchOne(filters) {
         return this._model.findOne(filters).lean().exec();
     }
 

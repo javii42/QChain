@@ -1,10 +1,17 @@
-const { User, UserRol, Rol } = include('models');
+const { 
+    User,
+    UserRol,
+    Rol,
+    CompanyEmployee
+} = include('models');
 const CrudService = require('./crud');
 
 const bcrypt = require('bcryptjs');
 const jsonWebToken = include('helpers/jsonWebToken');
 const isEmpty = require('lodash/isEmpty');
 const has = require('lodash/has');
+const set = require('lodash/set');
+const get = require('lodash/get');
 
 class UserService extends CrudService {
     constructor() {
@@ -20,6 +27,12 @@ class UserService extends CrudService {
                 if (bcrypt.compareSync(user_password, searchedUser.user_password)) {
                     delete searchedUser.user_password;
                     const token = await jsonWebToken.generateToken(searchedUser);
+                    set(searchedUser, 'rol', rol);
+                    if(rol && rol.rol_name === 'companyAdmin') {
+                        const companyEmployee = await CompanyEmployee.findOne({user_id: searchedUser._id});
+                        const companyId = get(companyEmployee, 'company_id');
+                        set(searchedUser, 'company_id', companyId);
+                    }
                     return {
                         token,
                         searchedUser,
@@ -51,7 +64,7 @@ class UserService extends CrudService {
 
         return this._model.findOne(params || { _id: object._id });
     }
-
+    
 }
 
 module.exports = UserService;

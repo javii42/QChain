@@ -34,6 +34,7 @@ class UserController extends CrudController {
         this.register = this.register.bind(this);
         this.registerForCompany = this.registerForCompany.bind(this);
         this.registerEmployee = this.registerEmployee.bind(this);
+        this.fetchEmployee = this.fetchEmployee.bind(this);
         this.update = this.update.bind(this);
         this.delete = this.delete.bind(this);
     }
@@ -65,7 +66,6 @@ class UserController extends CrudController {
     async registerEmployee(req, res, next) {
         try {
             const _id = ObjectId();
-            console.log('this', this);
             const result = await this._service.saveOne({_id}, req.body);
             await generateUserRole('Empleado', _id);
             req.result = {
@@ -82,13 +82,28 @@ class UserController extends CrudController {
         try {
             const _id = ObjectId();
             await this._service.saveOne({_id}, req.user);
-            await generateUserRole('Administrador', _id);
+            await generateUserRole('companyAdmin', _id);
             req.result = {
                 user_id: _id,
                 company_id: req.user.company_id
             }
             next();
         } catch(err) {
+            console.log('error at user controller', err);
+            next(err);
+        }
+    }
+
+    async fetchEmployee(req, res, next) {
+        try {
+            const {
+                _id,
+                user_doc_type,
+                user_doc_number
+            } = req.query;
+            const result = await this._service.fetchOne({_id, user_doc_type, user_doc_number});
+            res.send(result);
+        } catch (err) {
             next(err);
         }
     }
@@ -117,7 +132,10 @@ class UserController extends CrudController {
 
     async delete(req, res, next) {
         try {
-            const result = await this._service.deleteOne(req.body);
+            const {
+                _id
+            } = req.body;
+            const result = await this._service.saveOne({_id}, {deleted: true});
             res.send(result);
         } catch(err) {
             next(err);

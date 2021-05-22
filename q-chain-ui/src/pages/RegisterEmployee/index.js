@@ -30,6 +30,7 @@ import {
 } from 'reactstrap';
 import {SessionActions} from '@actions';
 import {get} from 'lodash';
+import fromState from '@selectors';
 import Logo from '../../images/logo.png';
 
 const useStyles = makeStyles(theme => ({
@@ -57,15 +58,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RegisterEmployee = ({
-    registerEmployeeAsAdminRequested
+    registerEmployeeAsAdminRequested,
+    user
 }) => {
     const classes = useStyles();
 
     const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
     const [data, setData] = React.useState(
         {
-            company_id: '609587983ec419a0f7b9126e',
-            user_id: '609f601a3df68bb12b79694a',
+            company_id: get(user, 'company_id', ''),
+            user_id: get(user, '_id', ''),
             user_mail: '',
             user_password: '',
             user_name: '',
@@ -102,7 +104,7 @@ const RegisterEmployee = ({
                         height: '25px',
                         width: '25px'
                     }}
-                    className="mt-3 mb-3"
+                    className="mt-5 mb-3"
                 />
                 <Media
                     src={Logo}
@@ -240,7 +242,9 @@ const RegisterEmployee = ({
     );
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+    user: fromState.Session.getUser()(state)
+});
 
 const {
     registerEmployeeAsAdminRequested
