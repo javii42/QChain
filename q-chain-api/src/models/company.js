@@ -28,6 +28,10 @@ const Company = new Schema({
         type: String,
         required: true
     },
+    company_save_blockchain: {
+        type: Boolean,
+        default: false
+    },
     deleted: {
         type: Boolean,
         default: false

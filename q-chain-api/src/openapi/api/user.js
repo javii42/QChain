@@ -240,5 +240,134 @@ module.exports = {
                 }
             }
         }
+    },
+    '/api/user/shift': {
+        post: {
+            operationId: 'createUserShift',
+            security: [{bearerAuth: []}],
+            description: 'Crear el turno de un usuario en el sistema QChain',
+            tags: ['userAPI'],
+            requestBody: {
+                description: 'Descripcion',
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            required: [
+                                'branch_id',
+                                'user_id',
+                                'ce_id',
+                                'ss_id',
+                                'shift_call',
+                                'shift_duration',
+                                'shift_date',
+                                'shift_start',
+                                'shift_comment'
+                            ],
+                            properties: {
+                                branch_id: { type: 'string' },
+                                user_id: { type: 'string' },
+                                ce_id: { type: 'string' },
+                                ss_id: { type: 'string' },
+                                shift_call: { type: 'integer' },
+                                shift_duration: { type: 'string' },
+                                shift_date: { type: 'string' },
+                                shift_start: { type: 'string' },
+                                shift_comment: { type: 'string' }
+                            }
+                        }
+                    }
+                }
+            },
+            responses: {
+                200: {
+                    description: 'login success',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Profile' } } }
+                },
+                default: {
+                    description: 'Error',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+                }
+            }
+        },
+        get: {
+            operationId: 'getShifts',
+            security: [{bearerAuth: []}],
+            description: 'Traer turnos de una compañía en el sistema QChain',
+            tags: ['userAPI'],
+            requestBody: {
+                description: 'Descripción, ',
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object'
+                        }
+                    }
+                }
+            },
+            responses: {
+                200: {
+                    description: 'login success',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Profile' } } }
+                },
+                default: {
+                    description: 'Error',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+                }
+            }
+        },
+        put: {
+            operationId: 'modifyUserShift',
+            security: [{bearerAuth: []}],
+            description: 'Modifica el turno de un usuario en el sistema QChain',
+            tags: ['userAPI'],
+            requestBody: {
+                description: 'Descripcion',
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            required: [
+                                'shift_id',
+                                'branch_id',
+                                'user_id',
+                                'ce_id',
+                                'ss_id',
+                                'shift_call',
+                                'shift_duration',
+                                'shift_date',
+                                'shift_start',
+                                'shift_comment'
+                            ],
+                            properties: {
+                                shift_id: { type: 'string' },
+                                branch_id: { type: 'string' },
+                                user_id: { type: 'string' },
+                                ce_id: { type: 'string' },
+                                ss_id: { type: 'string' },
+                                shift_call: { type: 'integer' },
+                                shift_duration: { type: 'string' },
+                                shift_date: { type: 'string' },
+                                shift_start: { type: 'string' },
+                                shift_comment: { type: 'string' }
+                            }
+                        }
+                    }
+                }
+            },
+            responses: {
+                200: {
+                    description: 'login success',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Profile' } } }
+                },
+                default: {
+                    description: 'Error',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+                }
+            }
+        }
     }
 };

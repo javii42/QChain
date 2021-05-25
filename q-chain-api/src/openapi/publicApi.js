@@ -97,5 +97,46 @@ module.exports = {
                 }
             }
         }
+    },
+    '/public-api/decryptBlockchainData': {
+        post: {
+            operationId: 'decryptBlockchainData',
+            security: [{}],
+            description: 'Desencriptar turno en el sistema QChain',
+            tags: ['publicAPI'],
+            requestBody: {
+                description: 'Descripción, ',
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            required: [
+                                'hash',
+                                'password'
+                            ],
+                            properties: {
+                                hash: { 
+                                    type: 'string'
+                                },
+                                password: { 
+                                    type: 'string' 
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            responses: {
+                200: {
+                    description: 'login success',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Profile' } } }
+                },
+                default: {
+                    description: 'Error',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+                }
+            }
+        }
     }
 };

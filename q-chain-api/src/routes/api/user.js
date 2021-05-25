@@ -1,6 +1,7 @@
 const {
     UserController,
-    CompanyEmployeeController
+    CompanyEmployeeController,
+    ShiftController
 } = include('controllers');
 
 const {
@@ -14,5 +15,8 @@ module.exports = router => {
     router.delete('/employee', UserController.delete);
     router.put('/generic', UserController.update);
     router.delete('/generic', UserController.delete);
+    router.post('/shift', ShiftController.register);
+    router.put('/shift', ShiftController.update);
+    router.get('/shift', ShiftController.fetchOneByQuery);
     return router;
 };
