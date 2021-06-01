@@ -6,7 +6,8 @@ const {
     BranchController,
     BranchAddressController,
     AgendaController,
-    ShiftController
+    ShiftController,
+    ShiftTrackingController
 } = include('controllers');
 
 module.exports = router => {
@@ -20,5 +21,6 @@ module.exports = router => {
     router.post('/agenda', AgendaController.register);
     router.put('/shift', ShiftController.update);
     router.get('/shift', ShiftController.fetchOneByQuery);
+    router.post('/shift/tracking', ShiftTrackingController.fetchManyByBody);
     return router;
 };

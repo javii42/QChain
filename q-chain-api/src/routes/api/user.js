@@ -1,7 +1,9 @@
 const {
     UserController,
     CompanyEmployeeController,
-    ShiftController
+    CompanySectorController,
+    ShiftController,
+    BranchController
 } = include('controllers');
 
 const {
@@ -18,5 +20,8 @@ module.exports = router => {
     router.post('/shift', ShiftController.register);
     router.put('/shift', ShiftController.update);
     router.get('/shift', ShiftController.fetchOneByQuery);
+    router.get('/branch/:company_id', BranchController.fetchManyByParams);
+    router.get('/sector/:company_id', CompanySectorController.fetchManyByParams);
+    router.get('/employees/:branch_id', UserController.fetchEmployeesByBranch);
     return router;
 };

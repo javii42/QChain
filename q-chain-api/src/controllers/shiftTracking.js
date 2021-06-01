@@ -3,11 +3,11 @@ const CrudController = require('./crud');
 const {Types: {ObjectId}} = require('mongoose');
 
 const {
-    ShiftService
+    ShiftTrackingService
 } = include('services');
 class ShiftController extends CrudController {
     constructor() {
-        const service = new ShiftService();
+        const service = new ShiftTrackingService();
         super(service);
         this.register = this.register.bind(this);
         this.update = this.update.bind(this);

@@ -9,6 +9,9 @@ class CommonController {
         this.fetch = this.fetch.bind(this);
         this.fetchOneByParams = this.fetchOneByParams.bind(this);
         this.fetchOneByQuery = this.fetchOneByQuery.bind(this);
+        this.fetchManyByParams = this.fetchManyByParams.bind(this);
+        this.fetchOneByBody = this.fetchOneByBody.bind(this);
+        this.fetchManyByBody = this.fetchManyByBody.bind(this);
         this.saveOne = this.saveOne.bind(this);
         this.saveMany = this.saveMany.bind(this);
         this.deleteOne = this.deleteOne.bind(this);
@@ -108,6 +111,45 @@ class CommonController {
     async fetchOneByQuery(req, res, next) {
         try {
             const result = await this._service.fetchOne(req.query);
+            res.send(result);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    /**
+     * Query that where passed using express
+     * will send the first occurrence that match the query
+     */
+     async fetchManyByParams(req, res, next) {
+        try {
+            const result = await this._service.fetch(req.params);
+            res.send(result);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    /**
+     * Body that where passed using express
+     * will send the first occurrence that match the body
+     */
+     async fetchOneByBody(req, res, next) {
+        try {
+            const result = await this._service.fetchOne(req.body);
+            res.send(result);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+        /**
+     * Body that where passed using express
+     * will send the first occurrence that match the body
+     */
+     async fetchManyByBody(req, res, next) {
+        try {
+            const result = await this._service.fetch(req.body);
             res.send(result);
         } catch (err) {
             next(err);

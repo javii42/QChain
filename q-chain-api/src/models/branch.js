@@ -21,6 +21,10 @@ const Branch = new Schema({
     branch_active: {
         type: Boolean,
         default: true
+    },
+    branch_employees: {
+        type: Array,
+        default: []
     }
 }, {
     collection: 'branch',

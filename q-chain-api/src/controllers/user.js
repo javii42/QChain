@@ -35,6 +35,7 @@ class UserController extends CrudController {
         this.registerForCompany = this.registerForCompany.bind(this);
         this.registerEmployee = this.registerEmployee.bind(this);
         this.fetchEmployee = this.fetchEmployee.bind(this);
+        this.fetchEmployeesByBranch = this.fetchEmployeesByBranch.bind(this);
         this.update = this.update.bind(this);
         this.delete = this.delete.bind(this);
     }
@@ -102,6 +103,19 @@ class UserController extends CrudController {
                 user_doc_number
             } = req.query;
             const result = await this._service.fetchOne({_id, user_doc_type, user_doc_number});
+            res.send(result);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async fetchEmployeesByBranch(req, res, next) {
+        try {
+            const {
+                branch_id
+            } = req.params;
+            console.log('req.params', req.params)
+            const result = await this._service.fetchEmployees(branch_id);
             res.send(result);
         } catch (err) {
             next(err);
