@@ -92,6 +92,16 @@ export const mainListItemsAdmin = (
             </ListItemIcon>
             <ListItemText primary="Eliminar compañía"/>
         </ListItem>
+        <ListItem
+            button
+            component={Link}
+            to="/shift"
+        >
+            <ListItemIcon>
+                <DomainDisabledIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Gestionar turnos"/>
+        </ListItem>
         <ListItem button>
             <ListItemIcon>
                 <BarChartIcon/>

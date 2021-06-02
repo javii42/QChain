@@ -124,7 +124,7 @@ const getParsedUser = user => {
 
 const getRole = user => {
     const parsedUser = getParsedUser(user);
-    return get(parsedUser, 'rol.rol_name');
+    return get(parsedUser, 'rol');
 };
 
 const Header = ({
@@ -242,7 +242,7 @@ const Header = ({
                                     <ListItemText
                                         className="ml-2"
                                         primary={
-                                            `ROL: ${get(getParsedUser(user), 'rol.rol_name')}`
+                                            `ROL: ${get(getParsedUser(user), 'rol')}`
                                         }
                                     />
                                 </ListItem>

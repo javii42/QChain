@@ -49,7 +49,8 @@ class CompanyController extends CrudController {
                 'user_lastname': companyName,
                 'user_birthday': null,
                 'user_doc_type': companyDocType,
-                'user_doc_number': companyDocNumber
+                'user_doc_number': companyDocNumber,
+                'rol': 'companyAdmin'
             }
             req.user.company_id = _id;
             next();

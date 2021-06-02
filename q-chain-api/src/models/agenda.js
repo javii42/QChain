@@ -17,7 +17,7 @@ const Agenda = new Schema({
         required: true,
         ref: 'branch'
     },
-    agenda_day_week: {
+    agenda_week_day: {
         type: Number
     },
     agenda_date: {

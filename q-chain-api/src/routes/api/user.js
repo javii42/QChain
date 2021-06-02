@@ -23,5 +23,6 @@ module.exports = router => {
     router.get('/branch/:company_id', BranchController.fetchManyByParams);
     router.get('/sector/:company_id', CompanySectorController.fetchManyByParams);
     router.get('/employees/:branch_id', UserController.fetchEmployeesByBranch);
+    router.get('/employees/:branch_id/:sector_id', UserController.fetchEmployeesByBranchAndSector);
     return router;
 };

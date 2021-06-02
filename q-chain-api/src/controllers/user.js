@@ -7,7 +7,9 @@ const {
     UserRolService
 } = include('services');
 
-const generateUserRole = async (
+const set = require('lodash/set');
+
+/*const generateUserRole = async (
     rol_name,
     _id
 ) => {
@@ -24,7 +26,7 @@ const generateUserRole = async (
           user_role_active: true  
         }
     );
-}
+}*/
 
 class UserController extends CrudController {
     constructor() {
@@ -36,6 +38,7 @@ class UserController extends CrudController {
         this.registerEmployee = this.registerEmployee.bind(this);
         this.fetchEmployee = this.fetchEmployee.bind(this);
         this.fetchEmployeesByBranch = this.fetchEmployeesByBranch.bind(this);
+        this.fetchEmployeesByBranchAndSector = this.fetchEmployeesByBranchAndSector.bind(this);
         this.update = this.update.bind(this);
         this.delete = this.delete.bind(this);
     }
@@ -56,8 +59,9 @@ class UserController extends CrudController {
     async register(req, res, next) {
         try {
             const _id = ObjectId();
+            set(req.body, 'rol', 'Genérico');
             const result = await this._service.saveOne({_id}, req.body);
-            await generateUserRole('Genérico', _id);
+            //await generateUserRole('Genérico', _id);
             res.send(result);
         } catch(err) {
             next(err);
@@ -67,8 +71,9 @@ class UserController extends CrudController {
     async registerEmployee(req, res, next) {
         try {
             const _id = ObjectId();
+            set(req.body, 'rol', 'Empleado');
             const result = await this._service.saveOne({_id}, req.body);
-            await generateUserRole('Empleado', _id);
+            //await generateUserRole('Empleado', _id);
             req.result = {
                 user_id: _id,
                 company_id: req.body.company_id
@@ -82,8 +87,9 @@ class UserController extends CrudController {
     async registerForCompany(req, res, next) {
         try {
             const _id = ObjectId();
+            set(req.user, 'rol', 'companyAdmin');
             await this._service.saveOne({_id}, req.user);
-            await generateUserRole('companyAdmin', _id);
+            //await generateUserRole('companyAdmin', _id);
             req.result = {
                 user_id: _id,
                 company_id: req.user.company_id
@@ -114,8 +120,20 @@ class UserController extends CrudController {
             const {
                 branch_id
             } = req.params;
-            console.log('req.params', req.params)
             const result = await this._service.fetchEmployees(branch_id);
+            res.send(result);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async fetchEmployeesByBranchAndSector(req, res, next) {
+        try {
+            const {
+                branch_id,
+                sector_id
+            } = req.params;
+            const result = await this._service.fetchEmployeesByBranchAndSector(branch_id, sector_id);
             res.send(result);
         } catch (err) {
             next(err);

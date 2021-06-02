@@ -21,7 +21,7 @@ const formatData = reqBody => {
         agenda_closing,
         agenda_q_shifts,
         agenda_sim_shifts,
-        agenda_shift_duration
+        agenda_shift_duration,
      } = reqBody;
 
     const finalObject = {
@@ -42,7 +42,8 @@ const formatData = reqBody => {
     } else {
         return null;
     }
-    if(isEmpty(agenda_date) && !isEmpty(toString(agenda_week_day))) {
+    if(isEmpty(agenda_date) && agenda_week_day) {
+        console.log('holaa')
         set(finalObject, 'agenda_week_day', agenda_week_day);
     } else if(!isEmpty(agenda_date) && isEmpty(toString(agenda_week_day))) {
         set(finalObject, 'agenda_date', agenda_date);
@@ -63,6 +64,7 @@ class AgendaController extends CrudController {
         try {
             const _id = ObjectId();
             const finalObject = formatData(req.body);
+            console.log('finalObject', finalObject);
             if(!finalObject) {
                 return res.status(403).send({status: 'ERROR'});
             }

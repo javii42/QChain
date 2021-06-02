@@ -453,5 +453,41 @@ module.exports = {
                 }
             }
         }
+    },
+    '/api/user/employees/{branch_id}/{sector_id}': {
+        get: {
+            operationId: 'getCompanyEmployees',
+            security: [{}],
+            description: 'Obtener empleados de una compañía en el sistema QChain',
+            tags: ['companyAPI'],
+            parameters: [
+                {
+                    in: 'path',
+                    name: 'branch_id',
+                    required: true,
+                    schema: {
+                        type: 'string'
+                    }
+                },
+                {
+                    in: 'path',
+                    name: 'sector_id',
+                    required: true,
+                    schema: {
+                        type: 'string'
+                    }
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'login success',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Profile' } } }
+                },
+                default: {
+                    description: 'Error',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+                }
+            }
+        }
     }
 };

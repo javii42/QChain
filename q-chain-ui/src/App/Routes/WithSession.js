@@ -8,6 +8,7 @@ import DeleteCompanyAsAdmin from '@pages/DeleteCompanyAsAdmin';
 import RegisterEmployeeAsAdmin from '@pages/RegisterEmployee';
 import ModifyEmployee from '@pages/ModifyEmployee';
 import DeleteEmployee from '@pages/DeleteEmployee';
+import Shift from '@pages/Shift';
 
 
 const RouterWithSession = () => (
@@ -19,6 +20,7 @@ const RouterWithSession = () => (
             <Route exact path="/employee" component={RegisterEmployeeAsAdmin}/>
             <Route exact path="/modifyEmployee" component={ModifyEmployee}/>
             <Route exact path="/deleteEmployee" component={DeleteEmployee}/>
+            <Route exact path="/shift" component={Shift}/>
             <Route component={DashboardAdmin}/>
         </Switch>
     </HashRouter>

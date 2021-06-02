@@ -294,7 +294,7 @@ module.exports = {
     '/api/company/agenda': {
         post: {
             operationId: 'createCompanyAgenda',
-            security: [{bearerAuth: []}],
+            security: [{}],
             description: 'Crear la agenda de una compañía en el sistema QChain',
             tags: ['companyAPI'],
             requestBody: {
@@ -307,7 +307,6 @@ module.exports = {
                             required: [
                                 'ce_id',
                                 'branch_id',
-                                'agenda_week_day',
                                 'agenda_date',
                                 'agenda_open',
                                 'agenda_opening',

@@ -3,6 +3,7 @@ const {
     UserRol,
     Rol,
     CompanyEmployee,
+    CompanySector,
     Branch
 } = include('models');
 const CrudService = require('./crud');
@@ -16,7 +17,8 @@ const set = require('lodash/set');
 const get = require('lodash/get');
 const toString = require('lodash/toString');
 const map = require('lodash/map');
-
+const filter = require('lodash/filter');
+const find = require('lodash/find');
 class UserService extends CrudService {
     constructor() {
         super(User);
@@ -26,21 +28,21 @@ class UserService extends CrudService {
         try {
             const searchedUser = await this.fetchOne({ user_mail });
             if (searchedUser) {
-                const userRole = await UserRol.findOne({user_id: searchedUser._id});
-                const rol = await Rol.findOne({_id: userRole.user_role_id});
+                /*const userRole = await UserRol.findOne({user_id: searchedUser._id});
+                const rol = await Rol.findOne({_id: userRole.user_role_id});*/
                 if (bcrypt.compareSync(user_password, searchedUser.user_password)) {
                     delete searchedUser.user_password;
                     const token = await jsonWebToken.generateToken(searchedUser);
-                    set(searchedUser, 'rol', rol);
+                    /*set(searchedUser, 'rol', rol);
                     if(rol && rol.rol_name === 'companyAdmin') {
                         const companyEmployee = await CompanyEmployee.findOne({user_id: searchedUser._id});
                         const companyId = get(companyEmployee, 'company_id');
                         set(searchedUser, 'company_id', companyId);
-                    }
+                    }*/
                     return {
                         token,
                         searchedUser,
-                        rol
+                        rol: get(searchedUser, 'rol', 'Genérico')
                     };
                 }
             }
@@ -54,27 +56,33 @@ class UserService extends CrudService {
         const branch = await Branch.findOne({_id: branch_id});
         if(branch) {
             const employees = get(branch, 'branch_employees');
-
-            const roleForEmployeeWithShift = await Rol.find({rol_name: 'sysEmployeeShift'});
-            const role_id = get(roleForEmployeeWithShift, '_id');
-
-            if(role_id) {
-                const employeesWithRole = await UserRol.find({role_id});
-                const finalEmployees = forEach(employees)
+            if(employees) {
+                const users = await User.find({ '_id': { $in: employees } });
+                if(users) {
+                    const finalEmployees = filter(users, user => {
+                        const parsedUser = user.toJSON();
+                        return parsedUser.rol === 'sysEmployeeShift';
+                    });
+                    return finalEmployees;
+                }
             }
-
-
-
-            return await User.find({ '_id': { $in: employees } });
+            return [];
         }
     }
 
     async fetchEmployeesByBranchAndSector(branch_id, sector_id) {
-        const branch = await Branch.findOne({_id: branch_id});
-        if(branch) {
-            const employees = map(get(branch, 'branch_employees'), be => toString(be));
-            return await User.find({ '_id': { $in: employees } });
-        }
+        const branchEmployees = await this.fetchEmployees(branch_id);
+        const companySector = await CompanySector.findOne({_id: sector_id});
+        const cs_employees = get(companySector, 'cs_employees');
+        const finalEmployees = filter(branchEmployees, employee => {
+            const parsedEmployee = employee.toJSON();
+            return find(cs_employees, cs_employee => {
+                console.log('cs_employee === parsedEmployee._id', typeof cs_employee , typeof parsedEmployee._id)
+                return cs_employee === toString(parsedEmployee._id);
+            });
+        });
+        return finalEmployees;
+
     }
 
     async saveOne(params, object) {
