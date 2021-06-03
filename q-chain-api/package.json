@@ -4,6 +4,7 @@
   "description": "QChain API",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "gulp eslint && npm run test:cover"
   },
   "author": "QChain ©",
