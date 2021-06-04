@@ -1,7 +1,6 @@
 /* global window, localStorage */
 import {TOKEN_KEY} from '@constants';
 
-
 import qs from 'querystring';
 import identity from 'lodash/identity';
 import pickBy from 'lodash/pickBy';
@@ -48,7 +47,6 @@ export default class SessionService {
     static register(body) {
         return Http.post(API.register, body);
     }
-
 
     static registerCompanyAsAdmin(body) {
         return Http.post(API.registerCompanyAsAdmin, body);
@@ -116,6 +114,22 @@ export default class SessionService {
 
     static validateDocument(body) {
         return Http.post(API.validateDocument, body);
+    }
+
+    static branch(param) {
+        return Http.get(`${API.branch}/${param}`);
+    }
+
+    static sector(param) {
+        return Http.get(`${API.sector}/${param}`);
+    }
+
+    static employee(param) {
+        return Http.get(`${API.employee}/${param}`);
+    }
+
+    static shift(body) {
+        return Http.post(API.shift, body);
     }
 
     static staticData() {

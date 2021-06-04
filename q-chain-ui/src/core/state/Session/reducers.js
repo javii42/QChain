@@ -1,4 +1,3 @@
-
 import {
     LOADING,
     SAVING,
@@ -12,9 +11,12 @@ import {
     SUBMIT_DOCUMENT_VALIDATION,
     SUBMIT_LOGIN_INFORMATION_REQUESTED,
     GET_COMPANY_AS_ADMIN_SUCCEEDED,
-    GET_EMPLOYEE_AS_ADMIN_SUCCEEDED
+    GET_EMPLOYEE_AS_ADMIN_SUCCEEDED,
+    BRANCH_SUCCEEDED,
+    SECTOR_SUCCEEDED,
+    EMPLOYEE_SUCCEEDED,
+    AGENDA_SUCCEEDED
 } from './types';
-
 
 export default function session(
     state = {
@@ -28,7 +30,10 @@ export default function session(
         code: '',
         user: {},
         segment: {},
-        geography: {}
+        geography: {},
+        branch: [],
+        sector: [],
+        employees: []
     },
     {type, ...props}
 ) {
@@ -58,6 +63,10 @@ export default function session(
         case SUBMIT_LOGIN_INFORMATION_REQUESTED:
         case GET_COMPANY_AS_ADMIN_SUCCEEDED:
         case GET_EMPLOYEE_AS_ADMIN_SUCCEEDED:
+        case BRANCH_SUCCEEDED:
+        case SECTOR_SUCCEEDED:
+        case EMPLOYEE_SUCCEEDED:
+        case AGENDA_SUCCEEDED:
             return {
                 ...state,
                 ...props

@@ -26,7 +26,17 @@ import {
     GET_EMPLOYEE_AS_ADMIN_REQUEST,
     GET_EMPLOYEE_AS_ADMIN_SUCCEEDED,
     MODIFY_EMPLOYEE_AS_ADMIN_REQUEST,
-    DELETE_EMPLOYEE_AS_ADMIN_REQUEST
+    DELETE_EMPLOYEE_AS_ADMIN_REQUEST,
+    BRANCH_REQUESTED,
+    BRANCH_SUCCEEDED,
+    SECTOR_REQUESTED,
+    SECTOR_SUCCEEDED,
+    EMPLOYEE_REQUESTED,
+    EMPLOYEE_SUCCEEDED,
+    SHIFT_REQUESTED,
+    SHIFT_SUCCEEDED,
+    AGENDA_REQUESTED,
+    AGENDA_SUCCEEDED
 } from './types';
 
 export const signInRequested = ({...props}) => ({
@@ -86,3 +96,14 @@ export const submitRegisterRequested = ({...props}) => ({type: SUBMIT_REGISTER_R
 export const submitLoginInformation = (mail, tel) => ({type: SUBMIT_LOGIN_INFORMATION_REQUESTED, mail, tel});
 export const staticDataRequested = constant({type: STATIC_DATA_REQUESTED});
 export const staticDataSucceeded = props => ({type: STATIC_DATA_SUCCEEDED, ...props});
+
+export const branchRequested = constant({type: BRANCH_REQUESTED});
+export const branchSucceeded = props => ({type: BRANCH_SUCCEEDED, ...props});
+export const sectorRequested = constant({type: SECTOR_REQUESTED});
+export const sectorSucceeded = props => ({type: SECTOR_SUCCEEDED, ...props});
+export const employeeRequested = constant({type: EMPLOYEE_REQUESTED});
+export const employeeSucceeded = props => ({type: EMPLOYEE_SUCCEEDED, ...props});
+export const shiftRequested = ({...props}) => ({type: SHIFT_REQUESTED, ...props});
+export const shiftSucceeded = props => ({type: SHIFT_SUCCEEDED, ...props});
+export const agendaRequested = constant({type: AGENDA_REQUESTED});
+export const agendaSucceeded = props => ({type: AGENDA_SUCCEEDED, ...props});

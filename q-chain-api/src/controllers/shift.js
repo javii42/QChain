@@ -1,10 +1,15 @@
 const CrudController = require('./crud');
 
 const {Types: {ObjectId}} = require('mongoose');
+const { set, get } = require('lodash');
 
 const {
     ShiftService
 } = include('services');
+
+const { 
+    ShiftState,
+} = include('models');
 class ShiftController extends CrudController {
     constructor() {
         const service = new ShiftService();
@@ -17,7 +22,12 @@ class ShiftController extends CrudController {
     async register(req, res, next) {
         try {
             const _id = ObjectId();
-
+            if(!get(req.body, 'ss_id')) {
+                let defaultStatus = await ShiftState.findOne({ss_name: 'Pending'}).lean().exec();
+                console.log('defaultStatus', defaultStatus);
+                defaultStatus = get(defaultStatus, '_id');
+                set(req.body, 'ss_id', defaultStatus);
+            }
             const result = await this._service.saveOne({_id}, req.body);
             res.send(result);
         } catch(err) {

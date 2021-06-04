@@ -244,7 +244,7 @@ module.exports = {
     '/api/user/shift': {
         post: {
             operationId: 'createUserShift',
-            security: [{bearerAuth: []}],
+            security: [{}],
             description: 'Crear el turno de un usuario en el sistema QChain',
             tags: ['userAPI'],
             requestBody: {
@@ -258,7 +258,6 @@ module.exports = {
                                 'branch_id',
                                 'user_id',
                                 'ce_id',
-                                'ss_id',
                                 'shift_call',
                                 'shift_duration',
                                 'shift_date',

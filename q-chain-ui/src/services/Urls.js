@@ -4,3 +4,7 @@ export const login = `${publicApi}/login`;
 export const register = `${publicApi}/user/generic`;
 export const registerCompanyAsAdmin = `${api}/company/generic`;
 export const registerEmployeeAsAdmin = `${api}/user/employee`;
+export const branch = `${api}/user/branch`;
+export const sector = `${api}/user/sector`;
+export const employee = `${api}/user/employees`;
+export const shift = `${api}/user/shift`;

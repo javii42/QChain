@@ -74,6 +74,21 @@ class AgendaController extends CrudController {
             next(err);
         }
     }
+
+    async getData(req, res, next) {
+        try {
+            /*const _id = ObjectId();
+            const finalObject = formatData(req.body);
+            console.log('finalObject', finalObject);
+            if(!finalObject) {
+                return res.status(403).send({status: 'ERROR'});
+            }
+            const result = await this._service.saveOne({_id}, finalObject);
+            res.send(result);*/
+        } catch(err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = new AgendaController();

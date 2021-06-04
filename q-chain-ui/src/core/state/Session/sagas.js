@@ -41,7 +41,12 @@ import {
     REGISTER_EMPLOYEE_AS_ADMIN_REQUEST,
     GET_EMPLOYEE_AS_ADMIN_REQUEST,
     MODIFY_EMPLOYEE_AS_ADMIN_REQUEST,
-    DELETE_EMPLOYEE_AS_ADMIN_REQUEST
+    DELETE_EMPLOYEE_AS_ADMIN_REQUEST,
+    BRANCH_REQUESTED,
+    SECTOR_REQUESTED,
+    EMPLOYEE_REQUESTED,
+    SHIFT_REQUESTED,
+    AGENDA_REQUESTED
 } from './types';
 
 import {
@@ -52,7 +57,10 @@ import {
     updateSegmentData,
     staticDataSucceeded,
     getCompanyAsAdminSucceeded,
-    getEmployeeAsAdminSucceeded
+    getEmployeeAsAdminSucceeded,
+    branchSucceeded,
+    sectorSucceeded,
+    employeeSucceeded
 } from './actions';
 
 function* signOut() {
@@ -90,6 +98,19 @@ function* signIn({
             return;
         }
         yield put(setStatusMessage(ERROR, get(result, 'status', 'ERROR')));
+    } catch (error) {
+        yield put(setStatusMessage(ERROR));
+    } finally {
+        yield put(setRequestFlag(false, ''));
+    }
+}
+
+function* loadStorageData() {
+    try {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            yield put(signInSucceeded({user}));
+        }
     } catch (error) {
         yield put(setStatusMessage(ERROR));
     } finally {
@@ -288,7 +309,6 @@ function* deleteCompanyAsAdminRequest({
     }
 }
 
-
 function* registerEmployeeAsAdmin({
     company_id,
     user_id,
@@ -444,9 +464,199 @@ function* deleteEmployeeAsAdminRequest({
     }
 }
 
+function* branchRequested({
+    company_id
+}) {
+    try {
+        yield put(setRequestFlag(true, LOADING));
+        const result = yield call(SessionService.branch, '60a9014477e7d70fd6f5990c');
+
+        console.log('branch result', result);
+
+        if (result) {
+            // yield localStorage.setItem('token', token);
+            // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
+            yield put(branchSucceeded({branch: result}));
+            // yield put(signInSucceeded({user}));
+            // yield put(setRequestFlag(false, ''));
+            // setTimeout(() => { window.location = '/'; }, 2000);
+            return;
+        }
+        console.log('result', result);
+        yield put(setStatusMessage(ERROR, get(result, 'status', 'ERROR')));
+    } catch (error) {
+        console.log('error', error);
+        yield put(setStatusMessage(ERROR));
+    } finally {
+        yield put(setRequestFlag(false, ''));
+    }
+}
+
+function* sectorRequested({
+    company_id
+}) {
+    try {
+        yield put(setRequestFlag(true, LOADING));
+
+        const result = yield call(SessionService.sector, '60a9014477e7d70fd6f5990c');
+
+        console.log('sector result', result);
+
+        if (result) {
+            // yield localStorage.setItem('token', token);
+            // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
+            yield put(sectorSucceeded({sector: result}));
+            // yield put(signInSucceeded({user}));
+            // yield put(setRequestFlag(false, ''));
+            // setTimeout(() => { window.location = '/'; }, 2000);
+            return;
+        }
+    } catch (error) {
+        console.log('error', error);
+        yield put(setStatusMessage(ERROR));
+    } finally {
+        yield put(setRequestFlag(false, ''));
+    }
+}
+
+function* employeeRequested({
+    branch_id
+}) {
+    try {
+        yield put(setRequestFlag(true, LOADING));
+
+        /* let finalId = _id;
+
+        if (!finalId) {
+            const employee = yield select(state => fromState.Session.getEmployee()(state));
+            finalId = get(employee, '_id');
+        } */
+
+        const result = yield call(SessionService.employee, '60ac475558b0ef980fba375e');
+
+        console.log('result', result);
+        if (result) {
+            // yield localStorage.setItem('token', token);
+            // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
+            yield put(branchSucceeded({employees: result}));
+            // yield put(signInSucceeded({user}));
+            // yield put(setRequestFlag(false, ''));
+            // setTimeout(() => { window.location = '/'; }, 2000);
+            return;
+        }
+    } catch (error) {
+        console.log('error', error);
+        yield put(setStatusMessage(ERROR));
+    } finally {
+        yield put(setRequestFlag(false, ''));
+    }
+}
+
+function* shiftRequested({
+    branch_id,
+    user_id,
+    ce_id,
+    shift_call,
+    shift_duration,
+    shift_date,
+    shift_start,
+    shift_comment
+}) {
+    try {
+        yield put(setRequestFlag(true, LOADING));
+
+        /* let finalId = _id;
+
+        if (!finalId) {
+            const employee = yield select(state => fromState.Session.getEmployee()(state));
+            finalId = get(employee, '_id');
+        } */
+
+        const result = yield call(SessionService.shift, {
+            branch_id,
+            user_id,
+            ce_id,
+            shift_call,
+            shift_duration,
+            shift_date,
+            shift_start,
+            shift_comment
+        });
+
+        console.log('result', {
+            branch_id,
+            user_id,
+            ce_id,
+            shift_call,
+            shift_duration,
+            shift_date,
+            shift_start,
+            shift_comment
+        });
+        if (result) {
+            // yield localStorage.setItem('token', token);
+            // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
+            // yield put(branchSucceeded({employees: result}));
+            // yield put(signInSucceeded({user}));
+            // yield put(setRequestFlag(false, ''));
+            // setTimeout(() => { window.location = '/'; }, 2000);
+            return;
+        }
+    } catch (error) {
+        console.log('error', error);
+        yield put(setStatusMessage(ERROR));
+    } finally {
+        yield put(setRequestFlag(false, ''));
+    }
+}
+
+function* agendaRequested({
+
+}) {
+    try {
+        yield put(setRequestFlag(true, LOADING));
+
+        /* let finalId = _id;
+
+        if (!finalId) {
+            const employee = yield select(state => fromState.Session.getEmployee()(state));
+            finalId = get(employee, '_id');
+        } */
+
+        const result = yield call(SessionService.agenda, {
+            branch_id,
+            user_id,
+            ce_id,
+            ss_id,
+            shift_call,
+            shift_duration,
+            shift_date,
+            shift_start,
+            shift_comment
+        });
+
+        console.log('result', result);
+        if (result) {
+            // yield localStorage.setItem('token', token);
+            // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
+            // yield put(branchSucceeded({employees: result}));
+            // yield put(signInSucceeded({user}));
+            // yield put(setRequestFlag(false, ''));
+            // setTimeout(() => { window.location = '/'; }, 2000);
+            return;
+        }
+    } catch (error) {
+        console.log('error', error);
+        yield put(setStatusMessage(ERROR));
+    } finally {
+        yield put(setRequestFlag(false, ''));
+    }
+}
+
 export default function* sessionSaga() {
     yield all([
         takeLatest(SESSION_USER_FETCH_REQUESTED, getSessionUser),
+        takeLatest(LOAD_STORAGE_DATA, loadStorageData),
         takeLatest(SIGN_OUT_REQUESTED, signOut),
         takeLatest(SIGN_IN_REQUEST, signIn),
         takeLatest(REGISTER_REQUEST, register),
@@ -457,6 +667,11 @@ export default function* sessionSaga() {
         takeLatest(REGISTER_EMPLOYEE_AS_ADMIN_REQUEST, registerEmployeeAsAdmin),
         takeLatest(GET_EMPLOYEE_AS_ADMIN_REQUEST, getEmployeeAsAdminRequest),
         takeLatest(MODIFY_EMPLOYEE_AS_ADMIN_REQUEST, modifyEmployeeAsAdminRequest),
-        takeLatest(DELETE_EMPLOYEE_AS_ADMIN_REQUEST, deleteEmployeeAsAdminRequest)
+        takeLatest(DELETE_EMPLOYEE_AS_ADMIN_REQUEST, deleteEmployeeAsAdminRequest),
+        takeLatest(BRANCH_REQUESTED, branchRequested),
+        takeLatest(SECTOR_REQUESTED, sectorRequested),
+        takeLatest(EMPLOYEE_REQUESTED, employeeRequested),
+        takeLatest(SHIFT_REQUESTED, shiftRequested),
+        takeLatest(AGENDA_REQUESTED, agendaRequested)
     ]);
 }

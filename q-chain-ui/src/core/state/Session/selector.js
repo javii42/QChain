@@ -14,3 +14,6 @@ export const getSuccessAction = () => ({session: {success}}) => success;
 export const getStatusMessage = state => pick(get(state, 'session'), ['status', 'message']);
 export const getFlagData = state => pick(get(state, 'session'), ['flagData', 'type']);
 export const getCompany = () => ({session: {company}}) => company;
+export const getBranch = () => ({session: {branch}}) => branch;
+export const getSector = () => ({session: {sector}}) => sector;
+export const getEmployees = () => ({session: {employees}}) => employees;

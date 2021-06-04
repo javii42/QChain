@@ -1,1 +1,11 @@
 @import "~bootstrap/scss/bootstrap";
+
+.btn {
+  color: #fff;
+  background-color: #7d2a84;
+  height: 500px;
+  &:hover {
+    color: #fff;
+    background-color: #b027bd;
+  }
+}
