@@ -13,6 +13,10 @@ const isEmpty = require('lodash/isEmpty');
 const get = require('lodash/get');
 
 const crypto = require('crypto');
+const Web3 = require('web3');
+const {
+    abi
+} = include('enums');
 
 const algorithm = 'aes256'; // or any other algorithm supported by OpenSSL
 const key = 'javii';
@@ -150,6 +154,41 @@ class ShiftService extends CrudService {
         } catch(err) {
             console.log('err', err);
         }
+    }
+
+    async saveBlockChainData(blockchainData, account='0xB8f34ae04a57CfD45f0AD362e9A21Fa7CEE0f377') {
+
+        const web3 = new Web3('wss://mainnet.infura.io/ws')
+
+        const account1 = '' // Your account address 1
+       /* const account2 = '' // Your account address 2
+
+        const privateKey1 = Buffer.from('YOUR_PRIVATE_KEY_1', 'hex')
+        const privateKey2 = Buffer.from('YOUR_PRIVATE_KEY_2', 'hex')*/
+
+        const contractAddress = '0xFBe0Bd313a278079f8155Ee86f8be008E881fFFc';
+
+        const contract = new web3.eth.Contract(abi, contractAddress);
+
+        contract.methods.insertShift(
+            account,
+            1,
+            Date.now(),
+            blockchainData,
+            'javier',
+            true).send( {from: account}).then( function(tx) { 
+            console.log("Transaction: ", tx); 
+        });
+
+        /*const tx = new Tx(txObject)
+        tx.sign(privateKey1)
+      
+        const serializedTx = tx.serialize()
+        const raw = '0x' + serializedTx.toString('hex')
+      
+        web3.eth.sendSignedTransaction(raw, (err, txHash) => {
+          console.log('err:', err, 'txHash:', txHash)
+        })*/
     }
 
 }

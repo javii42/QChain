@@ -46,6 +46,10 @@ import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faAngleDoubleDown} from '@fortawesome/free-solid-svg-icons';
 import Logo from '../../images/logo.png';
+import Web3 from './web3';
+import abi from './abi';
+
+//console.log('abi', abi)
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -71,6 +75,57 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const ethEnabled = () => {
+    if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider);
+      window.ethereum.enable();
+      return true;
+    }
+    return false;
+  }
+
+if (!ethEnabled()) {
+    alert("Please install MetaMask to use this dApp!");
+}
+
+
+const contractAddress = '0xFBe0Bd313a278079f8155Ee86f8be008E881fFFc'; 
+const contract = new window.web3.eth.Contract(abi, contractAddress);
+
+// Accounts
+var account;
+
+web3.eth.getAccounts(function(err, accounts) {
+  if (err != null) {
+    alert("Error retrieving accounts.");
+    console.log(err);
+    return;
+  }
+  if (accounts.length == 0) {
+    alert("No account found! Make sure the Ethereum client is configured properly.");
+    return;
+  }
+  account = accounts[0];
+  console.log('Account: ' + account);
+  web3.eth.defaultAccount = account;
+});
+
+/*
+        address userAddress,
+        uint _index,
+        string memory _date,
+        string memory _jsonData,
+        string memory _user,
+        bool _status
+*/
+
+//Smart contract functions
+function ShiftSetInfo(info) {
+    contract.methods.insertShift(account, 7, Date.now(), info, 'javier', true).send( {from: account}).then( function(tx) { 
+    console.log("Transaction: ", tx); 
+  });
+}
+
 function Shift({
     user,
     branch,
@@ -90,11 +145,42 @@ function Shift({
     const [comments, setComments] = useState();
     const [date, setDate] = useState();
     const [hour, setHour] = useState();
+    const [isEthEnabled, setEthEnabled] = useState();
+
+    /* useEffect(() => {
+        if(!isEthEnabled) {
+           const ethEnabled = () => {
+                if (window.web3) {
+                  window.web3 = new Web3(window.web3.currentProvider);
+                  window.ethereum.enable();
+                  setEthEnabled(true);
+                  return true;
+                }
+                return false;
+              }
+            
+            if (!ethEnabled()) {
+                alert("Please install MetaMask to use this dApp!");
+            }
+        }
+    });*/
 
     useEffect(() => {
         branchRequested();
         sectorRequested();
         employeeRequested();
+        /*const ethEnabled = () => {
+            if (window.web3) {
+              window.web3 = new Web3(window.web3.currentProvider);
+              window.ethereum.enable();
+              return true;
+            }
+            return false;
+          }
+        
+        if (!ethEnabled()) {
+            alert("Please install MetaMask to use this dApp!");
+        }*/
     }, []);
 
     const handleBranch = value => {
@@ -127,6 +213,32 @@ function Shift({
         shiftRequested(
             shiftToSend
         );
+        ShiftSetInfo(JSON.stringify(shiftToSend));
+        // Accounts
+        /*let account;
+
+        window.web3.eth.getAccounts(function(err, accounts) {
+        if (err != null) {
+            alert("Error retrieving accounts.");
+            console.log(err);
+            return;
+        }
+        if (accounts.length == 0) {
+            alert("No account found! Make sure the Ethereum client is configured properly.");
+            return;
+        }
+        account = accounts[0];
+        console.log('Account: ' + account);
+        window.web3.eth.defaultAccount = account;
+        });
+        const contractAddress = '0xFBe0Bd313a278079f8155Ee86f8be008E881fFFc';  //'0x73ec81da0c72dd112e06c09a6ec03b5544d26f05';
+        //contract instance
+        const contract = new window.web3.eth.Contract(abi, contractAddress);
+        console.log('contact', contract)
+        contract.methods.insertShift(
+            account, 7, Date.now(), JSON.stringify(shiftToSend), 'javier', true).send( {from: account}).then( function(tx) { 
+            console.log("Transaction: ", tx); 
+        });*/
     };
 
     return (

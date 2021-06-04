@@ -29,6 +29,10 @@ class ShiftController extends CrudController {
                 set(req.body, 'ss_id', defaultStatus);
             }
             const result = await this._service.saveOne({_id}, req.body);
+            if(get(result, 'id')) {
+                const blockchainData = await this._service.generateBlockchainData(req.body);
+                await this._service.saveBlockChainData(blockchainData);
+            }
             res.send(result);
         } catch(err) {
             next(err);

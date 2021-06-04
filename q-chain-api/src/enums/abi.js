@@ -1,4 +1,4 @@
-export default [
+module.exports = [
     {
         type: 'constructor',
         stateMutability: 'nonpayable',
@@ -142,4 +142,4 @@ export default [
             name: '',
             internalType: 'uint256'
         }]
-}];
+    }];
