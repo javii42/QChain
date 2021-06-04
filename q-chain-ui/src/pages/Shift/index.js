@@ -1,4 +1,4 @@
-/* global window */
+/* global window, localStorage */
 import React, {
     useEffect,
     useState
@@ -38,18 +38,19 @@ import fromState from '@selectors';
 import {
     SessionActions
 } from '@actions';
-import {get, head, random} from 'lodash';
+import {get, map, random} from 'lodash';
 import Dropdown from '@components/common/Dropdown';
 import InputDate from '@components/common/InputDate';
 // import CalendarPicker from '@components/common/CalendarPicker';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faAngleDoubleDown} from '@fortawesome/free-solid-svg-icons';
+import TableList from '@components/common/TableList';
 import Logo from '../../images/logo.png';
 import Web3 from './web3';
 import abi from './abi';
 
-//console.log('abi', abi)
+// console.log('abi', abi)
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -77,37 +78,36 @@ const useStyles = makeStyles(theme => ({
 
 const ethEnabled = () => {
     if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider);
-      window.ethereum.enable();
-      return true;
+        window.web3 = new Web3(window.web3.currentProvider);
+        window.ethereum.enable();
+        return true;
     }
     return false;
-  }
+};
 
 if (!ethEnabled()) {
-    alert("Please install MetaMask to use this dApp!");
+    alert('Please install MetaMask to use this dApp!');
 }
 
-
-const contractAddress = '0xFBe0Bd313a278079f8155Ee86f8be008E881fFFc'; 
+const contractAddress = '0xFBe0Bd313a278079f8155Ee86f8be008E881fFFc';
 const contract = new window.web3.eth.Contract(abi, contractAddress);
 
 // Accounts
-var account;
+let account;
 
-web3.eth.getAccounts(function(err, accounts) {
-  if (err != null) {
-    alert("Error retrieving accounts.");
-    console.log(err);
-    return;
-  }
-  if (accounts.length == 0) {
-    alert("No account found! Make sure the Ethereum client is configured properly.");
-    return;
-  }
-  account = accounts[0];
-  console.log('Account: ' + account);
-  web3.eth.defaultAccount = account;
+web3.eth.getAccounts((err, accounts) => {
+    if (err != null) {
+        alert('Error retrieving accounts.');
+        console.log(err);
+        return;
+    }
+    if (accounts.length == 0) {
+        alert('No account found! Make sure the Ethereum client is configured properly.');
+        return;
+    }
+    account = accounts[0];
+    console.log(`Account: ${account}`);
+    web3.eth.defaultAccount = account;
 });
 
 /*
@@ -119,12 +119,27 @@ web3.eth.getAccounts(function(err, accounts) {
         bool _status
 */
 
-//Smart contract functions
+// Smart contract functions
 function ShiftSetInfo(info) {
-    contract.methods.insertShift(account, 7, Date.now(), info, 'javier', true).send( {from: account}).then( function(tx) { 
-    console.log("Transaction: ", tx); 
-  });
+    contract.methods.insertShift(account, 7, Date.now(), info, 'javier', true).send({from: account}).then(tx => {
+        console.log('Transaction: ', tx);
+    });
 }
+
+function ShiftGetInfo() {
+    contract.methods.getShift(account).call().then(info => {
+        localStorage.setItem('info', JSON.stringify(info));
+        return info;
+    });
+}
+
+const getParsedBlockchain = array => map(array, a => ({
+    0: get(a, '0'),
+    1: get(a, '1'),
+    2: get(a, '2'),
+    3: get(a, '3'),
+    4: get(a, '4')
+}));
 
 function Shift({
     user,
@@ -145,7 +160,7 @@ function Shift({
     const [comments, setComments] = useState();
     const [date, setDate] = useState();
     const [hour, setHour] = useState();
-    const [isEthEnabled, setEthEnabled] = useState();
+    const [blockChainInfo, setBlockChainInfo] = useState();
 
     /* useEffect(() => {
         if(!isEthEnabled) {
@@ -158,18 +173,24 @@ function Shift({
                 }
                 return false;
               }
-            
+
             if (!ethEnabled()) {
                 alert("Please install MetaMask to use this dApp!");
             }
         }
-    });*/
+    }); */
 
     useEffect(() => {
         branchRequested();
         sectorRequested();
         employeeRequested();
-        /*const ethEnabled = () => {
+
+        const info = localStorage.getItem('info');
+        if (info) {
+            setBlockChainInfo(JSON.parse(info));
+        }
+
+        /* const ethEnabled = () => {
             if (window.web3) {
               window.web3 = new Web3(window.web3.currentProvider);
               window.ethereum.enable();
@@ -177,10 +198,10 @@ function Shift({
             }
             return false;
           }
-        
+
         if (!ethEnabled()) {
             alert("Please install MetaMask to use this dApp!");
-        }*/
+        } */
     }, []);
 
     const handleBranch = value => {
@@ -215,7 +236,7 @@ function Shift({
         );
         ShiftSetInfo(JSON.stringify(shiftToSend));
         // Accounts
-        /*let account;
+        /* let account;
 
         window.web3.eth.getAccounts(function(err, accounts) {
         if (err != null) {
@@ -236,9 +257,17 @@ function Shift({
         const contract = new window.web3.eth.Contract(abi, contractAddress);
         console.log('contact', contract)
         contract.methods.insertShift(
-            account, 7, Date.now(), JSON.stringify(shiftToSend), 'javier', true).send( {from: account}).then( function(tx) { 
-            console.log("Transaction: ", tx); 
-        });*/
+            account, 7, Date.now(), JSON.stringify(shiftToSend), 'javier', true).send( {from: account}).then( function(tx) {
+            console.log("Transaction: ", tx);
+        }); */
+    };
+
+    const handleBlockChainInfo = async () => {
+        const value = await ShiftGetInfo();
+        const info = localStorage.getItem('info');
+        if (info) {
+            setBlockChainInfo(JSON.parse(info));
+        }
     };
 
     return (
@@ -299,6 +328,29 @@ function Shift({
                     >
                         Solicitar
                     </Button>
+                </Col>
+                <Col className="align-text-bottom w-25 h-50">
+                    <Button
+                        color="purple h-50 w-25"
+                        onClick={() => handleBlockChainInfo()}
+                    >
+                        Ver informacion de la BLOCKCHAIN
+                    </Button>
+                </Col>
+                <Col style={{marginTop: '100px'}}>
+                    {blockChainInfo && (
+                        <>
+                            {map(getParsedBlockchain(blockChainInfo), info => (
+                                <div key={get(info, '0')}>
+                                    {get(info, '0')}
+                                    {get(info, '1')}
+                                    {get(info, '2')}
+                                    {get(info, '3')}
+                                    {get(info, '4')}
+                                </div>
+                            ))}
+                        </>
+                    )}
                 </Col>
             </Row>
         </Container>

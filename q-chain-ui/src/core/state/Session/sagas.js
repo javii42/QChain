@@ -225,7 +225,6 @@ function* getCompanyAsAdminRequest({
             // setTimeout(() => { window.location = '/'; }, 2000);
             return;
         }
-        console.log('result', result);
         yield put(setStatusMessage(ERROR, get(result, 'status', 'ERROR')));
     } catch (error) {
         console.log('error', error);
@@ -368,7 +367,6 @@ function* getEmployeeAsAdminRequest({
             set(objToSend, 'company_id', get(user, 'company_id'));
         } */
 
-        console.log('objToSend', objToSend);
         const result = yield call(SessionService.getEmployeeAsAdminRequest, objToSend);
 
         if (get(result, '_id')) {
@@ -471,7 +469,6 @@ function* branchRequested({
         yield put(setRequestFlag(true, LOADING));
         const result = yield call(SessionService.branch, '60a9014477e7d70fd6f5990c');
 
-        console.log('branch result', result);
 
         if (result) {
             // yield localStorage.setItem('token', token);
@@ -500,7 +497,6 @@ function* sectorRequested({
 
         const result = yield call(SessionService.sector, '60a9014477e7d70fd6f5990c');
 
-        console.log('sector result', result);
 
         if (result) {
             // yield localStorage.setItem('token', token);
@@ -534,7 +530,6 @@ function* employeeRequested({
 
         const result = yield call(SessionService.employee, '60ac475558b0ef980fba375e');
 
-        console.log('result', result);
         if (result) {
             // yield localStorage.setItem('token', token);
             // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
@@ -583,16 +578,6 @@ function* shiftRequested({
             shift_comment
         });
 
-        console.log('result', {
-            branch_id,
-            user_id,
-            ce_id,
-            shift_call,
-            shift_duration,
-            shift_date,
-            shift_start,
-            shift_comment
-        });
         if (result) {
             // yield localStorage.setItem('token', token);
             // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
