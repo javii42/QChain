@@ -142,7 +142,13 @@ const getParsedBlockchainOld = array => map(array, a => ({
 }));
 
 const getParsedBlockchain = array => map(array, a => {
-    const json = JSON.parse(get(a, '2'));
+    let json;
+    try{
+        json = JSON.parse(get(a, '2'));
+    }
+    catch(e){
+        json = get(a,'2');
+    }
     console.log('json', json);
     return {
         ...json
