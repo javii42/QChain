@@ -31,9 +31,9 @@ import {
 import {
     Media,
     Row,
-    Col,
-    Button
+    Col
 } from 'reactstrap';
+import Button from '@material-ui/core/Button';
 import fromState from '@selectors';
 import {
     SessionActions
@@ -133,13 +133,21 @@ function ShiftGetInfo() {
     });
 }
 
-const getParsedBlockchain = array => map(array, a => ({
+const getParsedBlockchainOld = array => map(array, a => ({
     0: get(a, '0'),
     1: get(a, '1'),
     2: get(a, '2'),
     3: get(a, '3'),
     4: get(a, '4')
 }));
+
+const getParsedBlockchain = array => map(array, a => {
+    const json = JSON.parse(get(a, '2'));
+    console.log('json', json);
+    return {
+        ...json
+    };
+});
 
 function Shift({
     user,
@@ -220,7 +228,8 @@ function Shift({
         setComments(value);
     };
 
-    const handleConfirmation = () => {
+    const handleConfirmation = e => {
+        e.preventDefault();
         const shiftToSend = {
             branch_id: branchValue,
             user_id: get(user, '_id'),
@@ -262,7 +271,8 @@ function Shift({
         }); */
     };
 
-    const handleBlockChainInfo = async () => {
+    const handleBlockChainInfo = async e => {
+        e.preventDefault();
         const value = await ShiftGetInfo();
         const info = localStorage.getItem('info');
         if (info) {
@@ -272,7 +282,7 @@ function Shift({
 
     return (
         <Container>
-            <Row md={8} style={{marginTop: '200px'}} className="ml-5 float-sm-left">
+            <Row md={8} style={{marginTop: '200px', marginBottom: '200px'}} className="ml-5 float-sm-left">
                 <Col className="text-center">
                     <p className="h3 font-weight-bold">Solicitud de turno para [Company name]</p>
                     <Dropdown
@@ -323,35 +333,85 @@ function Shift({
                 </Col>
                 <Col className="align-text-bottom w-25 h-50">
                     <Button
-                        color="purple h-50 w-25"
-                        onClick={() => handleConfirmation()}
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={e => handleConfirmation(e)}
                     >
                         Solicitar
                     </Button>
-                </Col>
-                <Col className="align-text-bottom w-25 h-50">
+
                     <Button
-                        color="purple h-50 w-25"
-                        onClick={() => handleBlockChainInfo()}
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                        onClick={e => handleBlockChainInfo(e)}
                     >
                         Ver informacion de la BLOCKCHAIN
                     </Button>
                 </Col>
-                <Col style={{marginTop: '100px'}}>
-                    {blockChainInfo && (
-                        <>
-                            {map(getParsedBlockchain(blockChainInfo), info => (
-                                <div key={get(info, '0')}>
-                                    {get(info, '0')}
-                                    {get(info, '1')}
-                                    {get(info, '2')}
-                                    {get(info, '3')}
-                                    {get(info, '4')}
-                                </div>
-                            ))}
-                        </>
-                    )}
-                </Col>
+                <Col className="align-text-bottom w-25 h-50"/>
+            </Row>
+            <Row style={{marginTop: '500px'}}>
+                {blockChainInfo && (
+                    <TableList
+                        information={getParsedBlockchain(blockChainInfo)}
+                        primaryKey="id"
+                        headers={[
+                            {label: 'Sucursal'},
+                            {label: 'Empleado'},
+                            {label: 'Llamadas al turno'},
+                            {label: 'Comentario'},
+                            {label: 'Fecha'},
+                            {label: 'Duración'},
+                            {label: 'Comienzo'},
+                            {label: ' Usuario '}
+                        ]}
+                        columns={[
+                            {
+                                draw: true,
+                                text: 'Sucursal',
+                                label: 'branch_id'
+                            },
+                            {
+                                draw: true,
+                                text: 'Empleado',
+                                label: 'ce_id'
+                            },
+                            {
+                                draw: true,
+                                text: 'Llamadas al turno',
+                                label: 'ce_id'
+                            },
+                            {
+                                draw: true,
+                                text: 'Comentario',
+                                label: 'shift_comment'
+                            },
+                            {
+                                draw: true,
+                                text: 'Fecha',
+                                label: 'shift_date'
+                            },
+                            {
+                                draw: true,
+                                text: 'Duración',
+                                label: 'shift_duration'
+                            },
+                            {
+                                draw: true,
+                                text: 'Comienzo',
+                                label: 'shift_start'
+                            },
+                            {
+                                draw: true,
+                                text: 'Usuario',
+                                label: 'user_id'
+                            }
+                        ]}
+                    />
+                )}
             </Row>
         </Container>
     );
