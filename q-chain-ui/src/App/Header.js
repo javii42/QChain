@@ -6,9 +6,6 @@ import {
     withRouter,
     Link
 } from 'react-router-dom';
-import {
-    Media
-} from 'reactstrap';
 import {connect} from 'react-redux';
 import clsx from 'clsx';
 import {fade, makeStyles} from '@material-ui/core/styles';
@@ -44,6 +41,28 @@ import {
     secondaryListItems
 } from './listItems';
 import Logo from '../images/logo.png';
+import {
+    Row,
+    Col,
+    Media
+} from 'reactstrap';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {
+    faSquare
+} from '@fortawesome/free-regular-svg-icons';
+import {
+    faAngleDoubleDown,
+    faCheckCircle,
+    faTimesCircle,
+    faCheckSquare,
+    faSearch,
+    faClock,
+    faBriefcase,
+    faPuzzlePiece
+} from '@fortawesome/free-solid-svg-icons';
+import Logo from '../images/logo.png';
+import DataFiscal from '../images/data_fiscal.jpg';
+
 
 const useStyles = makeStyles(theme => ({
     grow: {
@@ -108,7 +127,7 @@ const useStyles = makeStyles(theme => ({
         }
     },
     appBar: {
-        backgroundColor: '#7d2a84'
+        backgroundColor: '#cba9dc'
     }
 }));
 
@@ -173,7 +192,7 @@ const Header = ({
                 position="absolute"
                 className={clsx(classes.appBar, open && classes.appBarShift)}
             >
-                <Toolbar className={classes.toolbar}>
+                <Toolbar>
                     <IconButton
                         edge="start"
                         color="inherit"
@@ -349,7 +368,6 @@ Header.defaultProps = {
 const mapStateToProps = state => ({
     user: fromState.Session.getUser()(state)
 });
-
 
 const {
     requestSignOut,

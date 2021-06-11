@@ -60,6 +60,10 @@ export default class SessionService {
         return Http.put(API.registerCompanyAsAdmin, body);
     }
 
+    static updateShift(body) {
+        return Http.put(API.shift, body);
+    }
+
     static deleteCompanyAsAdminRequest(body) {
         return Http.delete(API.registerCompanyAsAdmin, body);
     }
@@ -126,6 +130,14 @@ export default class SessionService {
 
     static employee(param) {
         return Http.get(`${API.employee}/${param}`);
+    }
+
+    static shifts(params) {
+        return Http.get(`${API.shift}?${queryToString(params)}`);
+    }
+
+    static companies() {
+        return Http.get(API.companies);
     }
 
     static shift(body) {

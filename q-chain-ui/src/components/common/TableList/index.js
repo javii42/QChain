@@ -1,14 +1,19 @@
 /* global window */
 /* eslint-disable react/prop-types */
 import React, {useState} from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import {Table} from 'reactstrap';
 import {get, map, uniqueId} from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
+import {
+    SessionActions
+} from '@actions';
+import fromState from '@selectors';
 import Pages from './Pages';
 import Item from './Item';
 import MobileItem from './MobileItem';
-
 
 /**
  * @param {Object} Object
@@ -67,6 +72,7 @@ import MobileItem from './MobileItem';
  * ]
  */
 const TableList = ({
+    updateShift,
     information,
     primaryKey,
     headers,
@@ -78,6 +84,7 @@ const TableList = ({
     total
 }) => {
     const [isMobile, setIsMobile] = useState(false);
+    const [popup, setPopup] = useState();
     let widthOutput = window.innerWidth;
     if (widthOutput < 1000 && !isMobile) {
         setIsMobile(true);
@@ -99,6 +106,10 @@ const TableList = ({
     }
 
     window.onresize = reportWindowSize;
+
+    const handlePopup = value => {
+        setPopup(value);
+    };
 
     if (isMobile) {
         return (
@@ -151,6 +162,10 @@ const TableList = ({
                         columns={columns}
                         onDelete={onDelete}
                         onRecoveryPassword={onRecoveryPassword}
+                        handlePopup={() => handlePopup(info)}
+                        closePopup={() => handlePopup(false)}
+                        updateShift={updateShift}
+                        popup={popup}
                     />
                 ))}
             </tbody>
@@ -171,4 +186,16 @@ const TableList = ({
     );
 };
 
-export default TableList;
+const {
+    updateShift
+} = SessionActions;
+
+const mapStateToProps = state => ({
+    companies: fromState.Session.getCompanies()(state)
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+    updateShift
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(TableList);

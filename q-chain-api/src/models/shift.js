@@ -17,6 +17,12 @@ const Shift = new Schema({
         required: true,
         ref: 'user'
     },
+    company_name: {
+        type: String
+    },
+    employee_name: {
+        type: String
+    },
     ce_id: {
         type: ObjectId,
         required: true,
@@ -40,6 +46,12 @@ const Shift = new Schema({
         type: Date
     },
     shift_comment: {
+        type: String
+    },
+    shift_status: {
+        type: String
+    },
+    shift_address: {
         type: String
     }
 }, {

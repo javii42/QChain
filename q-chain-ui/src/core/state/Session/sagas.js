@@ -46,7 +46,10 @@ import {
     SECTOR_REQUESTED,
     EMPLOYEE_REQUESTED,
     SHIFT_REQUESTED,
-    AGENDA_REQUESTED
+    SHIFTS_REQUESTED,
+    AGENDA_REQUESTED,
+    COMPANIES_REQUESTED,
+    UPDATE_SHIFT
 } from './types';
 
 import {
@@ -60,7 +63,9 @@ import {
     getEmployeeAsAdminSucceeded,
     branchSucceeded,
     sectorSucceeded,
-    employeeSucceeded
+    employeeSucceeded,
+    companiesSucceeded,
+    shiftsSucceeded
 } from './actions';
 
 function* signOut() {
@@ -469,7 +474,6 @@ function* branchRequested({
         yield put(setRequestFlag(true, LOADING));
         const result = yield call(SessionService.branch, '60a9014477e7d70fd6f5990c');
 
-
         if (result) {
             // yield localStorage.setItem('token', token);
             // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
@@ -496,7 +500,6 @@ function* sectorRequested({
         yield put(setRequestFlag(true, LOADING));
 
         const result = yield call(SessionService.sector, '60a9014477e7d70fd6f5990c');
-
 
         if (result) {
             // yield localStorage.setItem('token', token);
@@ -550,12 +553,16 @@ function* employeeRequested({
 function* shiftRequested({
     branch_id,
     user_id,
+    company_name,
+    employee_name,
+    shift_address,
     ce_id,
     shift_call,
     shift_duration,
     shift_date,
     shift_start,
-    shift_comment
+    shift_comment,
+    shift_status
 }) {
     try {
         yield put(setRequestFlag(true, LOADING));
@@ -567,15 +574,21 @@ function* shiftRequested({
             finalId = get(employee, '_id');
         } */
 
+        console.log(shift_address);
+
         const result = yield call(SessionService.shift, {
             branch_id,
             user_id,
+            company_name,
+            employee_name,
+            shift_address,
             ce_id,
             shift_call,
             shift_duration,
             shift_date,
             shift_start,
-            shift_comment
+            shift_comment,
+            shift_status
         });
 
         if (result) {
@@ -620,8 +633,111 @@ function* agendaRequested({
             shift_comment
         });
 
+        if (result) {
+            // yield localStorage.setItem('token', token);
+            // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
+            // yield put(branchSucceeded({employees: result}));
+            // yield put(signInSucceeded({user}));
+            // yield put(setRequestFlag(false, ''));
+            // setTimeout(() => { window.location = '/'; }, 2000);
+            return;
+        }
+    } catch (error) {
+        console.log('error', error);
+        yield put(setStatusMessage(ERROR));
+    } finally {
+        yield put(setRequestFlag(false, ''));
+    }
+}
+
+function* companiesRequested({}) {
+    try {
+        yield put(setRequestFlag(true, LOADING));
+
+        const result = yield call(SessionService.companies);
+
+        if (result) {
+            yield put(companiesSucceeded({companies: result}));
+            // yield localStorage.setItem('token', token);
+            // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
+            // yield put(branchSucceeded({employees: result}));
+            // yield put(signInSucceeded({user}));
+            // yield put(setRequestFlag(false, ''));
+            // setTimeout(() => { window.location = '/'; }, 2000);
+            return;
+        }
+    } catch (error) {
+        console.log('error', error);
+        yield put(setStatusMessage(ERROR));
+    } finally {
+        yield put(setRequestFlag(false, ''));
+    }
+}
+
+function* shiftsRequested({
+    user_id
+}) {
+    try {
+        yield put(setRequestFlag(true, LOADING));
+
+        const result = yield call(SessionService.shifts, {user_id});
+
         console.log('result', result);
         if (result) {
+            yield put(shiftsSucceeded({shifts: result}));
+            // yield localStorage.setItem('token', token);
+            // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
+            // yield put(branchSucceeded({employees: result}));
+            // yield put(signInSucceeded({user}));
+            // yield put(setRequestFlag(false, ''));
+            // setTimeout(() => { window.location = '/'; }, 2000);
+            return;
+        }
+    } catch (error) {
+        console.log('error', error);
+        yield put(setStatusMessage(ERROR));
+    } finally {
+        yield put(setRequestFlag(false, ''));
+    }
+}
+
+function* updateShift({
+    _id,
+    branch_id,
+    user_id,
+    company_name,
+    employee_name,
+    ce_id,
+    shift_call,
+    shift_duration,
+    shift_date,
+    shift_start,
+    shift_comment,
+    shift_address,
+    shift_status
+}) {
+    try {
+        yield put(setRequestFlag(true, LOADING));
+
+        const result = yield call(SessionService.updateShift, {
+            _id,
+            branch_id,
+            user_id,
+            company_name,
+            employee_name,
+            ce_id,
+            shift_call,
+            shift_duration,
+            shift_date,
+            shift_start,
+            shift_comment,
+            shift_status,
+            shift_address
+        });
+
+        console.log('result', result);
+        if (result) {
+            yield put(shiftsSucceeded({shifts: result}));
             // yield localStorage.setItem('token', token);
             // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
             // yield put(branchSucceeded({employees: result}));
@@ -657,6 +773,9 @@ export default function* sessionSaga() {
         takeLatest(SECTOR_REQUESTED, sectorRequested),
         takeLatest(EMPLOYEE_REQUESTED, employeeRequested),
         takeLatest(SHIFT_REQUESTED, shiftRequested),
-        takeLatest(AGENDA_REQUESTED, agendaRequested)
+        takeLatest(SHIFTS_REQUESTED, shiftsRequested),
+        takeLatest(AGENDA_REQUESTED, agendaRequested),
+        takeLatest(COMPANIES_REQUESTED, companiesRequested),
+        takeLatest(UPDATE_SHIFT, updateShift)
     ]);
 }

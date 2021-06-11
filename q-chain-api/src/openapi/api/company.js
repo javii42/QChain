@@ -451,5 +451,23 @@ module.exports = {
                 }
             }
         }
+    },
+    '/api/company': {
+        get: {
+            operationId: 'getCompanies',
+            security: [{}],
+            description: 'Traer compañías en el sistema QChain',
+            tags: ['companyAPI'],
+            responses: {
+                200: {
+                    description: 'login success',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Profile' } } }
+                },
+                default: {
+                    description: 'Error',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+                }
+            }
+        }
     }
 };

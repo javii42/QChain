@@ -20,7 +20,7 @@ module.exports = router => {
     router.delete('/generic', UserController.delete);
     router.post('/shift', ShiftController.register);
     router.put('/shift', ShiftController.update);
-    router.get('/shift', ShiftController.fetchOneByQuery);
+    router.get('/shift', ShiftController.fetchManyByQuery);
     router.get('/branch/:company_id', BranchController.fetchManyByParams);
     router.get('/sector/:company_id', CompanySectorController.fetchManyByParams);
     router.get('/employees/:branch_id', UserController.fetchEmployeesByBranch);

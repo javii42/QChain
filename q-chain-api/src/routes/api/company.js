@@ -11,6 +11,7 @@ const {
 } = include('controllers');
 
 module.exports = router => {
+    router.get('/', CompanyController.fetchManyByQuery);
     router.post('/generic', CompanyController.register, UserController.registerForCompany, CompanyEmployeeController.register);
     router.get('/generic', CompanyController.fetchOneByQuery);
     router.put('/generic', CompanyController.update);

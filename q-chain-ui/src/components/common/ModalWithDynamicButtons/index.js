@@ -40,7 +40,7 @@ const ModalWithDynamicButtons = ({
         <Modal
             isOpen
             centered
-            toggle={closed ? false : toggleFunction}
+            toggle={toggleFunction}
             size={large ? 'lg' : null}
         >
             {title && (

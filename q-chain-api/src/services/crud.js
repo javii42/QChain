@@ -26,15 +26,7 @@ module.exports = class Common {
      * @param {Object} filters
      * @returns {Array<Object>}
      */
-    fetch(filters, skip, size) {
-        if (skip !== undefined) {
-            return this._model
-                .find(filters)
-                .skip(skip * size || 0)
-                .limit(size)
-                .lean()
-                .exec();
-        }
+    fetch(filters) {
         return this._model.find(filters).lean().exec();
     }
 

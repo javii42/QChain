@@ -21,7 +21,6 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Statistics from './Statistics';
 
-
 const useStyles = makeStyles(theme => ({
     icon: {
         marginRight: theme.spacing(2)
@@ -65,10 +64,10 @@ const useStyles = makeStyles(theme => ({
     },
     iconButton: {
         color: '#fff',
-        backgroundColor: '#7d2a84',
+        backgroundColor: '#cba9dc',
         borderRadius: 3,
         '&:hover': {
-            background: '#7d2a84'
+            background: '#cba9dc'
         }
     },
     divider: {
@@ -84,7 +83,8 @@ export default function Album() {
 
     return (
         <div style={{
-            marginTop: '200px'
+            marginTop: '30px',
+            marginBottom: '50px'
         }}
         >
             <Statistics/>

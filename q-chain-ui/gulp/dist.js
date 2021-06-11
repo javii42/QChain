@@ -19,8 +19,7 @@ const distPackage = () => src('./package*.json')
             return json;
         }, {end_with_newline: true}
     ))
-    .pipe(dest('dist/'));
-
+    .pipe(dest('./dist/'));
 
 const eslint = () => src(config.eslint.src)
     .pipe($.eslint())

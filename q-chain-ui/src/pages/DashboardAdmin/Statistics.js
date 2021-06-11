@@ -62,7 +62,6 @@ function getData() {
     return data;
 }
 
-
 // BarChart
 class BarChart extends React.Component {
     constructor(props) {
@@ -109,7 +108,6 @@ class BarChart extends React.Component {
         );
     }
 }
-
 
 // LineChart
 class LineChart extends React.Component {
@@ -168,7 +166,6 @@ class LineChart extends React.Component {
     }
 }
 
-
 // Doughnut
 class DoughnutChart extends React.Component {
     constructor(props) {
@@ -198,12 +195,10 @@ class DoughnutChart extends React.Component {
         });
     }
 
-
     render() {
         return <canvas ref={this.canvasRef}/>;
     }
 }
-
 
 // App
 class App extends React.Component {
@@ -230,28 +225,28 @@ class App extends React.Component {
                     <LineChart
                         data={this.state.data[0].data}
                         title={this.state.data[0].title}
-                        color="#7d2a84"
+                        color="#cba9dc"
                     />
                 </div>
                 <div className="sub chart-wrapper">
                     <BarChart
                         data={this.state.data[1].data}
                         title={this.state.data[1].title}
-                        color="#7d2a84"
+                        color="#cba9dc"
                     />
                 </div>
                 <div className="sub chart-wrapper">
                     <BarChart
                         data={this.state.data[2].data}
                         title={this.state.data[2].title}
-                        color="#7d2a84"
+                        color="#cba9dc"
                     />
                 </div>
                 <div className="sub chart-wrapper">
                     <DoughnutChart
                         data={this.state.data[3].data}
                         title={this.state.data[3].title}
-                        colors={['#7d2a84', '#7d2a84', '#7d2a84', '#7d2a84', '#7d2a84', '#7d2a84']}
+                        colors={['#cba9dc', '#cba9dc', '#cba9dc', '#cba9dc', '#cba9dc', '#cba9dc']}
                     />
                 </div>
             </div>

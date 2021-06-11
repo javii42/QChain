@@ -9,6 +9,7 @@ class CommonController {
         this.fetch = this.fetch.bind(this);
         this.fetchOneByParams = this.fetchOneByParams.bind(this);
         this.fetchOneByQuery = this.fetchOneByQuery.bind(this);
+        this.fetchManyByQuery = this.fetchManyByQuery.bind(this);
         this.fetchManyByParams = this.fetchManyByParams.bind(this);
         this.fetchOneByBody = this.fetchOneByBody.bind(this);
         this.fetchManyByBody = this.fetchManyByBody.bind(this);
@@ -111,6 +112,21 @@ class CommonController {
     async fetchOneByQuery(req, res, next) {
         try {
             const result = await this._service.fetchOne(req.query);
+            res.send(result);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+
+    /**
+     * Query that where passed using express
+     * will send the first occurrence that match the query
+     */
+     async fetchManyByQuery(req, res, next) {
+        try {
+            const result = await this._service.fetch(req.query);
+            console.log(result, req.query);
             res.send(result);
         } catch (err) {
             next(err);

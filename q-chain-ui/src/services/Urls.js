@@ -8,3 +8,4 @@ export const branch = `${api}/user/branch`;
 export const sector = `${api}/user/sector`;
 export const employee = `${api}/user/employees`;
 export const shift = `${api}/user/shift`;
+export const companies = `${api}/company`;

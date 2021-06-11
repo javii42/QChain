@@ -49,7 +49,6 @@ export const mainListItems = (
     </div>
 );
 
-
 export const mainListItemsAdmin = (
     <div>
         <ListItem
@@ -100,7 +99,37 @@ export const mainListItemsAdmin = (
             <ListItemIcon>
                 <DomainDisabledIcon/>
             </ListItemIcon>
-            <ListItemText primary="Gestionar turnos"/>
+            <ListItemText primary="Solicitar turno"/>
+        </ListItem>
+        <ListItem
+            button
+            component={Link}
+            to="/myShifts"
+        >
+            <ListItemIcon>
+                <DomainDisabledIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Visualizar turnos"/>
+        </ListItem>
+        <ListItem
+            button
+            component={Link}
+            to="/myShiftsUser"
+        >
+            <ListItemIcon>
+                <DomainDisabledIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Visualizar turnos como usuario"/>
+        </ListItem>
+        <ListItem
+            button
+            component={Link}
+            to="/myAgenda"
+        >
+            <ListItemIcon>
+                <DomainDisabledIcon/>
+            </ListItemIcon>
+            <ListItemText primary="Mi agenda"/>
         </ListItem>
         <ListItem button>
             <ListItemIcon>
@@ -116,7 +145,6 @@ export const mainListItemsAdmin = (
         </ListItem>
     </div>
 );
-
 
 export const mainListItemsAdminEmployee = (
     <div>

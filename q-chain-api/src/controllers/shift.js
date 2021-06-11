@@ -45,10 +45,10 @@ class ShiftController extends CrudController {
                 _id,
                 ...props
             } = req.body;
-
-            const blockchainData = await this._service.generateBlockchainData(req.body);
-            console.log('blockchainData', blockchainData);
-            res.send(blockchainData);
+            await this._service.saveOne({_id}, props);
+            //const blockchainData = await this._service.generateBlockchainData(req.body);
+            //console.log('blockchainData', blockchainData);
+            res.send(await this._service.fetch({}));
         } catch(err) {
             next(err);
         }

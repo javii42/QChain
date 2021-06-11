@@ -36,7 +36,12 @@ import {
     SHIFT_REQUESTED,
     SHIFT_SUCCEEDED,
     AGENDA_REQUESTED,
-    AGENDA_SUCCEEDED
+    AGENDA_SUCCEEDED,
+    COMPANIES_REQUESTED,
+    COMPANIES_SUCCEEDED,
+    SHIFTS_REQUESTED,
+    SHIFTS_SUCCEEDED,
+    UPDATE_SHIFT
 } from './types';
 
 export const signInRequested = ({...props}) => ({
@@ -105,5 +110,10 @@ export const employeeRequested = constant({type: EMPLOYEE_REQUESTED});
 export const employeeSucceeded = props => ({type: EMPLOYEE_SUCCEEDED, ...props});
 export const shiftRequested = ({...props}) => ({type: SHIFT_REQUESTED, ...props});
 export const shiftSucceeded = props => ({type: SHIFT_SUCCEEDED, ...props});
+export const shiftsRequested = ({...props}) => ({type: SHIFTS_REQUESTED, ...props});
+export const shiftsSucceeded = props => ({type: SHIFTS_SUCCEEDED, ...props});
 export const agendaRequested = constant({type: AGENDA_REQUESTED});
 export const agendaSucceeded = props => ({type: AGENDA_SUCCEEDED, ...props});
+export const companiesRequested = constant({type: COMPANIES_REQUESTED});
+export const companiesSucceeded = props => ({type: COMPANIES_SUCCEEDED, ...props});
+export const updateShift = props => ({type: UPDATE_SHIFT, ...props});

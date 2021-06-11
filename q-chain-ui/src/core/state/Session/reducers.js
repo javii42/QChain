@@ -15,7 +15,9 @@ import {
     BRANCH_SUCCEEDED,
     SECTOR_SUCCEEDED,
     EMPLOYEE_SUCCEEDED,
-    AGENDA_SUCCEEDED
+    AGENDA_SUCCEEDED,
+    COMPANIES_SUCCEEDED,
+    SHIFTS_SUCCEEDED
 } from './types';
 
 export default function session(
@@ -33,7 +35,9 @@ export default function session(
         geography: {},
         branch: [],
         sector: [],
-        employees: []
+        employees: [],
+        companies: [],
+        shifts: []
     },
     {type, ...props}
 ) {
@@ -67,6 +71,8 @@ export default function session(
         case SECTOR_SUCCEEDED:
         case EMPLOYEE_SUCCEEDED:
         case AGENDA_SUCCEEDED:
+        case COMPANIES_SUCCEEDED:
+        case SHIFTS_SUCCEEDED:
             return {
                 ...state,
                 ...props

@@ -1,1 +1,256 @@
 @import "~bootstrap/scss/bootstrap";
+
+.gray-line {
+    margin-top: 8rem;
+    border-left: 1.5px solid gray;
+    height: 150px;
+  }
+
+.react-btn {
+  background-color: #cba9dc !important;
+  border: 0;
+  &:hover {
+    background-color: #cba9dc;
+  }
+  &:active {
+    background-color: #cba9dc;
+  }
+  &:focus {
+    background-color: #cba9dc;
+  }
+  &:visited {
+    background-color: #cba9dc;
+  }
+  &:focus, &.focus, &:active:focus, &:active.focus {
+    background-color: #cba9dc;
+  }
+}
+
+.purple-title {
+    color: rgba(104, 22, 104, 0.651);    
+}
+
+.purple-link {
+    margin-top: 10px;
+    color: rgba(104, 22, 104, 0.651);
+    &:hover {
+        color: rgba(167, 50, 167, 0.651);
+      }
+}
+
+.icon-position {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.gray-text {
+    color: gray;
+    font-size: 15px;
+}
+
+.text-small {
+  margin: 0;
+  font-size: 13.5px;
+}
+
+.text-medium {
+  margin: 0;
+    font-size: 20px;
+}
+
+.soft-gray-text-small {
+  margin: 0;
+  color: rgb(168, 168, 168);
+    font-size: 10px;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.square-buttons {
+  height: 150px;
+  width: 150px;
+  margin: 75px 10px 75px 10px;
+  padding: 10px 10px 10px 10px;
+  border: 1px solid rgba(148, 148, 148, 0.281);
+  color: gray;
+  background-color: transparent;
+  &:hover {
+    box-shadow: none;
+    background-color: #cba9dc;
+  }
+  &:active {
+    box-shadow: none;
+    background-color: rgb(131, 29, 131);
+  }
+  &:focus {
+    box-shadow: none;
+    background-color: rgb(131, 29, 131);
+  }
+  &:visited {
+    box-shadow: none;
+    background-color: rgb(131, 29, 131);
+  }
+  &:focus, &.focus, &:active:focus, &:active.focus {
+    box-shadow: none;
+    background-color: rgb(131, 29, 131);
+  }
+}
+
+ul {
+  list-style-type: none;
+}
+
+.icon-status {
+  position: absolute;
+  top: 3px;
+  right: 40px;
+}
+
+.icon-status-text {
+  position: absolute;
+  top: 30px;
+  right: 42px;
+}
+
+.graphic-table {
+  width: 50px;
+  align-content: center;
+  border: 1px solid rgba(148, 148, 148, 0.281);
+}
+
+.bar-graph .year {
+  -webkit-animation: fade-in-text 2.2s 0.1s forwards;
+  -moz-animation: fade-in-text 2.2s 0.1s forwards;
+  animation: fade-in-text 2.2s 0.1s forwards;
+}
+
+.bar-graph-vertical {
+  margin-top: 80px;
+  max-width: 680px;
+}
+
+.bar-graph-vertical .bar-container {
+  align-content: center;
+  float: left;
+  height: 300px;
+  margin-right: 4px;
+  position: relative;
+  text-align: center;
+  width: 130px;
+}
+
+.bar-graph-vertical .bar {
+  border-radius: 3px;
+  bottom: 40px;
+  position: absolute;
+  width: 40px;
+  margin-left: 48px;
+}
+
+.bar-graph-vertical .year {
+  margin: 0;
+  color: rgb(168, 168, 168);
+  font-size: 15px;
+  bottom: 15px;
+  left: 0;
+  margin: 0 auto;
+  position: absolute;
+  right: 0;
+}
+
+.bar-graph-two .bar::after {
+  -webkit-animation: fade-in-text 2.2s 0.1s forwards;
+  -moz-animation: fade-in-text 2.2s 0.1s forwards;
+  animation: fade-in-text 2.2s 0.1s forwards;
+  color: #fff;
+  content: attr(data-percentage);
+  font-weight: 700;
+  left: 0;
+  margin: 0 auto;
+  position: absolute;
+  right: 0;
+  text-align: left;
+  top: 24px;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+.bar-graph-two .bar-one .bar {
+  background-color: rgb(131, 29, 131);
+  -webkit-animation: show-bar-one-vertical 1.2s 0.1s forwards;
+  -moz-animation: show-bar-one-vertical 1.2s 0.1s forwards;
+  animation: show-bar-one-vertical 1.2s 0.1s forwards;
+}
+
+.bar-graph-two .bar-two .bar {
+  background-color: rgb(131, 29, 131);
+  -webkit-animation: show-bar-two-vertical 1.2s 0.2s forwards;
+  -moz-animation: show-bar-two-vertical 1.2s 0.2s forwards;
+  animation: show-bar-two-vertical 1.2s 0.2s forwards;
+}
+
+.bar-graph-two .bar-three .bar {
+  background-color: rgb(131, 29, 131);
+  -webkit-animation: show-bar-three-vertical 1.2s 0.3s forwards;
+  -moz-animation: show-bar-three-vertical 1.2s 0.3s forwards;
+  animation: show-bar-three-vertical 1.2s 0.3s forwards;
+}
+
+.bar-graph-two .bar-four .bar {
+  background-color: rgb(131, 29, 131);
+  -webkit-animation: show-bar-four-vertical 1.2s 0.4s forwards;
+  -moz-animation: show-bar-four-vertical 1.2s 0.4s forwards;
+  animation: show-bar-four-vertical 1.2s 0.4s forwards;
+}
+
+/* Bar Graph Vertical Animations */
+@-webkit-keyframes show-bar-one-vertical {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 40%;
+  }
+}
+
+@-webkit-keyframes show-bar-two-vertical {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 55%;
+  }
+}
+
+@-webkit-keyframes show-bar-three-vertical {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 68%;
+  }
+}
+
+@-webkit-keyframes show-bar-four-vertical {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 82%;
+  }
+}
+
+@-webkit-keyframes fade-in-text {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

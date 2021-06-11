@@ -257,6 +257,8 @@ module.exports = {
                             required: [
                                 'branch_id',
                                 'user_id',
+                                'company_name',
+                                'employee_name',
                                 'ce_id',
                                 'shift_call',
                                 'shift_duration',
@@ -267,13 +269,17 @@ module.exports = {
                             properties: {
                                 branch_id: { type: 'string' },
                                 user_id: { type: 'string' },
+                                company_name: { type: 'string' },
+                                employee_name: { type: 'string' },
                                 ce_id: { type: 'string' },
                                 ss_id: { type: 'string' },
                                 shift_call: { type: 'integer' },
+                                shift_address: {type: 'string'},
                                 shift_duration: { type: 'string' },
                                 shift_date: { type: 'string' },
                                 shift_start: { type: 'string' },
-                                shift_comment: { type: 'string' }
+                                shift_comment: { type: 'string' },
+                                shift_status: { type: 'string' }
                             }
                         }
                     }
@@ -292,20 +298,17 @@ module.exports = {
         },
         get: {
             operationId: 'getShifts',
-            security: [{bearerAuth: []}],
+            security: [{}],
             description: 'Traer turnos de una compañía en el sistema QChain',
             tags: ['userAPI'],
-            requestBody: {
-                description: 'Descripción, ',
-                required: true,
-                content: {
-                    'application/json': {
-                        schema: {
-                            type: 'object'
-                        }
-                    }
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'user_id',
+                    schema: {type: 'string'},
+                    required: true
                 }
-            },
+            ],
             responses: {
                 200: {
                     description: 'login success',
@@ -330,11 +333,10 @@ module.exports = {
                         schema: {
                             type: 'object',
                             required: [
-                                'shift_id',
+                                '_id',
                                 'branch_id',
                                 'user_id',
                                 'ce_id',
-                                'ss_id',
                                 'shift_call',
                                 'shift_duration',
                                 'shift_date',
@@ -342,11 +344,12 @@ module.exports = {
                                 'shift_comment'
                             ],
                             properties: {
-                                shift_id: { type: 'string' },
+                                _id: { type: 'string' },
                                 branch_id: { type: 'string' },
                                 user_id: { type: 'string' },
                                 ce_id: { type: 'string' },
                                 ss_id: { type: 'string' },
+                                shift_address: {type: 'string'},
                                 shift_call: { type: 'integer' },
                                 shift_duration: { type: 'string' },
                                 shift_date: { type: 'string' },

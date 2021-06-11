@@ -27,7 +27,7 @@ import {
     Media
 } from 'reactstrap';
 import {get} from 'lodash';
-import Logo from '../../images/logo.png';
+import Logo from '../../images/logo_2.png';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -46,9 +46,9 @@ const useStyles = makeStyles(theme => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
-        backgroundColor: '#7d2a84',
+        backgroundColor: '#cba9dc',
         '&:hover': {
-            background: '#7d2a84'
+            background: '#cba9dc'
         }
     }
 }));
@@ -71,7 +71,6 @@ export default function SignUp({
             user_doc_number: ''
         }
     );
-
 
     const handleChange = event => {
         setData({...data, [event.target.name]: event.target.value});

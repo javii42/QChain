@@ -5,7 +5,7 @@ import FadeDrop from '@components/FadeDrop';
 import ToastMessage from '@components/ToastMessage';
 
 import Footer from './Footer';
-import Header from './Header';
+import Header from './newHeader';
 import Routes from './Routes';
 import ErrorBoundary from './ErrorBoundary';
 
