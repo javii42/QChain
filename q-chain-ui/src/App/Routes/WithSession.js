@@ -5,7 +5,7 @@ import React, {
 } from 'react';
 import {HashRouter, Route, Switch} from 'react-router-dom';
 
-import DashboardAdmin from '@pages/DashboardAdmin';
+import DashboardUser from '@pages/DashboardUser';
 import GenericDashboard from '@pages/Dashboard';
 import RegisterCompanyAsAdmin from '@pages/RegisterCompanyAsAdmin';
 import ModifyCompanyAsAdmin from '@pages/ModifyCompanyAsAdmin';
@@ -16,7 +16,6 @@ import DeleteEmployee from '@pages/DeleteEmployee';
 import Shift from '@pages/Shift';
 import ShiftTable from '@pages/ShiftTable';
 import AgendaTable from '@pages/AgendaTable';
-import DashboardUser from '@pages/DashboardUser';
 
 import {
     get, isPlainObject, isString
@@ -65,7 +64,7 @@ const RouterWithSession = () => {
                 <Route exact path="/myAgenda" component={AgendaTable}/>
                 <Route exact path="/dashboardUser" component={DashboardUser}/>
                 {role !== 'Genérico'
-                    ? <Route component={DashboardAdmin}/> : <Route component={GenericDashboard}/>}
+                    ? <Route component={DashboardUser}/> : <Route component={GenericDashboard}/>}
             </Switch>
         </HashRouter>
     );
