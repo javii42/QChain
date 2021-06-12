@@ -15,7 +15,7 @@ import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+// import Container from '@material-ui/core/Container';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -30,6 +30,7 @@ import {
     KeyboardDatePicker
 } from '@material-ui/pickers';
 import {
+    Container,
     Media,
     Row,
     Col
@@ -48,7 +49,7 @@ import {
 } from 'lodash';
 import Dropdown from '@components/common/Dropdown';
 import InputDate from '@components/common/InputDate';
-// import CalendarPicker from '@components/common/CalendarPicker';
+import CalendarPicker from '@components/common/CalendarPicker';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faAngleDoubleDown} from '@fortawesome/free-solid-svg-icons';
@@ -75,6 +76,9 @@ const useStyles = makeStyles(theme => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+        width: '300px',
+        height: '80px',
+        fontSize: '19px',
         backgroundColor: '#cba9dc',
         '&:hover': {
             background: '#cba9dc'
@@ -170,9 +174,9 @@ function Shift({
     };
 
     return (
-        <>
-            <Row className="mt-5 ml-3">
-                <Col className="text-center">
+        <div className="mx-auto ml-5">
+            <Row className="mt-5 ml-5 mr-0">
+                <Col className="text-center mx-auto">
                     <p className="h3 font-weight-bold">
                         Solicitud de turno para
                         {' '}
@@ -222,9 +226,12 @@ function Shift({
                         setDate={setDate}
                         setHour={setHour}
                     />
-                    {/* <CalendarPicker/> */}
+                    <CalendarPicker
+                        date={date}
+                        setDate={setDate}
+                    />
                 </Col>
-                <Col className="align-text-bottom w-25 h-50">
+                <Col className="align-text-bottom w-25 h-50 g ">
                     <Button
                         fullWidth
                         variant="contained"
@@ -235,14 +242,14 @@ function Shift({
                         Solicitar
                     </Button>
 
-                    <Button
+                    {/* <Button
                         variant="contained"
                         color="primary"
                         className={classes.submit}
                         onClick={e => handleBlockChainInfo(e)}
                     >
                         Ver informacion de la BLOCKCHAIN
-                    </Button>
+                    </Button> */}
                 </Col>
                 <Col className="align-text-bottom w-25 h-50"/>
             </Row>
@@ -306,7 +313,7 @@ function Shift({
                     />
                 )}
             </Row>
-        </>
+        </div>
     );
 }
 

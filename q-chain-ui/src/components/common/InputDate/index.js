@@ -104,7 +104,7 @@ const DateInput = ({
             <MuiPickersUtilsProvider
                 utils={LocalizedUtils}
             >
-                <KeyboardDatePicker
+                {/* <KeyboardDatePicker
                     {...miuProps}
                     className={classes.datePicker}
                     disabled={get(props, 'disabled')}
@@ -117,7 +117,7 @@ const DateInput = ({
                     onClose={() => handlePickerStatus(false)}
                     open={pickerStatus}
                     shouldDisableDate={e => disableWeekends(e)}
-                />
+                /> */}
                 <KeyboardTimePicker
                     margin="normal"
                     id="time-picker"

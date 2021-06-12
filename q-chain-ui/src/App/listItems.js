@@ -1,3 +1,4 @@
+/* global localStorage */
 import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -16,7 +17,11 @@ import {Link} from 'react-router-dom';
 
 export const mainListItems = (
     <div>
-        <ListItem button>
+        <ListItem
+            button
+            component={Link}
+            to={`/myShifts/${JSON.parse(localStorage.getItem('user'))._id}`}
+        >
             <ListItemIcon>
                 <DashboardIcon/>
             </ListItemIcon>
