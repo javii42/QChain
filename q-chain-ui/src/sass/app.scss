@@ -1,8 +1,14 @@
 @import "~bootstrap/scss/bootstrap";
+@import "./time";
+@import "./times";
 
 html, body {
   max-width: 100%;
   overflow-x: hidden;
+}
+
+.mt-500 {
+  margin-top: 500px !important;
 }
 
 .special-center {

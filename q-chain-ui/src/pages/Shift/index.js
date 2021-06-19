@@ -50,11 +50,14 @@ import {
 import Dropdown from '@components/common/Dropdown';
 import InputDate from '@components/common/InputDate';
 import CalendarPicker from '@components/common/CalendarPicker';
+import TimePicker from '@components/common/TimePicker';
+// import TimePicker from 'react-times';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faAngleDoubleDown} from '@fortawesome/free-solid-svg-icons';
 import TableList from '@components/common/TableList';
 import ModalWithDynamicButtons from '@components/common/ModalWithDynamicButtons';
+import moment from 'moment';
 import Logo from '../../images/logo_2.png';
 
 // console.log('abi', abi)
@@ -93,6 +96,11 @@ const useStyles = makeStyles(theme => ({
         '&:hover': {
             background: '#cba9dc'
         }
+    },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: 250
     }
 }));
 
@@ -234,6 +242,10 @@ function Shift({
         setPopup(value);
     };
 
+    const handleHour = value => {
+        setHour(moment(value));
+    };
+
     return (
         <>
             {!isMobile && (
@@ -289,12 +301,40 @@ function Shift({
                                 date={date}
                                 setDate={setDate}
                             />
+                            {/*                             <TimePicker
+                                value={hour}
+                                onChange={setHour}
+                            /> */}
+                            <div
+                                style={{
+                                    marginLeft: '600px'
+                                }}
+                            />
                             <InputDate
                                 setDate={setDate}
                                 setHour={setHour}
                             />
+
+                            {/*                             <TextField
+                                id="time"
+                                label="Alarm clock"
+                                type="time"
+                                defaultValue="07:30"
+                                className={classes.textField}
+                                InputLabelProps={{
+                                    shrink: true
+                                }}
+                                inputProps={{
+                                    step: 300 // 5 min
+                                }}
+                                onChange={({target: {value}}) => setHour(value)}
+                                value={hour}
+                            /> */}
                         </Col>
-                        <Col className="align-text-bottom w-25 h-50 g ">
+                        {/* <TimePicker
+                            theme="classic"
+                        /> */}
+                        <Col className="align-text-bottom w-25 h-50 mt-500">
                             <Button
                                 fullWidth
                                 variant="contained"

@@ -115,7 +115,7 @@ function Shift({
                 <div
                     className="float-left h5"
                 >
-                    Agenda - [Branch] - [employee-name]
+                    Agenda - Barracas - Dr. Sonez
                 </div>
                 <div
                     className="float-right h5"
