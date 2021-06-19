@@ -4,7 +4,9 @@ import React, {useState} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Table} from 'reactstrap';
-import {get, map, uniqueId} from 'lodash';
+import {
+    get, map, uniqueId, isFunction
+} from 'lodash';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 import {
@@ -81,10 +83,12 @@ const TableList = ({
     onPageChange,
     onRecoveryPassword,
     current,
-    total
+    total,
+    handlePopup,
+    popup
 }) => {
     const [isMobile, setIsMobile] = useState(false);
-    const [popup, setPopup] = useState();
+
     let widthOutput = window.innerWidth;
     if (widthOutput < 1000 && !isMobile) {
         setIsMobile(true);
@@ -107,32 +111,56 @@ const TableList = ({
 
     window.onresize = reportWindowSize;
 
-    const handlePopup = value => {
-        setPopup(value);
-    };
-
     if (isMobile) {
         return (
-            <>
-                {map(information, info => (
-                    <MobileItem
-                        info={info}
-                        key={get(info, primaryKey)}
-                        primaryKey={get(info, primaryKey)}
-                        columns={columns}
-                        onDelete={onDelete}
-                        onRecoveryPassword={onRecoveryPassword}
-                        headers={headers}
-                    />
-                ))}
-                <Pages
-                    maxPage={0}
-                    selectedPage={current}
-                    hideTotals
-                    resultsCount={total}
-                    onChange={page => onPageChange(page)}
-                />
-            </>
+            <Table
+                className="table-vertical-middle"
+                bordered
+                hover
+                striped
+                size="large"
+            >
+                <thead>
+                    <tr>
+                        {map(headers, header => (
+                            <th key={uniqueId('indexDetail')}>
+                                {header.icon && (<FontAwesomeIcon icon={header.icon}/>)}
+                                {!isFunction(header.label) && header.label}
+                                {isFunction(header.label) && (header.label())}
+                            </th>
+                        ))}
+                    </tr>
+                </thead>
+                <tbody>
+                    {map(information, info => (
+                        <Item
+                            info={info}
+                            key={get(info, primaryKey)}
+                            primaryKey={get(info, primaryKey)}
+                            columns={columns}
+                            onDelete={onDelete}
+                            onRecoveryPassword={onRecoveryPassword}
+                            handlePopup={() => handlePopup(info)}
+                            closePopup={() => handlePopup(false)}
+                            updateShift={updateShift}
+                            popup={popup}
+                        />
+                    ))}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colSpan={headers.length}>
+                            <Pages
+                                maxPage={20}
+                                paginationSize={50}
+                                selectedPage={current}
+                                resultsCount={total}
+                                onChange={page => onPageChange(page)}
+                            />
+                        </td>
+                    </tr>
+                </tfoot>
+            </Table>
         );
     }
     return (
@@ -148,7 +176,8 @@ const TableList = ({
                     {map(headers, header => (
                         <th key={uniqueId('indexDetail')}>
                             {header.icon && (<FontAwesomeIcon icon={header.icon}/>)}
-                            {header.label}
+                            {!isFunction(header.label) && header.label}
+                            {isFunction(header.label) && (header.label())}
                         </th>
                     ))}
                 </tr>

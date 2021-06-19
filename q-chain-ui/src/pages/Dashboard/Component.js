@@ -1,3 +1,4 @@
+/* global localStorage, window */
 import React, {
     useEffect,
     useState
@@ -25,6 +26,9 @@ import InputBase from '@material-ui/core/InputBase';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import SignIn from '@pages/SignIn';
+import ModalWithDynamicButtons from '@components/common/ModalWithDynamicButtons';
+import Register from '@pages/Register';
 import {
     map, isEmpty, filter, includes, toLower
 } from 'lodash';
@@ -91,7 +95,8 @@ const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const Dashboard = ({
     companies,
-    companiesRequested
+    companiesRequested,
+    registerRequested
 }) => {
     const history = useHistory();
 
@@ -99,6 +104,8 @@ const Dashboard = ({
 
     const [query, setQuery] = useState();
     const [filtered, setFiltered] = useState(companies);
+    const [openModal, setOpenModal] = useState(false);
+    const [modalType, setModalType] = useState('login');
 
     useEffect(() => {
         if (isEmpty(query) || isEmpty(filtered)) {
@@ -133,7 +140,12 @@ const Dashboard = ({
     };
 
     const handleGetShift = (id, name) => {
-        history.push(`/shift/${id}/${name}`);
+        if (localStorage.getItem('user')) {
+            window.location = `/#/shift/${id}/${name}`;
+            return 1;
+            // return history.push(`/shift/${id}/${name}`);
+        }
+        return setOpenModal(true);
     };
 
     const handleSearch = e => {
@@ -200,13 +212,44 @@ const Dashboard = ({
                         </Grid>
                     ))}
                 </Grid>
+                {openModal && modalType !== 'hide' && (
+                    <ModalWithDynamicButtons
+                        message={(
+                            <>
+                                {modalType === 'login' && (
+                                    <SignIn
+                                        setModalType={setModalType}
+                                    />
+                                )}
+                                {modalType === 'register' && (
+                                    <Register
+                                        setModalType={setModalType}
+                                        registerRequested={registerRequested}
+                                    />
+                                )}
+                            </>
+                        )}
+                        buttons={
+                            [
+                                {
+                                    onClick: () => setOpenModal(false),
+                                    onTouchEnd: () => setOpenModal(false),
+                                    className: 'd-none'
+                                }
+
+                            ]
+                        }
+                        buttonToggleIndex={0}
+                    />
+                )}
             </Container>
         </>
     );
 };
 
 const {
-    companiesRequested
+    companiesRequested,
+    registerRequested
 } = SessionActions;
 
 const mapStateToProps = state => ({
@@ -214,7 +257,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
-    companiesRequested
+    companiesRequested,
+    registerRequested
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

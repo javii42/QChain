@@ -20,7 +20,7 @@ export const mainListItems = (
         <ListItem
             button
             component={Link}
-            to={`/myShifts/${JSON.parse(localStorage.getItem('user'))._id}`}
+            // to={`/myShifts/${JSON.parse(localStorage.getItem('user'))._id}`}
         >
             <ListItemIcon>
                 <DashboardIcon/>

@@ -1,0 +1,1 @@
+{"_id":{"$oid":"60ac45e835bcfb929464c58b"},"__v":0,"company_id":{"$oid":"60a9014477e7d70fd6f5990c"},"createdAt":{"$date":"2021-05-25T00:33:44.802Z"},"cs_active":true,"cs_desc":"Infra","cs_employees":["60a9024a77e7d70fd6f59910","60b6c818c698b068aba81ef6"],"updatedAt":{"$date":"2021-05-25T00:33:44.802Z"}}

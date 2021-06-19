@@ -1,0 +1,1 @@
+{"_id":{"$oid":"60ac48cf0dc9779c82d0a30e"},"__v":0,"ba_active":true,"ba_city":"CABA","ba_country":"Argentina","ba_geometry":[{}],"ba_locality":"Balvanera","ba_number":123,"ba_street":"Calle falsa","branch_id":{"$oid":"60ac475558b0ef980fba375e"},"createdAt":{"$date":"2021-05-25T00:46:07.406Z"},"updatedAt":{"$date":"2021-05-25T00:46:07.406Z"}}

@@ -124,10 +124,10 @@ const getHeaders = (isMobile, handleMasterCheck, masterCheck) => {
                     </>
                 )
             },
-            {label: 'Empresa'},
+            {label: 'Cliente'},
             {label: 'Profesional'},
             {label: 'Fecha y hora'},
-            {label: 'Dirección'},
+            {label: 'Sucursal'},
             {label: 'Estado'}
         ];
     }
@@ -185,7 +185,7 @@ const getColumns = (isMobile, handleCheck, check) => {
             },
             {
                 draw: true,
-                text: 'Empresa',
+                text: 'Cliente',
                 label: 'company_name'
             },
             {
@@ -392,13 +392,90 @@ function Shift({
     console.log('check', check);
 
     return (
-        <Row className="m-0">
+        <Row className="ml-2 mt-5">
+            <div
+                className="h5 ml-5"
+            >
+                Turnos
+            </div>
             <Col className={`text-center ${!isMobile ? 'm-5' : 'mt-4'}`}>
-                <div
-                    className="float-left h5"
-                >
-                    Mis turnos
-                </div>
+                <Row className="w-50">
+                    <Col>
+                        <Dropdown
+                            options={employees}
+                            getOptionValue={opt => opt._id}
+                            getOptionLabel={opt => `${opt.user_name}${opt.user_lastname}`}
+                            onChange={({target: {value}}) => (value)}
+                            placeholder="Profesional"
+                            value="employeeValue"
+                        />
+                    </Col>
+                    <Col>
+                        <Dropdown
+                            className="mx-auto"
+                            options={employees}
+                            getOptionValue={opt => opt._id}
+                            getOptionLabel={opt => `${opt.user_name}${opt.user_lastname}`}
+                            onChange={({target: {value}}) => (value)}
+                            placeholder="Sucursal"
+                            value="employeeValue"
+                        />
+                    </Col>
+                </Row>
+                <Row className="w-50">
+                    <Col>
+                        <Dropdown
+                            className="mx-auto"
+                            options={employees}
+                            getOptionValue={opt => opt._id}
+                            getOptionLabel={opt => `${opt.user_name}${opt.user_lastname}`}
+                            onChange={({target: {value}}) => (value)}
+                            placeholder="ID - CLIENTE"
+                            value="employeeValue"
+                        />
+                    </Col>
+                    <Col>
+                        <Dropdown
+                            className="mx-auto"
+                            options={employees}
+                            getOptionValue={opt => opt._id}
+                            getOptionLabel={opt => `${opt.user_name}${opt.user_lastname}`}
+                            onChange={({target: {value}}) => (value)}
+                            placeholder="FECHA DESDE"
+                            value="employeeValue"
+                        />
+                    </Col>
+                    <Col>
+                        <Dropdown
+                            className="mx-auto"
+                            options={employees}
+                            getOptionValue={opt => opt._id}
+                            getOptionLabel={opt => `${opt.user_name}${opt.user_lastname}`}
+                            onChange={({target: {value}}) => (value)}
+                            placeholder="FECHA HASTA"
+                            value="employeeValue"
+                        />
+                    </Col>
+                    <Col
+                        className="float-right h5 ml-5"
+                    >
+                        <Button
+                            className="react-btn"
+                            onClick={() => handleDeletePopup(true)}
+                        >
+                            APLICAR FILTROS
+                        </Button>
+                    </Col>
+                </Row>
+
+                <TableList
+                    information={filter(shifts, s => get(s, 'shift_status') !== 'Cancelled')}
+                    handlePopup={handlePopup}
+                    popup={popup}
+                    primaryKey="id"
+                    headers={getHeaders(isMobile, handleMasterCheck, masterCheck)}
+                    columns={getColumns(isMobile, handleCheck, check)}
+                />
                 <div
                     className="float-right h5"
                 >
@@ -439,14 +516,6 @@ function Shift({
                         />
                     )}
                 </div>
-                <TableList
-                    information={filter(shifts, s => get(s, 'shift_status') !== 'Cancelled')}
-                    handlePopup={handlePopup}
-                    popup={popup}
-                    primaryKey="id"
-                    headers={getHeaders(isMobile, handleMasterCheck, masterCheck)}
-                    columns={getColumns(isMobile, handleCheck, check)}
-                />
             </Col>
         </Row>
     );

@@ -84,7 +84,10 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         flexGrow: 1,
-        marginTop: 5
+        marginTop: 5,
+        textDecoration: 'none !important',
+        boxShadow: 'none',
+        color: '#fff !important'
     },
     section: {
         display: 'none',
@@ -178,7 +181,11 @@ const Header = ({
     }, []);
 
     const femmecubatorLogo = (
-        <Typography variant="h6" component="h1" className={logo}>
+        <Typography
+            variant="h6"
+            component="h1"
+            className={logo}
+        >
             QChain System
         </Typography>
     );
@@ -241,20 +248,30 @@ const Header = ({
             >
                 <MenuIcon/>
             </IconButton>
-            <Media
-                src={Logo}
-                style={{
-                    height: '25px',
-                    width: '25px'
-                }}
-                className="ml-2 mt-2 mb-3 mr-2"
-            />
+            <a
+                href="/"
+            >
+                <Media
+                    src={Logo}
+                    style={{
+                        height: '25px',
+                        width: '25px'
+                    }}
+                    className="ml-2 mt-2 mb-3 mr-2"
+                />
+            </a>
             <Typography
                 variant="h5"
                 className={title}
                 noWrap
             >
-                QChain System
+                <Link
+                    href="/"
+                    underline="none"
+                    className={title}
+                >
+                    QChain System
+                </Link>
             </Typography>
             <Drawer
                 {...{

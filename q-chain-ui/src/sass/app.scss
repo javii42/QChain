@@ -1,5 +1,15 @@
 @import "~bootstrap/scss/bootstrap";
 
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.special-center {
+  width: 110%;
+  margin-left: 250px !important;
+}
+
 .gray-line {
     margin-top: 8rem;
     border-left: 1.5px solid gray;

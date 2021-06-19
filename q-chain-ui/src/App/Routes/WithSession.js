@@ -16,6 +16,7 @@ import DeleteEmployee from '@pages/DeleteEmployee';
 import Shift from '@pages/Shift';
 import ShiftTable from '@pages/ShiftTable';
 import AgendaTable from '@pages/AgendaTable';
+import ShiftTableAdmin from '@pages/ShiftTableAdmin';
 
 import {
     get, isPlainObject, isString
@@ -61,6 +62,7 @@ const RouterWithSession = () => {
                 <Route exact path="/deleteEmployee" component={DeleteEmployee}/>
                 <Route exact path="/shift/:id/:name" component={Shift}/>
                 <Route exact path="/myShifts/:id" component={ShiftTable}/>
+                <Route exact path="/myShiftsAdmin/:id" component={ShiftTableAdmin}/>
                 <Route exact path="/myAgenda" component={AgendaTable}/>
                 <Route exact path="/dashboardUser" component={DashboardUser}/>
                 {role !== 'Genérico'

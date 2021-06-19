@@ -83,6 +83,16 @@ const useStyles = makeStyles(theme => ({
         '&:hover': {
             background: '#cba9dc'
         }
+    },
+    submitMobile: {
+        marginTop: '15px',
+        width: '100px',
+        height: '75px',
+        fontSize: '15px',
+        backgroundColor: '#cba9dc',
+        '&:hover': {
+            background: '#cba9dc'
+        }
     }
 }));
 
@@ -107,8 +117,34 @@ function Shift({
     const [date, setDate] = useState();
     const [hour, setHour] = useState();
     const [blockChainInfo, setBlockChainInfo] = useState();
+    const [confirmPopup, setConfirmPopup] = useState();
+    const [popup, setPopup] = useState();
     const history = useHistory();
     const company = get(props, 'match.params.name', 'Company');
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    let widthOutput = window.innerWidth;
+    if (widthOutput < 1000 && !isMobile) {
+        setIsMobile(true);
+    }
+
+    if (widthOutput > 999 && isMobile) {
+        setIsMobile(false);
+    }
+    function reportWindowSize() {
+        widthOutput = window.innerWidth;
+
+        if (widthOutput < 1000 && !isMobile) {
+            setIsMobile(true);
+        }
+
+        if (widthOutput > 999 && isMobile) {
+            setIsMobile(false);
+        }
+    }
+
+    window.onresize = reportWindowSize;
 
     useEffect(() => {
         branchRequested();
@@ -173,147 +209,278 @@ function Shift({
         e.preventDefault();
     };
 
-    return (
-        <div className="mx-auto ml-5">
-            <Row className="mt-5 ml-5 mr-0">
-                <Col className="text-center mx-auto">
-                    <p className="h3 font-weight-bold">
-                        Solicitud de turno para
-                        {' '}
-                        {company}
-                    </p>
-                    <Dropdown
-                        className="mx-auto"
-                        options={branch}
-                        getOptionValue={opt => opt._id}
-                        getOptionLabel={opt => opt.branch_name}
-                        onChange={({target: {value}}) => handleBranch(value)}
-                        placeholder="Sucursal"
-                        value={branchValue}
-                    />
-                    <FontAwesomeIcon icon={faAngleDoubleDown}/>
-                    <Dropdown
-                        className="mx-auto"
-                        options={sector}
-                        getOptionValue={opt => opt._id}
-                        getOptionLabel={opt => opt.cs_desc}
-                        onChange={({target: {value}}) => handleSector(value)}
-                        placeholder="Sector"
-                        value={sectorValue}
-                    />
-                    <FontAwesomeIcon icon={faAngleDoubleDown}/>
-                    <Dropdown
-                        className="mx-auto"
-                        options={employees}
-                        getOptionValue={opt => opt._id}
-                        getOptionLabel={opt => `${opt.user_name}${opt.user_lastname}`}
-                        onChange={({target: {value}}) => handleEmployee(value)}
-                        placeholder="Profesional"
-                        value={employeeValue}
-                    />
-                    <FontAwesomeIcon icon={faAngleDoubleDown}/>
-                    <Col/>
-                    <TextareaAutosize
-                        className="w-100 h-50 mx-auto"
-                        rowsMax={4}
-                        placeholder="Comentarios"
-                        onChange={({target: {value}}) => handleComments(value)}
-                        value={comments}
-                    />
-                </Col>
-                <Col className="text-center">
-                    <InputDate
-                        setDate={setDate}
-                        setHour={setHour}
-                    />
-                    <CalendarPicker
-                        date={date}
-                        setDate={setDate}
-                    />
-                </Col>
-                <Col className="align-text-bottom w-25 h-50 g ">
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={e => handleConfirmation(e)}
-                    >
-                        Solicitar
-                    </Button>
+    const handleConfirmPopup = value => {
+        setConfirmPopup(value);
+    };
 
-                    {/* <Button
-                        variant="contained"
-                        color="primary"
-                        className={classes.submit}
-                        onClick={e => handleBlockChainInfo(e)}
-                    >
-                        Ver informacion de la BLOCKCHAIN
-                    </Button> */}
-                </Col>
-                <Col className="align-text-bottom w-25 h-50"/>
-            </Row>
-            <Row style={{marginTop: '500px'}}>
-                {blockChainInfo && (
-                    <TableList
-                        information={getParsedBlockchain(blockChainInfo)}
-                        primaryKey="id"
-                        headers={[
-                            {label: 'Sucursal'},
-                            {label: 'Empleado'},
-                            {label: 'Llamadas al turno'},
-                            {label: 'Comentario'},
-                            {label: 'Fecha'},
-                            {label: 'Duración'},
-                            {label: 'Comienzo'},
-                            {label: ' Usuario '}
-                        ]}
-                        columns={[
-                            {
-                                draw: true,
-                                text: 'Sucursal',
-                                label: 'branch_id'
-                            },
-                            {
-                                draw: true,
-                                text: 'Empleado',
-                                label: 'ce_id'
-                            },
-                            {
-                                draw: true,
-                                text: 'Llamadas al turno',
-                                label: 'ce_id'
-                            },
-                            {
-                                draw: true,
-                                text: 'Comentario',
-                                label: 'shift_comment'
-                            },
-                            {
-                                draw: true,
-                                text: 'Fecha',
-                                label: 'shift_date'
-                            },
-                            {
-                                draw: true,
-                                text: 'Duración',
-                                label: 'shift_duration'
-                            },
-                            {
-                                draw: true,
-                                text: 'Comienzo',
-                                label: 'shift_start'
-                            },
-                            {
-                                draw: true,
-                                text: 'Usuario',
-                                label: 'user_id'
-                            }
-                        ]}
-                    />
-                )}
-            </Row>
-        </div>
+    const getDate = () => {
+        if (date) {
+            const dd = String(date.getDate()).padStart(2, '0');
+            const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+            const yyyy = date.getFullYear();
+            return `${mm}/${dd}/${yyyy}`;
+        }
+        return '';
+    };
+
+    const getHour = () => {
+        if (hour) {
+            return `${String(hour.getHours()).padStart(2, '0')}:${String(hour.getMinutes()).padStart(2, '0')}:${String(hour.getSeconds()).padStart(2, '0')}`;
+        }
+        return '';
+    };
+
+    const handlePopup = value => {
+        setPopup(value);
+    };
+
+    return (
+        <>
+            {!isMobile && (
+                <>
+                    <Row className="mt-5 ml-5 special-center">
+                        <Col className="text-center mx-auto">
+                            <p className="h3 font-weight-bold">
+                                Solicitud de turno para
+                                {' '}
+                                {company}
+                            </p>
+                            <Dropdown
+                                className="mx-auto"
+                                options={branch}
+                                getOptionValue={opt => opt._id}
+                                getOptionLabel={opt => opt.branch_name}
+                                onChange={({target: {value}}) => handleBranch(value)}
+                                placeholder="Sucursal"
+                                value={branchValue}
+                            />
+                            <FontAwesomeIcon icon={faAngleDoubleDown}/>
+                            <Dropdown
+                                className="mx-auto"
+                                options={sector}
+                                getOptionValue={opt => opt._id}
+                                getOptionLabel={opt => opt.cs_desc}
+                                onChange={({target: {value}}) => handleSector(value)}
+                                placeholder="Sector"
+                                value={sectorValue}
+                            />
+                            <FontAwesomeIcon icon={faAngleDoubleDown}/>
+                            <Dropdown
+                                className="mx-auto"
+                                options={employees}
+                                getOptionValue={opt => opt._id}
+                                getOptionLabel={opt => `${opt.user_name}${opt.user_lastname}`}
+                                onChange={({target: {value}}) => handleEmployee(value)}
+                                placeholder="Profesional"
+                                value={employeeValue}
+                            />
+                            <FontAwesomeIcon icon={faAngleDoubleDown}/>
+                            <Col/>
+                            <TextareaAutosize
+                                className="w-100 h-50 mx-auto"
+                                rowsMax={4}
+                                placeholder="Comentarios"
+                                onChange={({target: {value}}) => handleComments(value)}
+                                value={comments}
+                            />
+                        </Col>
+                        <Col className="text-center">
+                            <CalendarPicker
+                                date={date}
+                                setDate={setDate}
+                            />
+                            <InputDate
+                                setDate={setDate}
+                                setHour={setHour}
+                            />
+                        </Col>
+                        <Col className="align-text-bottom w-25 h-50 g ">
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={() => handleConfirmPopup(true)}
+                            >
+                                Solicitar
+                            </Button>
+                            {confirmPopup && (
+                                <ModalWithDynamicButtons
+                                    title="Confirmación"
+                                    message={(
+                                        <Row>
+                                            <Col>
+                                                Desea seleccionar un turno para
+                                                {' '}
+                                                {company}
+                                                {', '}
+                                                <br/>
+                                                el
+                                                {' '}
+                                                {getDate()}
+                                                {' '}
+                                                a las
+                                                {' '}
+                                                {getHour()}
+                                                . Dirección:
+                                                {' '}
+                                                {getBranchAddress(branchValue)}
+                                                <br/>
+                                                ¿Está seguro?
+                                            </Col>
+                                        </Row>
+                                    )}
+                                    buttons={
+                                        [
+                                            {
+                                                onClick: e => handleConfirmation(e),
+                                                onTouchEnd: e => handleConfirmation(e),
+                                                className: 'react-btn',
+                                                label: 'Confirmar'
+                                            },
+                                            {
+                                                onClick: () => handleConfirmPopup(false),
+                                                onTouchEnd: () => handleConfirmPopup(false),
+                                                className: 'react-btn',
+                                                label: 'Cancelar'
+                                            }
+                                        ]
+                                    }
+                                    buttonToggleIndex={1}
+                                />
+                            )}
+                        </Col>
+                        <Col className="align-text-bottom w-25 h-50"/>
+                    </Row>
+                    <Row style={{marginTop: '90px'}}/>
+                </>
+            )}
+            {isMobile && (
+                <>
+                    <Row className="mt-3 w-95 mx-auto">
+                        <Col className="text-center mx-auto mb-5">
+                            <p className="h3 font-weight-bold">
+                                Solicitud de turno para
+                                {' '}
+                                {company}
+                            </p>
+                            <Dropdown
+                                className="mx-auto"
+                                options={branch}
+                                getOptionValue={opt => opt._id}
+                                getOptionLabel={opt => opt.branch_name}
+                                onChange={({target: {value}}) => handleBranch(value)}
+                                placeholder="Sucursal"
+                                value={branchValue}
+                            />
+                            <FontAwesomeIcon icon={faAngleDoubleDown}/>
+                            <Dropdown
+                                className="mx-auto"
+                                options={sector}
+                                getOptionValue={opt => opt._id}
+                                getOptionLabel={opt => opt.cs_desc}
+                                onChange={({target: {value}}) => handleSector(value)}
+                                placeholder="Sector"
+                                value={sectorValue}
+                            />
+                            <FontAwesomeIcon icon={faAngleDoubleDown}/>
+                            <Dropdown
+                                className="mx-auto"
+                                options={employees}
+                                getOptionValue={opt => opt._id}
+                                getOptionLabel={opt => `${opt.user_name}${opt.user_lastname}`}
+                                onChange={({target: {value}}) => handleEmployee(value)}
+                                placeholder="Profesional"
+                                value={employeeValue}
+                            />
+                            <FontAwesomeIcon icon={faAngleDoubleDown}/>
+                            <Col/>
+                            <TextareaAutosize
+                                className="w-100 h-25"
+                                rowsMax={4}
+                                placeholder="Comentarios"
+                                onChange={({target: {value}}) => handleComments(value)}
+                                value={comments}
+                            />
+                        </Col>
+                        <Col
+                            className="text-center mt-4"
+                            style={{
+                                minWidth: '340px',
+                                minHeight: '300px'
+                            }}
+                        >
+                            <CalendarPicker
+                                date={date}
+                                setDate={setDate}
+                            />
+                            <InputDate
+                                setDate={setDate}
+                                setHour={setHour}
+                            />
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submitMobile}
+                                onClick={() => handleConfirmPopup(true)}
+                            >
+                                Solicitar
+                            </Button>
+                        </Col>
+                        <Col className="w-25 h-50">
+                            {confirmPopup && (
+                                <ModalWithDynamicButtons
+                                    title="Confirmación"
+                                    message={(
+                                        <Row>
+                                            <Col>
+                                                Desea seleccionar un turno para
+                                                {' '}
+                                                {company}
+                                                {', '}
+                                                <br/>
+                                                el
+                                                {' '}
+                                                {getDate()}
+                                                {' '}
+                                                a las
+                                                {' '}
+                                                {getHour()}
+                                                . Dirección:
+                                                {' '}
+                                                {getBranchAddress(branchValue)}
+                                                <br/>
+                                                ¿Está seguro?
+                                            </Col>
+                                        </Row>
+                                    )}
+                                    buttons={
+                                        [
+                                            {
+                                                onClick: e => handleConfirmation(e),
+                                                onTouchEnd: e => handleConfirmation(e),
+                                                className: 'react-btn',
+                                                label: 'Confirmar'
+                                            },
+                                            {
+                                                onClick: () => handleConfirmPopup(false),
+                                                onTouchEnd: () => handleConfirmPopup(false),
+                                                className: 'react-btn',
+                                                label: 'Cancelar'
+                                            }
+                                        ]
+                                    }
+                                    buttonToggleIndex={1}
+                                />
+                            )}
+                        </Col>
+                        <Col className="align-text-bottom w-25 h-50"/>
+                    </Row>
+                    <Row style={{marginTop: '90px'}}/>
+                </>
+            )}
+        </>
     );
 }
 

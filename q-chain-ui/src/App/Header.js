@@ -62,6 +62,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Logo from '../images/logo.png';
 import DataFiscal from '../images/data_fiscal.jpg';
+import {useHistory} from 'react-router-dom';
 
 
 const useStyles = makeStyles(theme => ({
@@ -158,6 +159,7 @@ const Header = ({
     const [sessionModal, setSessionModal] = useState(false);
     let token = localStorage.getItem('token');
     let user = localStorage.getItem('user');
+    const history = useHistory();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -185,6 +187,10 @@ const Header = ({
         token = localStorage.getItem('token');
         user = localStorage.getItem('user');
     }, []);
+
+    const handleHome = () => {
+        history.push('/')
+    }
 
     return (
         <>
@@ -214,11 +220,13 @@ const Header = ({
                             width: '70px'
                         }}
                         className="mt-3 mb-3"
+                        onClick={() => handleHome()}
                     />
                     <Typography
                         className={`${classes.title} mt-4`}
                         variant="h6"
                         noWrap
+                        onClick={() => handleHome()}
                     >
                         QChain System
                     </Typography>

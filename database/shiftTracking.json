@@ -1,0 +1,2 @@
+{"_id":{"$oid":"60b68b71075c9b5fdff7f0d2"},"shift_id":{"$oid":"60ac537ebad80ebda6f1f589"},"st_hour":{"$date":{"$numberLong":"-2208941360978"}},"st_previous_state":"Pending","st_new_state":"Scheduled","st_user":{"$oid":"60ac6c6029eeb710217fc01e"}}
+{"_id":{"$oid":"60b68da6075c9b5fdff7f23e"},"shift_id":{"$oid":"60ac537ebad80ebda6f1f589"},"st_hour":{"$date":{"$numberLong":"-2208941360978"}},"st_previous_state":"Scheduled","st_new_state":"Waiting","st_user":{"$oid":"60ac6c6029eeb710217fc01e"}}

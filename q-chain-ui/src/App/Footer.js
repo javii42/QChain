@@ -1,4 +1,5 @@
-import React from 'react';
+/* global window */
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect, useDispatch} from 'react-redux';
 import fromState from '@selectors';
@@ -55,20 +56,124 @@ const useStyles = makeStyles(theme => ({
     specialFooter: {
         backgroundColor: '#cba9dc',
         padding: theme.spacing(5),
-        minHeight: '37vh',
+        minHeight: '40vh',
         display: 'flex'
     }
 }));
 
-const Footer = () => {
+const Footer = ({
+    ...props
+}) => {
     const classes = useStyles();
     const history = useHistory();
-    const location = get(history, 'location.pathname');
+    let location = get(window, 'location.hash');
+    const [isMobile, setIsMobile] = useState(false);
 
-    if (location === '/') {
+    let widthOutput = window.innerWidth;
+    if (widthOutput < 1000 && !isMobile) {
+        setIsMobile(true);
+    }
+
+    if (widthOutput > 999 && isMobile) {
+        setIsMobile(false);
+    }
+    function reportWindowSize() {
+        widthOutput = window.innerWidth;
+
+        if (widthOutput < 1000 && !isMobile) {
+            setIsMobile(true);
+        }
+
+        if (widthOutput > 999 && isMobile) {
+            setIsMobile(false);
+        }
+    }
+
+    window.onresize = reportWindowSize;
+
+    useEffect(() => {
+        location = get(window, 'location.hash');
+    }, []);
+    console.log('location', props);
+
+    if (location === '#/') {
+        if (isMobile) {
+            return (
+                <footer className={classes.specialFooter}>
+                    <Row className="text-center pl-1">
+                        <Col className="m-2">
+                            <FontAwesomeIcon
+                                color="white"
+                                icon={faSearch}
+                                size="3x"
+                            />
+                            <p className="h5 pt-4 pb-4 purple-title font-weight-bold">Encontrá</p>
+                            <p className="gray-text pt-4 pb-4">La empresa que mejor se adapte a tus necesidades</p>
+                            <Link href="" className="mt-5 purple-link "> Más información </Link>
+                            <hr/>
+                        </Col>
+                        <Col className="m-2">
+                            <FontAwesomeIcon
+                                color="white"
+                                icon={faClock}
+                                size="3x"
+                            />
+                            <p className="h5 pt-4 pb-4 purple-title font-weight-bold">Organizá</p>
+                            <p className="gray-text pt-4 pb-4">Tus tiempos, eligiendo el turno que mejor se adapte a vos.</p>
+                            <Link href="" className="p-5 purple-link "> Más información </Link>
+                            <hr/>
+                        </Col>
+
+                        <Col className="m-2">
+                            <FontAwesomeIcon
+                                color="white"
+                                icon={faBriefcase}
+                                size="3x"
+                            />
+                            <p className="h5 pt-4 pb-4 purple-title font-weight-bold">Resolvé</p>
+                            <p className="gray-text pt-4 pb-4">Tus necesidades, de la forma más rápida, cómoda y segura.</p>
+                            <Link href="" className="p-5 purple-link "> Más información </Link>
+                            <hr/>
+                        </Col>
+
+                        <Col className="m-2 mb-5">
+                            <FontAwesomeIcon
+                                color="white"
+                                icon={faPuzzlePiece}
+                                size="3x"
+                            />
+                            <p className="h5 pt-4 pb-4 purple-title font-weight-bold">Ayudá</p>
+                            <p className="gray-text pt-4 pb-4">Contanos tu experiencia y calificá la atención. Para que todos podamos elegir mejor.</p>
+                            <Link href="" className="p-5 purple-link "> Más información </Link>
+                            <hr/>
+                        </Col>
+                        <Col className="m-2" >
+                            <Media
+                                src={Logo}
+                                style={{
+                                    height: '40px',
+                                    width: '40px',
+                                    display: 'inline-block'
+                                }}
+                                className="mr-5"
+                            />
+                            <Media
+                                src={DataFiscal}
+                                style={{
+                                    height: '50px',
+                                    width: '50px',
+                                    display: 'inline-block'
+                                }}
+                            />
+                        </Col>
+                    </Row>
+                </footer>
+            );
+        }
+
         return (
             <footer className={classes.specialFooter}>
-                <Row className="text-center pl-5 pr-5">
+                <Row className="text-center pl-5">
 
                     <Col className="m-2">
                         <FontAwesomeIcon
@@ -116,7 +221,7 @@ const Footer = () => {
                         <p className="gray-text pt-4 pb-4">Contanos tu experiencia y calificá la atención. Para que todos podamos elegir mejor.</p>
                         <Link href="" className="p-5 purple-link "> Más información </Link>
                     </Col>
-                    <div className="icon-position mr-3 ml-2 mt-5" >
+                    <div className="mr-3 ml-2 mb-0" style={{marginTop: '15rem'}} >
                         <Media
                             src={Logo}
                             style={{

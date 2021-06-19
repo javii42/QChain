@@ -9,7 +9,7 @@ import Header from './newHeader';
 import Routes from './Routes';
 import ErrorBoundary from './ErrorBoundary';
 
-const App = () => (
+const App = ({...props}) => (
     <HashRouter>
         <Header/>
         <ErrorBoundary>
@@ -19,7 +19,7 @@ const App = () => (
                 <Routes/>
             </main>
         </ErrorBoundary>
-        <Footer/>
+        <Footer {...props}/>
     </HashRouter>
 );
 

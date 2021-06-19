@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/prop-types */
 import React from 'react';
 import {
@@ -101,8 +103,14 @@ const Item = ({
         updateShift(value);
     };
 
+    const handleDeleteShift = value => {
+        set(value, 'shift_status', 'Cancelled');
+        updateShift(value);
+        closePopup(false);
+    };
+
     return (
-        <tr className="text-user-table" onClick={() => handlePopup()}>
+        <tr className="text-user-table">
             {popup === info && (
                 <ModalWithDynamicButtons
                     closed
@@ -181,14 +189,16 @@ const Item = ({
                                         Atendido
                                     </Button>
                                 )}
-                                <Button
-                                    size="small"
-                                    className="react-btn"
-                                    onClick={() => closePopup(false)}
-                                    onTouchEnd={() => closePopup(false)}
-                                >
-                                    Cancelar
-                                </Button>
+                                {getStatus(info) !== 'Atendido' && (
+                                    <Button
+                                        size="small"
+                                        className="react-btn"
+                                        onClick={() => handleDeleteShift(info)}
+                                        onTouchEnd={() => handleDeleteShift(info)}
+                                    >
+                                        Cancelar
+                                    </Button>
+                                )}
                             </CardActions>
                         </Card>
                     )}
@@ -228,6 +238,24 @@ const Item = ({
                             </td>
                         );
                     }
+
+                    if (column.text === 'Estado') {
+                        return (
+                            <td
+                                key={uniqueId('item')}
+                                className={column.className || 'text-center'}
+                                onClick={() => handlePopup()}
+                            >
+                                {!isFunction(column.label) && !isArray(column.label) && get(info, column.label) }
+                                {isFunction(column.label) && column.label(info)}
+                                {
+                                    !isFunction(column.label) && isArray(column.label)
+                                && join(map(column.label, e => get(info, e)), ', ')
+                                }
+                            </td>
+                        );
+                    }
+
                     return (
                         <td key={uniqueId('item')} className={column.className || 'text-center'}>
                             {!isFunction(column.label) && !isArray(column.label) && get(info, column.label) }
