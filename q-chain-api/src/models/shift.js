@@ -17,6 +17,9 @@ const Shift = new Schema({
         required: true,
         ref: 'user'
     },
+    user_data: {
+        type: String
+    },
     company_name: {
         type: String
     },

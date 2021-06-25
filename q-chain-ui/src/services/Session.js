@@ -136,6 +136,10 @@ export default class SessionService {
         return Http.get(`${API.shift}?${queryToString(params)}`);
     }
 
+    static agenda(params) {
+        return Http.get(`${API.agenda}?${queryToString(params)}`);
+    }
+
     static companies() {
         return Http.get(API.companies);
     }

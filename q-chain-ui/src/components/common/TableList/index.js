@@ -199,7 +199,7 @@ const TableList = ({
                 ))}
             </tbody>
             <tfoot>
-                <tr>
+                {/*                 <tr>
                     <td colSpan={headers.length}>
                         <Pages
                             maxPage={20}
@@ -209,7 +209,7 @@ const TableList = ({
                             onChange={page => onPageChange(page)}
                         />
                     </td>
-                </tr>
+                </tr> */}
             </tfoot>
         </Table>
     );

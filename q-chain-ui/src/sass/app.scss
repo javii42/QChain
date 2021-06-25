@@ -578,3 +578,7 @@ $nice-dates-cell-width: calc(100% / 7);
   align-items: center;
   justify-content: center;
 }
+
+.table-blur {
+  -webkit-filter: blur(4px);
+}

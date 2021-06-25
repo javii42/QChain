@@ -65,7 +65,8 @@ import {
     sectorSucceeded,
     employeeSucceeded,
     companiesSucceeded,
-    shiftsSucceeded
+    shiftsSucceeded,
+    agendaSucceeded
 } from './actions';
 
 function* signOut() {
@@ -553,6 +554,7 @@ function* employeeRequested({
 function* shiftRequested({
     branch_id,
     user_id,
+    user_data,
     company_name,
     employee_name,
     shift_address,
@@ -579,6 +581,7 @@ function* shiftRequested({
         const result = yield call(SessionService.shift, {
             branch_id,
             user_id,
+            user_data,
             company_name,
             employee_name,
             shift_address,
@@ -609,7 +612,7 @@ function* shiftRequested({
 }
 
 function* agendaRequested({
-
+    ce_id
 }) {
     try {
         yield put(setRequestFlag(true, LOADING));
@@ -621,19 +624,10 @@ function* agendaRequested({
             finalId = get(employee, '_id');
         } */
 
-        const result = yield call(SessionService.agenda, {
-            branch_id,
-            user_id,
-            ce_id,
-            ss_id,
-            shift_call,
-            shift_duration,
-            shift_date,
-            shift_start,
-            shift_comment
-        });
+        const result = yield call(SessionService.agenda, {ce_id});
 
         if (result) {
+            yield put(agendaSucceeded({agenda: result}));
             // yield localStorage.setItem('token', token);
             // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
             // yield put(branchSucceeded({employees: result}));
@@ -705,6 +699,7 @@ function* updateShift({
     _id,
     branch_id,
     user_id,
+    user_data,
     company_name,
     employee_name,
     ce_id,
@@ -723,6 +718,7 @@ function* updateShift({
             _id,
             branch_id,
             user_id,
+            user_data,
             company_name,
             employee_name,
             ce_id,

@@ -25,6 +25,7 @@ module.exports = router => {
     router.get('/sector/:company_id', CompanySectorController.fetchManyByParams);
     router.get('/employees/:branch_id', UserController.fetchEmployeesByBranch);
     router.get('/employees/:branch_id/:sector_id', UserController.fetchEmployeesByBranchAndSector);
-    router.get('/agenda/:branch_id/:employee_id/', AgendaController.getData);
+    router.get('/agenda', AgendaController.fetchManyByQuery);
+   // router.get('/agenda/:branch_id/:employee_id/', AgendaController.getData);
     return router;
 };

@@ -196,6 +196,7 @@ function Shift({
         const shiftToSend = {
             branch_id: branchValue,
             user_id: get(user, '_id'),
+            user_data: `${get(user, 'user_doc_number')} - ${get(user, 'user_name')} ${get(user, 'user_lastname')}`,
             company_name: company,
             employee_name: getEmployeeName(employeeValue),
             shift_address: getBranchAddress(branchValue),

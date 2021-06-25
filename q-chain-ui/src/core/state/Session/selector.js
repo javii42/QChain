@@ -18,4 +18,5 @@ export const getCompanies = () => ({session: {companies}}) => companies;
 export const getBranch = () => ({session: {branch}}) => branch;
 export const getSector = () => ({session: {sector}}) => sector;
 export const getShifts = () => ({session: {shifts}}) => shifts;
+export const getAgenda = () => ({session: {agenda}}) => agenda;
 export const getEmployees = () => ({session: {employees}}) => employees;

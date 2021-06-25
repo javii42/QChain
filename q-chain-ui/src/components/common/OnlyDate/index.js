@@ -73,12 +73,10 @@ const DateInput = ({
     members,
     modeling,
     setDate,
-    setHour,
     ...props
 }) => {
     const [pickerStatus, setPickerStatus] = useState(false);
     const [selectedDate, setSelectedDate] = useState(Moment());
-    const [selectedHour, setSelectedHour] = useState(Moment());
 
     const classes = useStyles();
     const handleChange = e => {
@@ -100,16 +98,17 @@ const DateInput = ({
     };
 
     return (
-        <FormGroup className="form--input-date mt-3 datepicker-input">
+        <FormGroup className="form--input-date mt-1 datepicker-input">
             <MuiPickersUtilsProvider
                 utils={LocalizedUtils}
             >
-                {/* <KeyboardDatePicker
+                <KeyboardDatePicker
                     {...miuProps}
                     className={classes.datePicker}
                     disabled={get(props, 'disabled')}
                     id={get(props, 'control')}
                     value={selectedDate}
+                    placeHolder="aa"
                     helperText=""
                     openTo="year"
                     onChange={e => handleChange(e)}
@@ -117,16 +116,6 @@ const DateInput = ({
                     onClose={() => handlePickerStatus(false)}
                     open={pickerStatus}
                     shouldDisableDate={e => disableWeekends(e)}
-                /> */}
-                <KeyboardTimePicker
-                    margin="normal"
-                    id="time-picker"
-                    label={get(props, 'label') ? get(props, 'label') : 'Time picker'}
-                    value={selectedHour}
-                    onChange={handleDateChange}
-                    KeyboardButtonProps={{
-                        'aria-label': 'change time'
-                    }}
                 />
             </MuiPickersUtilsProvider>
         </FormGroup>

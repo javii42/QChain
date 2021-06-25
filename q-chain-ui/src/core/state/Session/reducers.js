@@ -37,7 +37,8 @@ export default function session(
         sector: [],
         employees: [],
         companies: [],
-        shifts: []
+        shifts: [],
+        agenda: []
     },
     {type, ...props}
 ) {

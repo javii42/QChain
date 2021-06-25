@@ -36,7 +36,8 @@ import {
     Col,
     Label,
     UncontrolledTooltip,
-    Input
+    Input,
+    Table
 } from 'reactstrap';
 import fromState from '@selectors';
 import {
@@ -64,6 +65,7 @@ import {
 import TableList from '@components/common/TableList';
 import ModalWithDynamicButtons from '@components/common/ModalWithDynamicButtons';
 import classNames from 'classnames';
+import ReactJson from 'react-json-view';
 
 import {
     faSquare
@@ -316,7 +318,9 @@ function Shift({
     const [employeeValue, setEmployee] = useState();
     const [branchValue, setBranch] = useState();
     const [document, setDocument] = useState();
-    const [filteredShifts, setFilteredShifts] = useState(filter(shifts, s => get(s, 'shift_status') !== 'Cancelled'));
+    const [password, setPassword] = useState();
+    const [importValue, setImport] = useState();
+    const [filteredShifts, setFilteredShifts] = useState(filter(shifts, s => get(s, 'shift_status') === 'Attended'));
 
     const [isMobile, setIsMobile] = useState(false);
 
@@ -435,73 +439,23 @@ function Shift({
         }));
     };
 
+    const handlePassword = value => {
+        setPassword(value);
+        setImport(false);
+    };
+
+    const handleImport = value => {
+        setImport(value);
+    };
+
     return (
         <Row className="ml-2 mt-5">
-            <div
-                className="h5 ml-5"
-            >
-                Turnos
-            </div>
-            <Col className={`text-center ${!isMobile ? 'm-5' : 'mt-4'}`}>
-                <Row className="w-50">
-                    <Col>
-                        <Dropdown
-                            className="mx-auto"
-                            options={employees}
-                            getOptionValue={opt => opt._id}
-                            getOptionLabel={opt => `${opt.user_name} ${opt.user_lastname}`}
-                            onChange={({target: {value}}) => handleEmployee(value)}
-                            placeholder="Profesional"
-                            value={employeeValue}
-                            isClearable
-                        />
-                    </Col>
-                    <Col>
-                        <Dropdown
-                            className="mx-auto"
-                            options={branch}
-                            getOptionValue={opt => opt._id}
-                            getOptionLabel={opt => opt.branch_name}
-                            onChange={({target: {value}}) => handleBranch(value)}
-                            placeholder="Sucursal"
-                            value={branchValue}
-                            isClearable
-                        />
-                    </Col>
-                </Row>
-                <Row className="w-50">
-                    <Col>
-                        <Input
-                            className="mx-auto"
-                            onChange={({target: {value}}) => handleDocument(value)}
-                            placeholder="DNI - CUIT"
-                        />
-                    </Col>
-                    <Col>
-                        <OnlyDate
-                            className="mx-auto"
-                            date={startDate}
-                            setDate={setStartDate}
-                        />
-                    </Col>
-                    <Col>
-                        <OnlyDate
-                            date={endDate}
-                            setDate={setEndDate}
-                        />
-                    </Col>
-                    <Col
-                        className="float-right h5 ml-5"
-                    >
-                        <Button
-                            className="react-btn"
-                            onClick={e => handleShiftFilter(e)}
-                        >
-                            APLICAR FILTROS
-                        </Button>
-                    </Col>
-                </Row>
-
+            <Col className={`text-center ${!isMobile ? 'm-1 mr-5' : 'mt-4'}`}>
+                <div
+                    className="h5 float-left mb-3"
+                >
+                    Turnos pendientes de persistencia.
+                </div>
                 <TableList
                     information={filteredShifts}
                     handlePopup={handlePopup}
@@ -518,7 +472,7 @@ function Shift({
                         onClick={() => handleDeletePopup(true)}
                         disabled={isEmpty(check)}
                     >
-                        CANCELAR TURNO/S
+                        RESGUARDAR
                     </Button>
                     {deletePopup && (
                         <ModalWithDynamicButtons
@@ -551,6 +505,42 @@ function Shift({
                     )}
                 </div>
             </Col>
+            <Row className={`text-center ${!isMobile ? 'm-1 mr-5' : 'mt-4'}`}>
+                <Col className="w-25 mb-3 ml-5 p-0">
+                    <Input
+                        className="mx-auto"
+                        onChange={({target: {value}}) => handlePassword(value)}
+                        placeholder="Clave - Desencriptar"
+                    />
+                </Col>
+                <Col className="ml-5 pb-0">
+                    <Button
+                        className="react-btn float-left"
+                        onClick={() => handleImport(true)}
+                        disabled={isEmpty(password)}
+                    >
+                        IMPORTAR
+                    </Button>
+                </Col>
+                <Table
+                    className={`table-vertical-middle ${!(password === 'qchain' && importValue) ? 'table-blur' : ''}`}
+                    bordered
+                    hover
+                    striped
+                    size="large"
+                >
+                    <div
+                        className="m-3"
+                    >
+                        {!isEmpty(check) && (
+                            <ReactJson
+                                onSelect={() => 0}
+                                src={filter(shifts, s => includes(check, get(s, '_id')))}
+                            />
+                        )}
+                    </div>
+                </Table>
+            </Row>
         </Row>
     );
 }

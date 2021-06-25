@@ -257,6 +257,7 @@ module.exports = {
                             required: [
                                 'branch_id',
                                 'user_id',
+                                'user_data',
                                 'company_name',
                                 'employee_name',
                                 'ce_id',
@@ -269,6 +270,7 @@ module.exports = {
                             properties: {
                                 branch_id: { type: 'string' },
                                 user_id: { type: 'string' },
+                                user_data: { type: 'string' },
                                 company_name: { type: 'string' },
                                 employee_name: { type: 'string' },
                                 ce_id: { type: 'string' },
@@ -305,8 +307,7 @@ module.exports = {
                 {
                     in: 'query',
                     name: 'user_id',
-                    schema: {type: 'string'},
-                    required: true
+                    schema: {type: 'string'}
                 }
             ],
             responses: {
@@ -336,6 +337,7 @@ module.exports = {
                                 '_id',
                                 'branch_id',
                                 'user_id',
+                                'user_data',
                                 'ce_id',
                                 'shift_call',
                                 'shift_duration',
@@ -347,6 +349,7 @@ module.exports = {
                                 _id: { type: 'string' },
                                 branch_id: { type: 'string' },
                                 user_id: { type: 'string' },
+                                user_data: { type: 'string' },
                                 ce_id: { type: 'string' },
                                 ss_id: { type: 'string' },
                                 shift_address: {type: 'string'},
@@ -478,6 +481,31 @@ module.exports = {
                     schema: {
                         type: 'string'
                     }
+                }
+            ],
+            responses: {
+                200: {
+                    description: 'login success',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Profile' } } }
+                },
+                default: {
+                    description: 'Error',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+                }
+            }
+        }
+    },
+    '/api/user/agenda': {
+        get: {
+            operationId: 'getAgenda',
+            security: [{}],
+            description: 'Traer agenda de una compañía en el sistema QChain',
+            tags: ['userAPI'],
+            parameters: [
+                {
+                    in: 'query',
+                    name: 'ce_id',
+                    schema: {type: 'string'}
                 }
             ],
             responses: {

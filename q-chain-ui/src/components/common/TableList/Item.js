@@ -244,7 +244,7 @@ const Item = ({
                             <td
                                 key={uniqueId('item')}
                                 className={column.className || 'text-center'}
-                                onClick={() => handlePopup()}
+                                onClick={() => handlePopup(info)}
                             >
                                 {!isFunction(column.label) && !isArray(column.label) && get(info, column.label) }
                                 {isFunction(column.label) && column.label(info)}

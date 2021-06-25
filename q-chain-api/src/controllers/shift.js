@@ -67,6 +67,19 @@ class ShiftController extends CrudController {
         }
     }
 
+
+    /**
+    * Query that where passed using express
+    * will send the first occurrence that match the query
+    */
+    async fetchManyByQuery(req, res, next) {
+        try {
+            const result = await this._service.fetch(req.query);
+            res.send(result);
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 module.exports = new ShiftController();

@@ -16,27 +16,38 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import AgendaIcon from '@material-ui/icons/Pages';
 import {Link} from 'react-router-dom';
 
+import {get} from 'lodash';
+
+const getRedirection = () => {
+    const user = localStorage.getItem('user');
+    if (user) {
+        return `/myShifts/${get(JSON.parse(user), '_id')}`;
+    }
+    return '/';
+};
+
+const getAdminRedirection = status => {
+    const user = localStorage.getItem('user');
+    if (user && status === 'Pending') {
+        return `/myShiftsPending/${get(JSON.parse(user), '_id')}`;
+    }
+    if (user) {
+        return `/myShiftsAdmin/${get(JSON.parse(user), '_id')}`;
+    }
+    return '/';
+};
+
 export const mainListItems = (
     <div>
         <ListItem
             button
             component={Link}
-            // to={`/myShifts/${JSON.parse(localStorage.getItem('user'))._id}`}
+            to={getRedirection()}
         >
             <ListItemIcon>
                 <DashboardIcon/>
             </ListItemIcon>
             <ListItemText primary="Mis turnos"/>
-        </ListItem>
-        <ListItem
-            button
-            component={Link}
-            to="/myAgenda"
-        >
-            <ListItemIcon>
-                <AgendaIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Mi agenda"/>
         </ListItem>
         <ListItem button>
             <ListItemIcon>
@@ -120,7 +131,7 @@ export const mainListItemsAdmin = (
         <ListItem
             button
             component={Link}
-            to="/myShifts"
+            to={getAdminRedirection()}
         >
             <ListItemIcon>
                 <DomainDisabledIcon/>
@@ -130,12 +141,12 @@ export const mainListItemsAdmin = (
         <ListItem
             button
             component={Link}
-            to="/myShiftsUser"
+            to={getAdminRedirection('Pending')}
         >
             <ListItemIcon>
                 <DomainDisabledIcon/>
             </ListItemIcon>
-            <ListItemText primary="Visualizar turnos como usuario"/>
+            <ListItemText primary="Turnos pendientes de persistencia"/>
         </ListItem>
         <ListItem
             button
