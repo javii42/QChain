@@ -365,29 +365,78 @@ function Shift({
                         </>
                     )}
                     message={(
-                        <Row>
-                            <Col className="text-center">
-                                <Typography>
+                        <Row className="text-center">
+                            <Col className="text-center mx-auto">
+                                <Col>
                                     25/05/2021
-                                </Typography>
+                                    <FontAwesomeIcon
+                                        icon={getIcon({agenda_open: true})}
+                                        size="2x"
+                                        className="ml-3 mt-2"
+                                    />
+                                    <FontAwesomeIcon
+                                        icon={faPen}
+                                        size="2x"
+                                        className="ml-3 mt-2"
+                                    />
+                                </Col>
                                 <br/>
-                                <Typography>
+                                <Col>
                                     29/05/2021
-                                </Typography>
+                                    <FontAwesomeIcon
+                                        icon={getIcon({agenda_open: true})}
+                                        size="2x"
+                                        className="ml-3 mt-2"
+                                    />
+                                    <FontAwesomeIcon
+                                        icon={faPen}
+                                        size="2x"
+                                        className="ml-3 mt-2"
+                                    />
+                                </Col>
                                 <br/>
-                                <Typography>
+                                <Col>
                                     09/07/2021
-                                </Typography>
+                                    <FontAwesomeIcon
+                                        icon={getIcon({agenda_open: true})}
+                                        size="2x"
+                                        className="ml-3 mt-2"
+                                    />
+                                    <FontAwesomeIcon
+                                        icon={faPen}
+                                        size="2x"
+                                        className="ml-3 mt-2"
+                                    />
+                                </Col>
                                 <br/>
-                                <Typography>
+                                <Col>
                                     08/12/2021
-                                </Typography>
+                                    <FontAwesomeIcon
+                                        icon={getIcon({agenda_open: true})}
+                                        size="2x"
+                                        className="ml-3 mt-2"
+                                    />
+                                    <FontAwesomeIcon
+                                        icon={faPen}
+                                        size="2x"
+                                        className="ml-3 mt-2"
+                                    />
+                                </Col>
                                 <br/>
-                                <Typography>
+                                <Col>
                                     25/05/2021
-                                </Typography>
+                                    <FontAwesomeIcon
+                                        icon={getIcon({agenda_open: true})}
+                                        size="2x"
+                                        className="ml-3 mt-2"
+                                    />
+                                    <FontAwesomeIcon
+                                        icon={faPen}
+                                        size="2x"
+                                        className="ml-3 mt-2"
+                                    />
+                                </Col>
                             </Col>
-                            <Col/>
                         </Row>
                     )}
                     buttons={
