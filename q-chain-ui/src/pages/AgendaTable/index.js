@@ -47,7 +47,14 @@ import {
     SessionActions
 } from '@actions';
 import {
-    get, map, random, forEach, isEmpty
+    get,
+    map,
+    random,
+    forEach,
+    isEmpty,
+    set,
+    cloneDeep,
+    toNumber
 } from 'lodash';
 import Dropdown from '@components/common/Dropdown';
 import InputDate from '@components/common/InputDate';
@@ -136,6 +143,7 @@ function Shift({
     registerRequested,
     agenda,
     agendaRequested,
+    updateAgenda,
     ...props
 }) {
     const [cAgenda, setcAgenda] = useState();
@@ -167,9 +175,33 @@ function Shift({
     };
 
     const handleAgenda = value => {
-        console.log('value', value);
         setcAgenda(value);
     };
+
+    const handleAgendaValues = (value, key) => {
+        console.log('value,key', value, key);
+        const newCAgenda = cloneDeep(cAgenda);
+        set(newCAgenda, `${key}`, value);
+        setcAgenda(newCAgenda);
+    };
+
+    const handleAgendaStartDate = value => {
+        const newCAgenda = cloneDeep(cAgenda);
+        set(newCAgenda, 'agenda_opening', value);
+        setcAgenda(newCAgenda);
+    };
+
+    const handleAgendaEndDate = value => {
+        const newCAgenda = cloneDeep(cAgenda);
+        set(newCAgenda, 'agenda_closing', value);
+        setcAgenda(newCAgenda);
+    };
+
+    const handleUpdateAgenda = () => {
+        updateAgenda(cAgenda);
+    };
+
+    console.log('cAgenda', cAgenda);
 
     return (
         <Row className="m-0">
@@ -305,148 +337,6 @@ function Shift({
                         ]}
                     />
                 </Col>
-                <TableList
-                    handlePopup={handleAddSpecialDate}
-                    information={[
-                        {
-                            id: '1',
-                            day_week: 'Lunes',
-                            status: true,
-                            start: '12:00',
-                            end: '18:00',
-                            threadShift: '1',
-                            maxShifts: '16',
-                            duration: '00:30'
-                        },
-                        {
-                            id: '2',
-                            day_week: 'Martes',
-                            status: true,
-                            start: '12:00',
-                            end: '18:00',
-                            threadShift: '1',
-                            maxShifts: '16',
-                            duration: '00:30'
-                        },
-                        {
-                            id: '3',
-                            day_week: 'Miercoles',
-                            status: false,
-                            start: '12:00',
-                            end: '18:00',
-                            threadShift: '1',
-                            maxShifts: '16',
-                            duration: '00:30'
-                        },
-                        {
-                            id: '4',
-                            day_week: 'Jueves',
-                            status: false,
-                            start: '12:00',
-                            end: '18:00',
-                            threadShift: '1',
-                            maxShifts: '16',
-                            duration: '00:30'
-                        },
-                        {
-                            id: '5',
-                            day_week: 'Viernes',
-                            status: false,
-                            start: '12:00',
-                            end: '18:00',
-                            threadShift: '1',
-                            maxShifts: '16',
-                            duration: '00:30'
-                        },
-                        {
-                            id: '5',
-                            day_week: 'Sabado',
-                            status: false,
-                            start: '12:00',
-                            end: '18:00',
-                            threadShift: '1',
-                            maxShifts: '16',
-                            duration: '00:30'
-                        },
-                        {
-                            id: '5',
-                            day_week: 'Domingo',
-                            status: false,
-                            start: '12:00',
-                            end: '18:00',
-                            threadShift: '1',
-                            maxShifts: '16',
-                            duration: '00:30'
-                        }
-                    ]}
-                    primaryKey="id"
-                    headers={[
-                        {label: 'Dia de la semana'},
-                        {label: 'Activo'},
-                        {label: 'Inicio'},
-                        {label: 'Fin'},
-                        {label: 'Turnos simultaenos'},
-                        {label: 'Cantidad max. Turnos'},
-                        {label: 'Duracion del turno'},
-                        {label: ''}
-                    ]}
-                    columns={[
-                        {
-                            draw: true,
-                            text: 'Dia de la semana',
-                            label: 'day_week'
-                        },
-                        {
-                            draw: true,
-                            text: 'Activo',
-                            label: info => (
-                                <>
-                                    <FontAwesomeIcon
-                                        icon={getIcon(info)}
-                                        size="2x"
-                                    />
-                                </>
-                            )
-                        },
-                        {
-                            draw: true,
-                            text: 'Inicio',
-                            label: 'start'
-                        },
-                        {
-                            draw: true,
-                            text: 'Fin',
-                            label: 'end'
-                        },
-                        {
-                            draw: true,
-                            text: 'Turnos simultaneos',
-                            label: 'threadShift'
-                        },
-                        {
-                            draw: true,
-                            text: 'Cantidad max. Turnos',
-                            label: 'maxShifts'
-                        },
-                        {
-                            draw: true,
-                            text: 'Duracion del turno',
-                            label: 'duration'
-                        },
-                        {
-                            draw: true,
-                            text: 'Estado',
-                            label: () => (
-                                <>
-                                    <FontAwesomeIcon
-                                        icon={faPen}
-                                        size="2x"
-                                    />
-                                </>
-                            )
-                        }
-                    ]}
-                />
             </Col>
             {specialDate && (
                 <ModalWithDynamicButtons
@@ -610,8 +500,9 @@ function Shift({
                                 <Col className="icon-status">
                                     <div className="icon-status ml-5 mt-2">
                                         <Switch
+                                            name="agenda_open"
                                             checked={get(cAgenda, 'agenda_open')}
-                                            onChange={() => handleSpecialData()}
+                                            onChange={e => handleAgendaValues(e.target.checked, e.target.name)}
                                             inputProps={{'aria-label': 'secondary checkbox'}}
                                         />
                                     </div>
@@ -622,24 +513,25 @@ function Shift({
                     message={(
                         <Row>
                             <Col>
-                                {/*                                 <OnlyDate
-                                    date={date}
-                                    setDate={setDate}
-                                /> */}
                                 <InputDate
                                     setDate={setDate}
-                                    setHour={setStartHour}
+                                    setHour={handleAgendaStartDate}
                                     label="Hora inicio"
+                                    hour={get(cAgenda, 'agenda_opening')}
                                 />
                                 <InputDate
                                     setDate={setDate}
-                                    setHour={setStartHour}
+                                    setHour={handleAgendaEndDate}
                                     label="Hora fin"
+                                    hour={get(cAgenda, 'agenda_closing')}
                                 />
                                 <Input
+                                    name="agenda_shift_duration"
                                     className="mx-auto"
                                     placeholder="Duracion del turno"
-                                    value={
+                                    value={get(cAgenda, 'agenda_shift_duration')}
+                                    onChange={e => handleAgendaValues(e.target.value, e.target.name)}
+                                    /* value={
                                         () => {
                                             const agenda_shift_duration = new Date(get(cAgenda, 'agenda_shift_duration'));
                                             if (agenda_shift_duration) {
@@ -648,7 +540,7 @@ function Shift({
                                             }
                                             return '';
                                         }
-                                    }
+                                    } */
                                 />
                             </Col>
                             <Col
@@ -656,20 +548,24 @@ function Shift({
                                 style={{marginTop: '65px'}}
                             >
                                 <Input
+                                    name="agenda_sim_shifts"
                                     className="mx-auto mt-2"
                                     placeholder="Turnos simultaneos"
                                     value={get(cAgenda, 'agenda_sim_shifts')}
+                                    onChange={e => handleAgendaValues(toNumber(e.target.value), e.target.name)}
                                 />
                                 <Input
+                                    name="agenda_q_shifts"
                                     className="mx-auto mt-2"
                                     placeholder="Turnos max."
                                     value={get(cAgenda, 'agenda_q_shifts')}
+                                    onChange={e => handleAgendaValues(toNumber(e.target.value), e.target.name)}
                                 />
                                 <Button
                                     size="small"
                                     className="react-btn mt-3"
-                                    onClick={() => handleAgenda(true)}
-                                    onTouchEnd={() => handleAgenda(true)}
+                                    onClick={() => handleUpdateAgenda(true)}
+                                    onTouchEnd={() => handleUpdateAgenda(true)}
                                 >
                                     EDITAR
                                 </Button>
@@ -698,7 +594,8 @@ const {
     sectorRequested,
     employeeRequested,
     shiftRequested,
-    agendaRequested
+    agendaRequested,
+    updateAgenda
 } = SessionActions;
 
 const mapStateToProps = state => ({
@@ -714,7 +611,8 @@ const mapDispatchToProps = dispatch => bindActionCreators({
     sectorRequested,
     employeeRequested,
     shiftRequested,
-    agendaRequested
+    agendaRequested,
+    updateAgenda
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Shift);

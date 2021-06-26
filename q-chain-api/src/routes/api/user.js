@@ -26,6 +26,7 @@ module.exports = router => {
     router.get('/employees/:branch_id', UserController.fetchEmployeesByBranch);
     router.get('/employees/:branch_id/:sector_id', UserController.fetchEmployeesByBranchAndSector);
     router.get('/agenda', AgendaController.fetchManyByQuery);
+    router.put('/agenda', AgendaController.update);
    // router.get('/agenda/:branch_id/:employee_id/', AgendaController.getData);
     return router;
 };

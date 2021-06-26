@@ -518,6 +518,57 @@ module.exports = {
                     content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
                 }
             }
+        },
+        put: {
+            operationId: 'modifyUserShift',
+            security: [{bearerAuth: []}],
+            description: 'Modifica el turno de un usuario en el sistema QChain',
+            tags: ['userAPI'],
+            requestBody: {
+                description: 'Descripcion',
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            required: [
+                                '_id',
+                                'agenda_closing',
+                                'agenda_open',
+                                'agenda_opening',
+                                'agenda_q_shifts',
+                                'agenda_shift_duration',
+                                'agenda_sim_shifts',
+                                'agenda_week_day',
+                                'ce_id'
+                            ],
+                            properties: {
+                                _id: { type: 'string' },
+                                agenda_closing: { type: 'string' },
+                                agenda_open: { type: 'boolean' },
+                                agenda_opening: { type: 'string' },
+                                agenda_q_shifts: { type: 'number' },
+                                agenda_shift_duration: { type: 'string' },
+                                agenda_sim_shifts: {type: 'number'},
+                                agenbda_week_day: { type: 'integer' },
+                                ce_id: { type: 'string' },
+                                createdAt: { type: 'string' },
+                                updatedAt: { type: 'string' }
+                            }
+                        }
+                    }
+                }
+            },
+            responses: {
+                200: {
+                    description: 'login success',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Profile' } } }
+                },
+                default: {
+                    description: 'Error',
+                    content: { 'application/json': { schema: { $ref: '#/components/schemas/Error' } } }
+                }
+            }
         }
     }
 };

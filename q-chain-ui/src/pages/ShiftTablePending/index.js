@@ -55,7 +55,9 @@ import {
     filter,
     set,
     split,
-    find
+    find,
+    toNumber,
+    toString
 } from 'lodash';
 import Dropdown from '@components/common/Dropdown';
 import InputDate from '@components/common/InputDate';
@@ -128,10 +130,20 @@ web3.eth.getAccounts((err, accounts) => {
 */
 
 // Smart contract functions
-function ShiftSetInfo(info) {
-    contract.methods.insertShift(account, 7, Date.now(), info, 'javier', true).send({from: account}).then(tx => {
-        console.log('Transaction: ', tx);
-    });
+function ShiftSetInfo(info, user) {
+    try {
+        contract.methods.insertShift(
+            account,
+            toNumber(get(info, 'shift_call', random(49, 149))),
+            toString(Date.now()),
+            JSON.stringify(info),
+            JSON.stringify(user),
+            true).send({from: account}).then(tx => {
+            console.log('Transaction: ', tx);
+        });
+    } catch (err) {
+        console.log('err', err);
+    }
 }
 
 const useStyles = makeStyles(theme => ({
@@ -549,8 +561,8 @@ function Shift({
                             buttons={
                                 [
                                     {
-                                        onClick: () => ShiftSetInfo(find(shifts, s => includes(check, get(s, '_id')))),
-                                        onTouchEnd: () => ShiftSetInfo(find(shifts, s => includes(check, get(s, '_id')))),
+                                        onClick: () => ShiftSetInfo(find(shifts, s => includes(check, get(s, '_id'))), user),
+                                        onTouchEnd: () => ShiftSetInfo(find(shifts, s => includes(check, get(s, '_id'))), user),
                                         className: 'react-btn',
                                         label: 'Confirmar'
                                     },

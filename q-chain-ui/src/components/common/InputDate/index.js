@@ -78,7 +78,7 @@ const DateInput = ({
 }) => {
     const [pickerStatus, setPickerStatus] = useState(false);
     const [selectedDate, setSelectedDate] = useState(Moment());
-    const [selectedHour, setSelectedHour] = useState(Moment());
+    const [selectedHour, setSelectedHour] = useState(get(props, 'hour') || Moment());
 
     const classes = useStyles();
     const handleChange = e => {

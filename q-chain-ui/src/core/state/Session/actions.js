@@ -41,7 +41,8 @@ import {
     COMPANIES_SUCCEEDED,
     SHIFTS_REQUESTED,
     SHIFTS_SUCCEEDED,
-    UPDATE_SHIFT
+    UPDATE_SHIFT,
+    UPDATE_AGENDA
 } from './types';
 
 export const signInRequested = ({...props}) => ({
@@ -117,3 +118,4 @@ export const agendaSucceeded = props => ({type: AGENDA_SUCCEEDED, ...props});
 export const companiesRequested = constant({type: COMPANIES_REQUESTED});
 export const companiesSucceeded = props => ({type: COMPANIES_SUCCEEDED, ...props});
 export const updateShift = props => ({type: UPDATE_SHIFT, ...props});
+export const updateAgenda = props => ({type: UPDATE_AGENDA, ...props});

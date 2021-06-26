@@ -58,6 +58,7 @@ class AgendaController extends CrudController {
         const service = new AgendaService();
         super(service);
         this.register = this.register.bind(this);
+        this.update = this.update.bind(this);
     }
 
     async register(req, res, next) {
@@ -70,6 +71,21 @@ class AgendaController extends CrudController {
             }
             const result = await this._service.saveOne({_id}, finalObject);
             res.send(result);
+        } catch(err) {
+            next(err);
+        }
+    }
+
+    async update(req, res, next) {
+        try {
+            const {
+                _id,
+                ...props
+            } = req.body;
+            await this._service.saveOne({_id}, props);
+            //const blockchainData = await this._service.generateBlockchainData(req.body);
+            //console.log('blockchainData', blockchainData);
+            res.send(await this._service.fetch({}));
         } catch(err) {
             next(err);
         }

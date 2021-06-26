@@ -49,7 +49,8 @@ import {
     SHIFTS_REQUESTED,
     AGENDA_REQUESTED,
     COMPANIES_REQUESTED,
-    UPDATE_SHIFT
+    UPDATE_SHIFT,
+    UPDATE_AGENDA
 } from './types';
 
 import {
@@ -626,6 +627,8 @@ function* agendaRequested({
 
         const result = yield call(SessionService.agenda, {ce_id});
 
+        console.log('result', result);
+
         if (result) {
             yield put(agendaSucceeded({agenda: result}));
             // yield localStorage.setItem('token', token);
@@ -750,6 +753,51 @@ function* updateShift({
     }
 }
 
+function* updateAgenda({
+    _id,
+    agenda_closing,
+    agenda_open,
+    agenda_opening,
+    agenda_q_shifts,
+    agenda_shift_duration,
+    agenda_sim_shifts,
+    agenda_week_day,
+    ce_id
+}) {
+    try {
+        yield put(setRequestFlag(true, LOADING));
+
+        const result = yield call(SessionService.updateAgenda, {
+            _id,
+            agenda_closing,
+            agenda_open,
+            agenda_opening,
+            agenda_q_shifts,
+            agenda_shift_duration,
+            agenda_sim_shifts,
+            agenda_week_day,
+            ce_id
+        });
+
+        console.log('result', result);
+        if (result) {
+            yield put(shiftsSucceeded({agenda: result}));
+            // yield localStorage.setItem('token', token);
+            // yield put(setStatusMessage(SUCCESS, 'EL EMPLEADO FUE ELIMINADO'));
+            // yield put(branchSucceeded({employees: result}));
+            // yield put(signInSucceeded({user}));
+            // yield put(setRequestFlag(false, ''));
+            // setTimeout(() => { window.location = '/'; }, 2000);
+            return;
+        }
+    } catch (error) {
+        console.log('error', error);
+        yield put(setStatusMessage(ERROR));
+    } finally {
+        yield put(setRequestFlag(false, ''));
+    }
+}
+
 export default function* sessionSaga() {
     yield all([
         takeLatest(SESSION_USER_FETCH_REQUESTED, getSessionUser),
@@ -772,6 +820,7 @@ export default function* sessionSaga() {
         takeLatest(SHIFTS_REQUESTED, shiftsRequested),
         takeLatest(AGENDA_REQUESTED, agendaRequested),
         takeLatest(COMPANIES_REQUESTED, companiesRequested),
-        takeLatest(UPDATE_SHIFT, updateShift)
+        takeLatest(UPDATE_SHIFT, updateShift),
+        takeLatest(UPDATE_AGENDA, updateAgenda)
     ]);
 }

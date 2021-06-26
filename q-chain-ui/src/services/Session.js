@@ -64,6 +64,10 @@ export default class SessionService {
         return Http.put(API.shift, body);
     }
 
+    static updateAgenda(body) {
+        return Http.put(API.agenda, body);
+    }
+
     static deleteCompanyAsAdminRequest(body) {
         return Http.delete(API.registerCompanyAsAdmin, body);
     }

@@ -45,7 +45,8 @@ import {
     map,
     random,
     forEach,
-    find
+    find,
+    isEmpty
 } from 'lodash';
 import Dropdown from '@components/common/Dropdown';
 import InputDate from '@components/common/InputDate';
@@ -115,6 +116,8 @@ function Shift({
     shiftRequested,
     setModalType,
     registerRequested,
+    agenda,
+    agendaRequested,
     ...props
 }) {
     const classes = useStyles();
@@ -158,6 +161,7 @@ function Shift({
         branchRequested();
         sectorRequested();
         employeeRequested();
+        agendaRequested({ce_id: '60a83bf36c907765cab24b5e'});
 
         const info = localStorage.getItem('info');
         if (info) {
@@ -247,6 +251,8 @@ function Shift({
         setHour(moment(value));
     };
 
+    console.log('agenda', agenda);
+
     return (
         <>
             {!isMobile && (
@@ -301,6 +307,7 @@ function Shift({
                             <CalendarPicker
                                 date={date}
                                 setDate={setDate}
+                                agenda={agenda}
                             />
                             {/*                             <TimePicker
                                 value={hour}
@@ -529,21 +536,24 @@ const {
     branchRequested,
     sectorRequested,
     employeeRequested,
-    shiftRequested
+    shiftRequested,
+    agendaRequested
 } = SessionActions;
 
 const mapStateToProps = state => ({
     user: fromState.Session.getUser()(state),
     branch: fromState.Session.getBranch()(state),
     sector: fromState.Session.getSector()(state),
-    employees: fromState.Session.getEmployees()(state)
+    employees: fromState.Session.getEmployees()(state),
+    agenda: fromState.Session.getAgenda()(state)
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({
     branchRequested,
     sectorRequested,
     employeeRequested,
-    shiftRequested
+    shiftRequested,
+    agendaRequested
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Shift);
