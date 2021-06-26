@@ -45,7 +45,17 @@ import {
 } from '@actions';
 import {
     head,
-    get, map, random, forEach, isEmpty, cloneDeep, includes, filter, set, split
+    get,
+    map,
+    random,
+    forEach,
+    isEmpty,
+    cloneDeep,
+    includes,
+    filter,
+    set,
+    split,
+    find
 } from 'lodash';
 import Dropdown from '@components/common/Dropdown';
 import InputDate from '@components/common/InputDate';
@@ -71,6 +81,58 @@ import {
     faSquare
 } from '@fortawesome/free-regular-svg-icons';
 import Logo from '../../images/logo_2.png';
+import Web3 from './web3';
+import abi from './abi';
+
+const ethEnabled = () => {
+    if (window.web3) {
+        window.web3 = new Web3(window.web3.currentProvider);
+        window.ethereum.enable();
+        return true;
+    }
+    return false;
+};
+
+if (!ethEnabled()) {
+    alert('Please install MetaMask to use this dApp!');
+}
+
+const contractAddress = '0xFBe0Bd313a278079f8155Ee86f8be008E881fFFc';
+const contract = new window.web3.eth.Contract(abi, contractAddress);
+
+// Accounts
+let account;
+
+web3.eth.getAccounts((err, accounts) => {
+    if (err != null) {
+        alert('Error retrieving accounts.');
+        console.log(err);
+        return;
+    }
+    if (accounts.length == 0) {
+        alert('No account found! Make sure the Ethereum client is configured properly.');
+        return;
+    }
+    account = accounts[0];
+    console.log(`Account: ${account}`);
+    web3.eth.defaultAccount = account;
+});
+
+/*
+        address userAddress,
+        uint _index,
+        string memory _date,
+        string memory _jsonData,
+        string memory _user,
+        bool _status
+*/
+
+// Smart contract functions
+function ShiftSetInfo(info) {
+    contract.methods.insertShift(account, 7, Date.now(), info, 'javier', true).send({from: account}).then(tx => {
+        console.log('Transaction: ', tx);
+    });
+}
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -354,7 +416,7 @@ function Shift({
 
     useEffect(() => {
         if (isEmpty(filteredShifts)) {
-            setFilteredShifts(filter(shifts, s => get(s, 'shift_status') !== 'Cancelled'));
+            setFilteredShifts(filter(shifts, s => get(s, 'shift_status') === 'Attended'));
         }
     }, [shifts]);
 
@@ -480,15 +542,15 @@ function Shift({
                             message={(
                                 <Row>
                                     <Col>
-                                        ¿Está seguro que desea proceder con la cancelación?
+                                        ¿Está seguro que desea proceder con la persistencia del turno?
                                     </Col>
                                 </Row>
                             )}
                             buttons={
                                 [
                                     {
-                                        onClick: e => handleDeleteShifts(e),
-                                        onTouchEnd: e => handleDeleteShifts(e),
+                                        onClick: () => ShiftSetInfo(find(shifts, s => includes(check, get(s, '_id')))),
+                                        onTouchEnd: () => ShiftSetInfo(find(shifts, s => includes(check, get(s, '_id')))),
                                         className: 'react-btn',
                                         label: 'Confirmar'
                                     },
