@@ -130,7 +130,7 @@ web3.eth.getAccounts((err, accounts) => {
 */
 
 // Smart contract functions
-function ShiftSetInfo(info, user) {
+function ShiftSetInfo(info, user, updateShift) {
     try {
         contract.methods.insertShift(
             account,
@@ -140,11 +140,47 @@ function ShiftSetInfo(info, user) {
             JSON.stringify(user),
             true).send({from: account}).then(tx => {
             console.log('Transaction: ', tx);
+            set(info, 'shift_status', 'Persisted');
+            updateShift(info);
         });
     } catch (err) {
         console.log('err', err);
     }
 }
+
+function ShiftGetInfo() {
+    contract.methods.getShift(account).call().then(info => {
+        localStorage.setItem('info', JSON.stringify(info));
+        return info;
+    });
+}
+
+const getParsedBlockchainOld = array => map(array, a => ({
+    0: get(a, '0'),
+    1: get(a, '1'),
+    2: get(a, '2'),
+    3: get(a, '3'),
+    4: get(a, '4')
+}));
+
+const getParsedBlockchain = array => {
+    const finalArray = [];
+
+    forEach(array, a => {
+        let json;
+        try {
+            json = JSON.parse(get(a, '2'));
+        } catch (e) {
+            json = get(a, '2');
+        }
+
+        if (get(json, 'branch_id')) {
+            finalArray.push({...json});
+        }
+    });
+
+    return finalArray;
+};
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -395,8 +431,11 @@ function Shift({
     const [password, setPassword] = useState();
     const [importValue, setImport] = useState();
     const [filteredShifts, setFilteredShifts] = useState(filter(shifts, s => get(s, 'shift_status') === 'Attended'));
+    const [persistedShifts, setPersistedShifts] = useState(filter(shifts, s => get(s, 'shift_status') === 'Persisted'));
 
     const [isMobile, setIsMobile] = useState(false);
+
+    const [blockChainInfo, setBlockChainInfo] = useState();
 
     let widthOutput = window.innerWidth;
     if (widthOutput < 1000 && !isMobile) {
@@ -430,6 +469,11 @@ function Shift({
         if (isEmpty(filteredShifts)) {
             setFilteredShifts(filter(shifts, s => get(s, 'shift_status') === 'Attended'));
         }
+        if (isEmpty(persistedShifts)) {
+            setPersistedShifts(filter(shifts, s => get(s, 'shift_status') === 'Persisted'));
+        }
+        setFilteredShifts(filter(shifts, s => get(s, 'shift_status') === 'Attended'));
+        setPersistedShifts(filter(shifts, s => get(s, 'shift_status') === 'Persisted'));
     }, [shifts]);
 
     const handlePopup = value => {
@@ -518,9 +562,29 @@ function Shift({
         setImport(false);
     };
 
+    const handleShiftSaving = () => {
+        const info = find(shifts, s => includes(check, get(s, '_id')));
+        ShiftSetInfo(info, user, updateShift);
+        /*
+        set(info, 'shift_status', 'Persisted');
+        updateShift(info); */
+        handleDeletePopup(false);
+    };
+
+    const handleBlockChainInfo = async e => {
+        e.preventDefault();
+        const value = await ShiftGetInfo();
+        const info = localStorage.getItem('info');
+        if (info) {
+            setBlockChainInfo(JSON.parse(info));
+        }
+    };
+
     const handleImport = value => {
         setImport(value);
     };
+
+    console.log('persisted', persistedShifts);
 
     return (
         <Row className="ml-2 mt-5">
@@ -561,8 +625,8 @@ function Shift({
                             buttons={
                                 [
                                     {
-                                        onClick: () => ShiftSetInfo(find(shifts, s => includes(check, get(s, '_id'))), user),
-                                        onTouchEnd: () => ShiftSetInfo(find(shifts, s => includes(check, get(s, '_id'))), user),
+                                        onClick: () => handleShiftSaving(),
+                                        onTouchEnd: () => handleShiftSaving(),
                                         className: 'react-btn',
                                         label: 'Confirmar'
                                     },
@@ -606,10 +670,10 @@ function Shift({
                     <div
                         className="m-3"
                     >
-                        {!isEmpty(check) && (
+                        {!isEmpty(persistedShifts) && (
                             <ReactJson
                                 onSelect={() => 0}
-                                src={filter(shifts, s => includes(check, get(s, '_id')))}
+                                src={persistedShifts}
                             />
                         )}
                     </div>

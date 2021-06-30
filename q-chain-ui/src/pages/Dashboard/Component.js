@@ -30,12 +30,23 @@ import SignIn from '@pages/SignIn';
 import ModalWithDynamicButtons from '@components/common/ModalWithDynamicButtons';
 import Register from '@pages/Register';
 import {
-    map, isEmpty, filter, includes, toLower
+    map, isEmpty, filter, includes, toLower, random
 } from 'lodash';
 import {
     SessionActions
 } from '@actions';
 import fromState from '@selectors';
+
+const getRandomImg = () => {
+    const img = random(1, 3);
+    if (img === 1) {
+        return 'https://sitioinstituionalqa.blob.core.windows.net/home/20180627_110021-20171101_161235-institucional-min.jpg';
+    }
+    if (img === 2) {
+        return 'https://parabuenosaires.com/wp-content/uploads/2017/10/Hospital-Brit%C3%A1nico2.jpg';
+    }
+    return 'https://www.javea.com/wp-content/uploads/2021/04/doctor-fernando-sanchez-ruano-hospital-clinica-benidorm-hcb.jpg';
+};
 
 const useStyles = makeStyles(theme => ({
     icon: {
@@ -184,7 +195,7 @@ const Dashboard = ({
                             <Card className={classes.card}>
                                 <CardMedia
                                     className={classes.cardMedia}
-                                    image="https://source.unsplash.com/random"
+                                    image={getRandomImg()}
                                     title="Image title"
                                 />
                                 <CardContent className={classes.cardContent}>
