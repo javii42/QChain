@@ -440,7 +440,7 @@ function Shift({
                     )}
                 </div>
                 <TableList
-                    information={filter(shifts, s => get(s, 'shift_status') !== 'Cancelled')}
+                    information={filter(shifts, s => get(s, 'shift_status') !== 'Cancelled' && get(s, 'shift_status') !== 'Persisted')}
                     handlePopup={handlePopup}
                     popup={popup}
                     primaryKey="id"

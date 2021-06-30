@@ -316,7 +316,7 @@ function Shift({
     const [employeeValue, setEmployee] = useState();
     const [branchValue, setBranch] = useState();
     const [document, setDocument] = useState();
-    const [filteredShifts, setFilteredShifts] = useState(filter(shifts, s => get(s, 'shift_status') !== 'Cancelled'));
+    const [filteredShifts, setFilteredShifts] = useState(filter(shifts, s => get(s, 'shift_status') !== 'Cancelled' && get(s, 'shift_status') !== 'Persisted'));
 
     const [isMobile, setIsMobile] = useState(false);
 
@@ -350,7 +350,7 @@ function Shift({
 
     useEffect(() => {
         if (isEmpty(filteredShifts)) {
-            setFilteredShifts(filter(shifts, s => get(s, 'shift_status') !== 'Cancelled'));
+            setFilteredShifts(filter(shifts, s => get(s, 'shift_status') !== 'Cancelled' && get(s, 'shift_status') !== 'Persisted'));
         }
     }, [shifts]);
 
@@ -431,7 +431,7 @@ function Shift({
                 const userDocument = head(split(get(s, 'user_data'), ' -'));
                 condition = condition && userDocument === document;
             }
-            return condition && get(s, 'shift_status') !== 'Cancelled';
+            return condition && get(s, 'shift_status') !== 'Cancelled' && get(s, 'shift_status') !== 'Persisted';
         }));
     };
 
