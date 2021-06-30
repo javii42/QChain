@@ -54,7 +54,8 @@ import {
     isEmpty,
     set,
     cloneDeep,
-    toNumber
+    toNumber,
+    sortBy
 } from 'lodash';
 import Dropdown from '@components/common/Dropdown';
 import InputDate from '@components/common/InputDate';
@@ -224,7 +225,7 @@ function Shift({
                 <Col className="mt-5">
                     <TableList
                         handlePopup={handleAgenda}
-                        information={agenda}
+                        information={sortBy(agenda, a => get(a, 'agenda_week_day'))}
                         primaryKey="id"
                         headers={[
                             {label: 'Dia de la semana'},
