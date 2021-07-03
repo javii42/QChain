@@ -86,7 +86,7 @@ import Logo from '../../images/logo_2.png';
 import Web3 from './web3';
 import abi from './abi';
 
-const ethEnabled = () => {
+/* const ethEnabled = () => {
     if (window.web3) {
         window.web3 = new Web3(window.web3.currentProvider);
         window.ethereum.enable();
@@ -128,7 +128,7 @@ web3.eth.getAccounts((err, accounts) => {
         string memory _user,
         bool _status
 */
-
+/*
 // Smart contract functions
 function ShiftSetInfo(info, user, updateShift) {
     try {
@@ -181,7 +181,7 @@ const getParsedBlockchain = array => {
 
     return finalArray;
 };
-
+*/
 const useStyles = makeStyles(theme => ({
     paper: {
         marginTop: theme.spacing(8),
@@ -564,10 +564,8 @@ function Shift({
 
     const handleShiftSaving = () => {
         const info = find(shifts, s => includes(check, get(s, '_id')));
-        ShiftSetInfo(info, user, updateShift);
-        /*
         set(info, 'shift_status', 'Persisted');
-        updateShift(info); */
+        updateShift(info);
         handleDeletePopup(false);
     };
 
